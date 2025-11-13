@@ -58,8 +58,6 @@ The schema is designed with the following principles to ensure performance, scal
   /Receipts/{opId}
   /Referrals/Progress (singleton)
   /Referrals/Events/{eventId}
-/Leaderboards_v1/{metric}
-/SearchIndex/Players/{shard}/{docId}
 /Races/{raceId}
   /Participants/{uid}
 /Rooms/{roomId}
@@ -691,7 +689,7 @@ Compact map keyed by friend `uid`. Each entry carries the `since` timestamp, opt
 
 #### `/Players/{uid}/Social/Requests` (Singleton)
 
-Holds outstanding friend requests in two bounded arrays. Incoming entries embed a lightweight `player` summary so the target can render the sender immediately; outgoing entries store only `{ requestId, toUid, sentAt, message? }` because the sender already knows who they targeted. Mutations always occur inside the same transaction that updates `/Social/Profile` so badges remain accurate. The callable `getFriendRequests` refreshes the summaries from `/Players/{uid}/Profile/Profile` on each read, so even if the cached snapshot is stale the API response returns up-to-date names/avatars/trophies.
+Holds outstanding friend requests in two bounded arrays. Incoming entries embed a lightweight `player` summary so the target can render the sender immediately; outgoing entries store only `{ requestId, toUid, sentAt, message? }` because the sender already knows who they targeted. Mutations always occur inside the same transaction that updates `/Social/Profile` so badges remain accurate. The callable `getFriendRequests` refreshes the summaries from `/Players/{uid}/Profile/Profile` on each read but returns only the **incoming** array; outgoing entries stay server-side for auditing.
 
 ```json
 {
@@ -846,57 +844,28 @@ Maps opaque device anchor tokens to the owning `uid` for guest recovery flows. A
 *   [ ] Garage cars consolidated in `/Players/{uid}/Garage/Cars` (singleton).
 *   [ ] Active loadout in `/Players/{uid}/Loadouts/Active`.
 
-### `/Leaderboards_v1/{metric}` (Leaderboard Snapshots)
+### `/Usernames/{displayNameLower}` (Username Registry & Search)
 
-Immutable snapshots for the top 100 players of each leaderboard metric. The scheduled Cloud Function `socialLeaderboardsRefreshAll` recomputes these docs every 10–15 minutes to keep client reads to a single fetch.
+Stores the lowercase username reservation along with the owning `uid`. The `searchPlayer` callable uses range queries on this collection to power prefix searches (≤2 characters) and direct lookups for longer, exact names.
 
-* **Collection:** `Leaderboards_v1`
-* **Document ID:** `{metric}` where `metric ∈ { trophies, careerCoins, totalWins }`
+* **Document ID:** `displayNameLower`
 * **Fields:**
-  * `metric` *(string)* — echoed metric id.
-  * `updatedAt` *(number)* — ms epoch when the job last wrote the doc.
-  * `top100` *(array)* — ordered list of `{ uid, value, rank, snapshot }`. `snapshot` is a frozen `playerSummary` (displayName, avatarId, level, trophies, clan blurb) so clients do not need to fan-out extra reads.
-  * `youCache` *(map)* — tiny `{ [uid]: { rank, value } }` LRU so `getGlobalLeaderboard` can answer “what’s my rank?” even when the caller is outside the top 100.
+  * `uid` *(string)* — player identifier owning the name.
+  * (additional metadata may be added later, e.g., `reservedAt`)
 
-**Example:** `/Leaderboards_v1/trophies`
-```json
-{
-  "metric": "trophies",
-  "updatedAt": 1731532800000,
-  "top100": [
-    {
-      "uid": "uid_alice",
-      "value": 4200,
-      "rank": 1,
-      "snapshot": {
-        "uid": "uid_alice",
-        "displayName": "ALICE",
-        "avatarId": 2,
-        "level": 15,
-        "trophies": 4200,
-        "clan": { "clanId": "clan_123", "name": "Night Riders", "tag": "NR" }
-      }
-    }
-  ],
-  "youCache": {
-    "uid_alice": { "rank": 1, "value": 4200 }
-  }
-}
+**Prefix search:** When the user types one or two characters, the callable executes:
+
+```
+where(docId >= prefix)
+where(docId < prefix + "~")
+limit(10)
 ```
 
-### `/SearchIndex/Players/{shard}/{docId}` (Player Search Shards)
+to fetch up to 10 matching usernames, then hydrates their `/Players/{uid}/Profile/Profile` data.
 
-Firehose-friendly search index sharded by the first letter of the lowercase display name. The callable `searchPlayers` (and its backward-compatible alias `searchPlayer`) reads a single shard to service prefix search with at most two reads.
+**Exact search:** For longer queries, the callable reads `/Usernames/{displayNameLower}` directly and returns the single player if it exists.
 
-* **Root:** `/SearchIndex/Players`
-* **Shard Collection ID:** single lowercase character (`a`-`z`) or `#` for non-alphabetic prefixes.
-* **Document ID:** `{uid}` (or another deterministic token pointing to the player).
-* **Fields:**
-  * `uid` *(string)* — canonical player UID.
-  * `displayNameLower` *(string)* — cached lowercase display name for range queries.
-  * `trophies`, `level`, `clanSummary`, `avatarId` — denormalized fields so the UI can show context without additional reads.
-
-Shards remain small (<10K docs) so a single composite index `(displayNameLower, __name__)` can power `startAt/endAt` prefix queries. The callable enforces a `pageSize` ≤ 10 and falls back to the legacy `/Usernames/{nameLower}` lookup if the shard is empty.
+> Note: A sharded `/SearchIndex` is still in the backlog for production scale, but the current development build relies solely on `/Usernames`.
 
 ### Realtime Database Presence
 

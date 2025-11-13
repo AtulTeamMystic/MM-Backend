@@ -91,9 +91,6 @@ export const getFriendRequests = onCall(
         incoming: incoming.map((entry) =>
           mergeRequestEntry(entry, summaries.get(entry.fromUid), entry.fromUid),
         ),
-        outgoing: outgoing.map((entry) =>
-          mergeRequestEntry(entry, summaries.get(entry.toUid), entry.toUid),
-        ),
       },
     };
   },

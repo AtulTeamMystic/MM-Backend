@@ -1,11 +1,11 @@
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { callableOptions } from "../shared/callableOptions.js";
 import { hashOperationInputs } from "../core/hash.js";
-import { leaderboardDocRef, playerProfileRef } from "./refs.js";
+import { db } from "../shared/firestore.js";
+import { playerProfileRef } from "./refs.js";
 import {
   LEADERBOARD_METRICS,
   LeaderboardMetric,
-  LeaderboardDocument,
 } from "./types.js";
 import { buildPlayerSummary, fetchClanSummary } from "./summary.js";
 
@@ -101,6 +101,55 @@ const sanitizeMetricValue = (value: unknown): number => {
   return Number.isFinite(parsed) ? parsed : 0;
 };
 
+const fallbackSummary = (uid: string) => ({
+  uid,
+  displayName: "Racer",
+  avatarId: 1,
+  level: 1,
+  trophies: 0,
+  clan: null,
+});
+
+interface ProfileEntry {
+  uid: string;
+  profile: FirebaseFirestore.DocumentData;
+}
+
+const fetchPlayerProfiles = async (): Promise<ProfileEntry[]> => {
+  const snapshot = await db.collectionGroup("Profile").get();
+  const result: ProfileEntry[] = [];
+  snapshot.forEach((doc) => {
+    if (doc.id !== "Profile") {
+      return;
+    }
+    const profileCollection = doc.ref.parent;
+    const playerDoc = profileCollection.parent;
+    if (!playerDoc) {
+      return;
+    }
+    const playersCollection = playerDoc.parent;
+    if (!playersCollection || playersCollection.id !== "Players") {
+      return;
+    }
+    result.push({ uid: playerDoc.id, profile: doc.data() ?? {} });
+  });
+  return result;
+};
+
+const compareEntries = (
+  a: { value: number; summaryName: string; uid: string },
+  b: { value: number; summaryName: string; uid: string },
+) => {
+  if (b.value !== a.value) {
+    return b.value - a.value;
+  }
+  const nameCompare = a.summaryName.localeCompare(b.summaryName);
+  if (nameCompare !== 0) {
+    return nameCompare;
+  }
+  return a.uid.localeCompare(b.uid);
+};
+
 export const getGlobalLeaderboard = onCall(
   callableOptions(),
   async (request) => {
@@ -115,52 +164,70 @@ export const getGlobalLeaderboard = onCall(
     );
     const offset = decodePageToken(metric, request.data?.pageToken);
 
-    const snapshot = await leaderboardDocRef(metric).get();
-    if (!snapshot.exists) {
-      throw new HttpsError(
-        "failed-precondition",
-        "Leaderboard is still warming up. Please retry later.",
-      );
-    }
+    const profiles = await fetchPlayerProfiles();
+    const metricField = LEADERBOARD_METRICS[metric].field;
 
-    const payload = snapshot.data() as LeaderboardDocument;
-    const entries = Array.isArray(payload.top100) ? payload.top100 : [];
-    const slice = entries.slice(offset, offset + pageSize);
+    const sorted = profiles
+      .map(({ uid: profileUid, profile }) => {
+        const value = sanitizeMetricValue(profile[metricField]);
+        const summary = buildPlayerSummary(profileUid, profile, null);
+        const summaryName = summary?.displayName ?? "";
+        return { uid: profileUid, profile, value, summary, summaryName };
+      })
+      .sort((a, b) => compareEntries(a, b));
+
+    const totalEntries = sorted.length;
+    const slice = sorted.slice(offset, offset + pageSize);
     const nextOffset = offset + pageSize;
     const pageToken =
-      nextOffset < entries.length ? encodePageToken(metric, nextOffset) : null;
+      nextOffset < totalEntries ? encodePageToken(metric, nextOffset) : null;
 
-    const legacyPlayers: LegacyPlayerResponse[] = slice.map((entry) => ({
-      uid: entry.uid,
-      displayName: entry.snapshot.displayName,
-      avatarId: entry.snapshot.avatarId,
-      level: entry.snapshot.level,
+    const entries = slice.map((entry, idx) => ({
+      rank: offset + idx + 1,
+      value: entry.value,
+      player: entry.summary ?? fallbackSummary(entry.uid),
+    }));
+
+    const legacyPlayers: LegacyPlayerResponse[] = entries.map((entry) => ({
+      uid: entry.player.uid,
+      displayName: entry.player.displayName,
+      avatarId: entry.player.avatarId,
+      level: entry.player.level,
       rank: entry.rank,
       stat: entry.value,
     }));
 
-    const youCache = payload.youCache ?? {};
-    const playerProfileSnap = await playerProfileRef(uid).get();
-    const profileData = playerProfileSnap.exists ? playerProfileSnap.data() ?? {} : {};
-    const clanId =
-      typeof profileData?.clanId === "string" && profileData.clanId.trim().length > 0
-        ? profileData.clanId.trim()
-        : null;
-    const clanSummary = clanId ? await fetchClanSummary(clanId) : null;
-    const youSummary = buildPlayerSummary(uid, profileData, clanSummary);
-    const youValue = sanitizeMetricValue(profileData[LEADERBOARD_METRICS[metric].field]);
-    const youRank = youCache[uid]?.rank ?? null;
+    const youIndex = sorted.findIndex((entry) => entry.uid === uid);
+    let youRank: number | null = null;
+    let youValue = 0;
+    if (youIndex >= 0) {
+      youRank = youIndex + 1;
+      youValue = sorted[youIndex].value;
+    }
+
+    let youSummary = youIndex >= 0 ? sorted[youIndex].summary : null;
+    if (!youSummary) {
+      const fallbackProfileSnap = await playerProfileRef(uid).get();
+      if (fallbackProfileSnap.exists) {
+        const fallbackData = fallbackProfileSnap.data() ?? {};
+        const clanId =
+          typeof fallbackData?.clanId === "string" && fallbackData.clanId.trim().length > 0
+            ? fallbackData.clanId.trim()
+            : null;
+        const clanSummary = clanId ? await fetchClanSummary(clanId) : null;
+        youSummary = buildPlayerSummary(uid, fallbackData, clanSummary);
+        youValue = sanitizeMetricValue(fallbackData[metricField]);
+      }
+    }
+
+    const updatedAt = Date.now();
 
     const response = {
       ok: true,
       data: {
         metric,
-        updatedAt: payload.updatedAt ?? null,
-        entries: slice.map((entry) => ({
-          rank: entry.rank,
-          value: entry.value,
-          player: entry.snapshot,
-        })),
+        updatedAt,
+        entries,
         pageToken,
         you: youSummary
           ? {
@@ -171,12 +238,12 @@ export const getGlobalLeaderboard = onCall(
           : null,
         watermark: hashOperationInputs({
           metric,
-          updatedAt: payload.updatedAt ?? null,
-          version: "v1",
+          updatedAt,
+          version: "inline",
         }),
       },
       leaderboardType: LEADERBOARD_METRICS[metric].legacyType,
-      totalPlayers: legacyPlayers.length,
+      totalPlayers: totalEntries,
       players: legacyPlayers,
       callerRank: youRank,
       success: true,

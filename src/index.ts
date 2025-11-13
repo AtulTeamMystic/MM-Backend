@@ -54,6 +54,5 @@ export {
   getFriendRequests,
   cancelFriendRequest,
   viewPlayerProfile,
-  leaderboardsRefreshAll as socialLeaderboardsRefreshAll,
   presenceMirrorLastSeen as socialPresenceMirrorLastSeen,
 } from "./Socials";

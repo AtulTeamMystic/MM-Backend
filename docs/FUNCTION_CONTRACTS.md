@@ -1055,46 +1055,42 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 **Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION` (leaderboard still warming up)
 
-**Notes:** Data is sourced from `/Leaderboards_v1/{metric}` which is refreshed by the scheduled `socialLeaderboardsRefreshAll` job. The callable never fans out across players directly, keeping reads constant regardless of player count.
+**Notes:** This callable currently reads every `/Players/{uid}/Profile/Profile` document on demand, sorts all players by the requested metric, and slices the result in memory before returning it. That means each request scales with your player count—great for development/debugging, but expensive at scale. When you’re ready for production you should reintroduce a scheduled snapshot (or another caching strategy) to avoid scanning millions of documents per call.
 
 ---
 
 ### `searchPlayers` *(aka `searchPlayer` for backward compatibility)*
 
-**Purpose:** Performs case-insensitive prefix search over the sharded Firestore index (`/SearchIndex/Players/{shard}`). Results are capped at 10 entries per call.
+**Purpose:** Performs case-insensitive player search using the `/Usernames/{displayNameLower}` registry. Short queries (≤2 characters) run a prefix range query; longer queries require an exact match.
 
 **Input:**
 ```json
-{
-  "query": "char",             // Min 2 characters after trimming
-  "pageSize": 5,               // Optional (1-10; default 10)
-  "pageToken": "base64cursor"  // Optional pagination cursor from a prior call
-}
+{ "query": "de" }
 ```
 
-**Output:**
+**Output (prefix search, ≤2 chars):**
 ```json
 {
-  "ok": true,
-  "data": {
-    "query": "char",
-    "results": [
-      { "uid": "uid_charlie", "displayName": "CHARLIE", "avatarId": 3, "level": 9, "trophies": 1800, "clan": null }
-    ],
-    "pageToken": "base64cursor-or-null"
-  },
-  // Legacy fields kept for older clients:
   "success": true,
   "results": [
-    { "uid": "uid_charlie", "displayName": "CHARLIE", "avatarId": 3, "level": 9, "trophies": 1800 }
-  ],
-  "player": { ... } // only when the fallback exact-match resolver is used
+    { "uid": "uid_dean", "displayName": "DEAN", "avatarId": 4, "level": 10, "trophies": 2500 }
+  ]
 }
 ```
 
-**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`
+**Output (exact match, ≥3 chars):**
+```json
+{
+  "success": true,
+  "player": { "uid": "uid_dew", "displayName": "DEW", "avatarId": 3, "level": 1, "trophies": 566 }
+}
+```
 
-**Notes:** If a shard has zero hits, the callable falls back to `/Usernames/{displayNameLower}` for exact matches (legacy behaviour). Pagination uses opaque base64 cursors (`displayNameLower` + document id). Clients never write to the search index.
+**No match:** `{ "success": false, "message": "user not found" }`
+
+**Errors:** `INVALID_ARGUMENT`
+
+**Notes:** Prefix results are capped at 10 by the range query (`docId >= prefix` and `< prefix + "~"`). Clients do not supply pagination parameters in this dev-mode implementation; results are already small. Consider reintroducing a dedicated search index when you need scalable, paginated search.
 
 ---
 
@@ -1187,7 +1183,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 ### `getFriendRequests`
 
-**Purpose:** Returns all pending requests (incoming/outgoing) with fresh player summaries, so the UI can immediately render names/avatars/trophies without extra reads.
+**Purpose:** Returns the caller's *incoming* pending requests with fresh player summaries so the UI can immediately render names/avatars/trophies without extra reads. Outgoing requests remain stored in `/Social/Requests` but are not returned by this API.
 
 **Input:** `{}`
 
@@ -1210,14 +1206,6 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
           "trophies": 3100,
           "clan": { "clanId": "clan_123", "name": "Night Riders", "tag": "NR" }
         }
-      }
-    ],
-    "outgoing": [
-      {
-        "requestId": "01HF...",
-        "toUid": "friendUid",
-        "sentAt": 1731529200000,
-        "player": { "uid": "friendUid", "displayName": "FRIEND", "avatarId": 2, "level": 12, "trophies": 2500 }
       }
     ]
   }

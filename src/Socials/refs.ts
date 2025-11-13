@@ -21,6 +21,3 @@ export const socialBlocksRef = (uid: string) =>
 
 export const leaderboardDocRef = (metric: LeaderboardMetric) =>
   db.collection("Leaderboards_v1").doc(metric);
-
-export const searchIndexShard = (shard: string) =>
-  db.collection("SearchIndex").doc("Players").collection(shard);

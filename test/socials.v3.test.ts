@@ -10,7 +10,6 @@ import {
   viewPlayerProfile,
   getFriends,
   getFriendRequests,
-  refreshLeaderboards,
 } from "../src/Socials";
 import { wipeFirestore, wipeAuth, seedMinimalPlayer } from "./helpers/cleanup";
 
@@ -28,21 +27,7 @@ const seedProfile = async (
     .set(profile, { merge: true });
 };
 
-const seedSearchIndex = async (uid: string, displayName: string, trophies = 0) => {
-  const shard = displayName[0]?.toLowerCase() ?? "#";
-  await admin
-    .firestore()
-    .collection("SearchIndex")
-    .doc("Players")
-    .collection(/[a-z]/.test(shard) ? shard : "#")
-    .doc(uid)
-    .set({
-      uid,
-      displayNameLower: displayName.toLowerCase(),
-      trophies,
-      level: 10,
-      clanSummary: null,
-    });
+const seedUsername = async (uid: string, displayName: string) => {
   await admin.firestore().collection("Usernames").doc(displayName.toLowerCase()).set({
     uid,
   });
@@ -90,7 +75,6 @@ describe("social functions", () => {
 
   describe("leaderboards", () => {
     it("returns paginated results with caller summary", async () => {
-      await refreshLeaderboards();
       const wrapped = wrapCallable(getGlobalLeaderboard);
       const firstPage = await wrapped({
         data: { metric: "trophies", pageSize: 2 },
@@ -115,7 +99,6 @@ describe("social functions", () => {
     });
 
     it("rejects invalid metric inputs", async () => {
-      await refreshLeaderboards();
       const wrapped = wrapCallable(getGlobalLeaderboard);
       await expect(
         wrapped({ data: { metric: "unknown" }, ...authFor(alice) }),
@@ -126,43 +109,31 @@ describe("social functions", () => {
   describe("search", () => {
     beforeEach(async () => {
       await Promise.all([
-        seedSearchIndex(alice, "AliceWonder", 4200),
-        seedSearchIndex(bob, "BobBuilder", 3800),
-        seedSearchIndex(carol, "CarolRacer", 1500),
+        seedUsername(alice, "AliceWonder"),
+        seedUsername(bob, "BobBuilder"),
+        seedUsername(carol, "CarolRacer"),
       ]);
     });
 
     it("performs prefix search with pagination", async () => {
       const wrapped = wrapCallable(searchPlayer);
       const response = await wrapped({
-        data: { query: "bo", pageSize: 1 },
+        data: { query: "bo" },
         ...authFor(alice),
       });
-      expect(response.ok).toBe(true);
-      expect(response.data.results[0].uid).toEqual(bob);
-      if (response.data.pageToken) {
-        const next = await wrapped({
-          data: { query: "bo", pageToken: response.data.pageToken },
-          ...authFor(alice),
-        });
-        expect(Array.isArray(next.data.results)).toBe(true);
-      }
+      expect(response.success).toBe(true);
+      expect(response.results[0].uid).toEqual(bob);
     });
 
     it("falls back to exact username match when index empty", async () => {
-      await admin
-        .firestore()
-        .collection("SearchIndex")
-        .doc("Players")
-        .collection("c")
-        .doc(carol)
-        .delete();
+      await admin.firestore().collection("Usernames").doc("carolracer").delete();
 
       const wrapped = wrapCallable(searchPlayer);
       const result = await wrapped({
         data: { query: "carolracer" },
         ...authFor(bob),
       });
+      expect(result.success).toBe(true);
       expect(result.player.uid).toEqual(carol);
     });
 

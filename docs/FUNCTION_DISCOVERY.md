@@ -160,14 +160,13 @@ The functions below load master data from the canonical catalog documents under 
 
 | Function | Purpose | Trigger |
 | --- | --- | --- |
-| `getGlobalLeaderboard` | Reads `/Leaderboards_v1/{metric}` (top100 + caller) with pagination. | HTTPS `onCall` |
-| `searchPlayers` / `searchPlayer` | Prefix search over `/SearchIndex/Players/{shard}`; enforces max 10 results. | HTTPS `onCall` |
+| `getGlobalLeaderboard` | Scans every player profile, sorts by metric, and returns a paginated top list (expensive, dev-only). | HTTPS `onCall` |
+| `searchPlayers` / `searchPlayer` | Uses `/Usernames/{displayNameLower}` for prefix (≤2 chars) and exact searches. | HTTPS `onCall` |
 | `sendFriendRequest` | Idempotently writes to both players' `/Social/Requests`, sets badges, logs receipt. | HTTPS `onCall` |
 | `acceptFriendRequest` | Converts a pending request into mutual `/Social/Friends` entries and bumps counts. | HTTPS `onCall` |
 | `rejectFriendRequest` | Removes an incoming request without creating a friendship. | HTTPS `onCall` |
 | `cancelFriendRequest` | Lets the sender withdraw their pending outgoing request. | HTTPS `onCall` |
-| `getFriendRequests` | Returns incoming/outgoing requests with live player summaries. | HTTPS `onCall` |
+| `getFriendRequests` | Returns the caller’s incoming requests with live player summaries. | HTTPS `onCall` |
 | `getFriends` | Returns the caller's confirmed friends with live player summaries. | HTTPS `onCall` |
 | `viewPlayerProfile` | Returns the public summary + stats + social metadata for any `uid`. | HTTPS `onCall` |
-| `socialLeaderboardsRefreshAll` | Scheduled job that recomputes `/Leaderboards_v1/*`. | Cloud Scheduler |
 | `socialPresenceMirrorLastSeen` | Scheduled job mirroring RTDB `/presence/lastSeen` into `/Players/{uid}/Social/Profile`. | Cloud Scheduler |
