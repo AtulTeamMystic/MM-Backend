@@ -298,36 +298,84 @@ Defines crate loot tables. Each record describes which SKU is granted when the c
 * **Document ID:** `CratesCatalog`
 * **Structure:**
   * `version` — semantic/date string for change tracking.
-  * `defaults` — optional crate references (`starterCrateId`, etc.).
+  * `defaults` — optional crate references (`starterCrateId`, `starterCrateSkuId`, `starterKeySkuId`, etc.) consumed by Cloud Functions in lieu of hard-coded strings.
   * `crates` — record keyed by `crateId` with:
-    * `crateSkuId` — inventory SKU for the unopened crate.
+    * `crateSkuId` — inventory SKU for the unopened crate (authoritative).
     * `keySkuId` — SKU consumed when the crate is opened.
-    * `rarityWeights` — `{ [rarity]: weight }` map that drives loot rarity selection.
+    * `rarityWeights` — `{ [rarity]: weight }` map that drives loot rarity selection (weights may be fractional).
     * `poolsByRarity` — `{ [rarity]: [skuId, ...] }` map of reward SKUs available at each rarity tier.
     * `displayName`, `rarity`, `tags`, `metadata` *(optional)* — presentation helpers.
 
-**Example:**
+**Example (excerpt):**
 ```jsonc
 {
-  "version": "v1",
-  "defaults": { "starterCrateId": "crt_starter" },
+  "version": "v4-unified",
+  "defaults": {
+    "starterCrateId": "crt_ayvncyt0",
+    "starterCrateSkuId": "sku_zz3twgp0wx",
+    "starterKeySkuId": "sku_rjwe5tdtc4"
+  },
   "crates": {
-    "crt_starter": {
-      "crateSkuId": "sku_crate_common_starter",
-      "keySkuId": "sku_key_common",
-      "displayName": "Common Starter Crate",
+    "crt_ayvncyt0": {
+      "crateSkuId": "sku_zz3twgp0wx",
+      "keySkuId": "sku_rjwe5tdtc4",
+      "displayName": "Common Crate",
       "rarity": "common",
-      "rarityWeights": { "common": 90, "rare": 10 },
+      "rarityWeights": {
+        "common": 80,
+        "rare": 15,
+        "exotic": 4,
+        "legendary": 0.9,
+        "mythical": 0.1
+      },
       "poolsByRarity": {
-        "common": ["sku_reward_common_a", "sku_reward_common_b"],
-        "rare": ["sku_reward_rare_a"]
+        "common": [
+          "sku_0qm2sx36",
+          "sku_0ych5eww",
+          "sku_0yqtcmwc",
+          "sku_267afz7c",
+          "sku_381epphy"
+          // … 63 additional SKUs (68 total)
+        ],
+        "rare": [
+          "sku_000809gq",
+          "sku_06wm8e79",
+          "sku_0bysr2mb",
+          "sku_0s49vjyp",
+          "sku_1rms3ck4"
+          // … 65 additional SKUs (70 total)
+        ],
+        "exotic": [
+          "sku_0afa8651",
+          "sku_0bffczz3",
+          "sku_0fv7y19a",
+          "sku_0mq3fa08",
+          "sku_127h9wjp"
+          // … 85 additional SKUs (90 total)
+        ],
+        "legendary": [
+          "sku_000t1a9z",
+          "sku_00sbym3s",
+          "sku_01c9e0jk",
+          "sku_01z9rj4n",
+          "sku_029nt7zk"
+          // … 81 additional SKUs (86 total)
+        ],
+        "mythical": [
+          "sku_0gzfm1j3",
+          "sku_0vrp765j",
+          "sku_1ezhssps",
+          "sku_1p8g9csw",
+          "sku_2nq7we3x"
+          // … 53 additional SKUs (58 total)
+        ]
       }
     }
   }
 }
 ```
 
-> The runtime still supports the legacy `{ loot, costs }` fields when `USE_UNIFIED_SKUS` is disabled. Once the unified schema is seeded, those derived structures are generated on the fly for backwards compatibility.
+> **Note:** All live crates must supply `rarityWeights` and `poolsByRarity`. Legacy `{ loot, costs }` fields are ignored in the unified schema.
 
 #### `/GameData/v1/catalogs/RanksCatalog` (Singleton)
 
