@@ -939,7 +939,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 ### `openCrate`
 
-**Purpose:** Consumes a crate the player owns, decrements the associated key, rolls a reward SKU from the crate’s weighted loot table, and grants the result. The crate metadata (crate SKU, key SKU) is resolved from `/GameData/v1/catalogs/CratesCatalog`. The function mutates the affected per-SKU documents, refreshes `_summary`, returns post-operation counts for the affected SKUs, and records an idempotency receipt.
+**Purpose:** Consumes a crate the player owns, decrements the associated key, rolls a reward SKU using the crate’s `rarityWeights` + `poolsByRarity`, and grants the result. The crate metadata (crate SKU, key SKU) is resolved from `/GameData/v1/catalogs/CratesCatalog`. The function mutates the affected per-SKU documents, refreshes `_summary`, returns post-operation counts for the affected SKUs, and records an idempotency receipt.
 
 **Input:**
 ```json
@@ -962,7 +962,16 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
     "type": "cosmetic",
     "rarity": "rare",
     "quantity": 1,
-    "alreadyOwned": false
+    "alreadyOwned": false,
+    "metadata": {
+      "weight": 15,
+      "totalWeight": 100,
+      "roll": 47.21,
+      "rarity": "rare",
+      "poolSize": 72,
+      "variantRoll": 1337420,
+      "sourceItemId": "item_cosmetic_wheel"
+    }
   },
   "counts": {
     "sku_crate_common": 0,
@@ -971,6 +980,58 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
   }
 }
 ```
+
+- `awarded.metadata` exposes the deterministic RNG inputs used during the roll (rarity weight/total, rarities selected, pool size) which are useful for debugging or telemetry.
+- If a crate lacks `rarityWeights` or `poolsByRarity` the call fails with `FAILED_PRECONDITION`.
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `INTERNAL`
+
+---### `openCrate`
+
+**Purpose:** Consumes a crate the player owns, decrements the associated key, rolls a reward SKU using the crate’s `rarityWeights` + `poolsByRarity`, and grants the result. The crate metadata (crate SKU, key SKU) is resolved from `/GameData/v1/catalogs/CratesCatalog`. The function mutates the affected per-SKU documents, refreshes `_summary`, returns post-operation counts for the affected SKUs, and records an idempotency receipt.
+
+**Input:**
+```json
+{
+  "crateId": "string",
+  "opId": "string"
+}
+```
+
+**Output:**
+```json
+{
+  "success": true,
+  "opId": "op-crate-123",
+  "crateId": "crt_common",
+  "crateSkuId": "sku_crate_common",
+  "awarded": {
+    "skuId": "sku_cosmetic_wheel_blue",
+    "itemId": "item_cosmetic_wheel",
+    "type": "cosmetic",
+    "rarity": "rare",
+    "quantity": 1,
+    "alreadyOwned": false,
+    "metadata": {
+      "weight": 15,
+      "totalWeight": 100,
+      "roll": 47.21,
+      "rarity": "rare",
+      "poolSize": 72,
+      "variantRoll": 1337420,
+      "sourceItemId": "item_cosmetic_wheel"
+    }
+  },
+  "counts": {
+    "sku_crate_common": 0,
+    "sku_key_common": 0,
+    "sku_cosmetic_wheel_blue": 1
+  }
+}
+```
+
+- `awarded.metadata` exposes the deterministic RNG inputs used during the roll (rarity weight/total, rarities selected, pool size) which are useful for debugging or telemetry.
+- If a crate lacks `rarityWeights` or `poolsByRarity` the call fails with `FAILED_PRECONDITION`.
 
 **Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `INTERNAL`
 
