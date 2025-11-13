@@ -1120,7 +1120,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 ---
 
-### `searchPlayers` *(aka `searchPlayer` for backward compatibility)*
+### `searchPlayer`
 
 **Purpose:** Performs case-insensitive player search using the `/Usernames/{displayNameLower}` registry. Short queries (≤2 characters) run a prefix range query; longer queries require an exact match.
 
