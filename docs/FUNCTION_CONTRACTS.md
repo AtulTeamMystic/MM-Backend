@@ -1,0 +1,1241 @@
+# Function Contracts
+
+This document provides detailed contracts for each Cloud Function, including input parameters, output formats, and potential errors.
+
+**Note:** All Cloud Functions are deployed in `us-central1`.
+
+## Auth + Device Anchors
+
+### `ensureGuestSession`
+
+**Purpose:** Recovers a guest session using a device anchor or registers a new anonymous user, recording an idempotency receipt.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "deviceAnchor": "string",
+  "platform": "ios|android|windows|mac|linux",
+  "appVersion": "string"
+}
+```
+
+**Output:**
+
+*   **Success (current user):** `{ "status": "ok", "mode": "current", "uid": "string", "customToken": "string" }`
+*   **Success (new user):** `{ "status": "ok", "mode": "new", "uid": "string", "customToken": "string" }`
+*   **Success (recovery):** `{ "status": "recover", "uid": "string", "customToken": "string" }`
+
+**Side-effects:**
+
+*   Reserves `/Players/{uid}/Receipts/{opId}` with `{ status: "reserved" }` (retries become no-ops).
+*   Creates or updates `/AccountsDeviceAnchors/{deviceAnchor}` with `{ uid, platform?, appVersion?, lastSeenAt }` for guest accounts only.
+*   Runs `initializeUserIfNeeded` + `waitForUserBootstrap` to guarantee `/Players/{uid}` has the v3 bootstrap docs (Profile, Economy, Loadouts, SpellDecks, Inventory/{skuId}, `_summary`, etc.) before returning.
+*   If the device anchor is currently mapped to a full account (non-guest), the anchor is vacated and reassigned to a guest (new or current auth user). The full account retains a reference to the device in `Players/{uid}.knownDeviceAnchors`.
+
+**Errors:** `INVALID_ARGUMENT`, `UNAUTHENTICATED`
+
+---
+
+### `bindEmailPassword`
+
+**Purpose:** Binds an email and password to the current guest account.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "email": "string",
+  "password": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok" }`
+
+**Errors:** `EMAIL_TAKEN`, `WEAK_PASSWORD`, `ALREADY_LINKED`
+
+**Side-effects:**
+* Vacates any device anchors currently pointing to this uid and stores the anchor IDs as references on the player in `knownDeviceAnchors`.
+
+---
+
+### `bindGoogle`
+
+**Purpose:** Binds a Google account to the current guest account.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "idToken": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok" }`
+
+**Errors:** `TOKEN_INVALID`, `ALREADY_LINKED`, `EMAIL_TAKEN`
+
+**Side-effects:**
+* Vacates any device anchors currently pointing to this uid and stores the anchor IDs as references on the player in `knownDeviceAnchors`.
+
+---
+
+### `signupEmailPassword`
+
+**Purpose:** Creates a new user account with an email and password. If a `deviceAnchor` is provided, it is stored as a reference on the account but is not claimed for login.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "email": "string",
+  "password": "string",
+  "deviceAnchor": "string (optional, stored as reference only)",
+  "platform": "ios|android|windows|mac|linux (optional)",
+  "appVersion": "string (optional)"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok", "uid": "string", "customToken": "string" }`
+
+**Errors:** `already-exists` (message: `email-already-exists`), `WEAK_PASSWORD`
+
+**Note:** Email reservation is a transactional step.
+
+---
+
+### `signupGoogle`
+
+**Purpose:** Creates a new user account using a Google ID token. If a `deviceAnchor` is provided, it is stored as a reference on the account but is not claimed for login.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "idToken": "string",
+  "deviceAnchor": "string (optional, stored as reference only)",
+  "platform": "ios|android|windows|mac|linux (optional)",
+  "appVersion": "string (optional)"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok", "uid": "string", "customToken": "string" }`
+
+**Errors:** `TOKEN_INVALID`, `already-exists` (message: `email-already-exists`)
+
+**Note:** Email reservation is a transactional step.
+
+---
+
+### `checkEmailExists`
+
+**Purpose:** Checks if an email is already registered.
+
+**Input:**
+
+```json
+{
+  "email": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "exists": boolean }`
+
+**Errors:** `invalid-argument`
+
+---
+
+### `initUser`
+
+**Purpose:** A safety-net function to initialize a user if the `onAuthCreate` trigger is missed. Creates the player's core documents per the schema. This function is idempotent.
+
+**Initialization includes:**
+- Root `/Players/{uid}` document with `authProviders`, `email`, `isGuest`, timestamps.
+- `/Profile/Profile` with default stats (displayName `"Guest"` or `"New Racer"`, avatar `1`, trophies/levels zeroed, booster timers empty).
+- `/Economy/Stats` with `coins: 1000`, `gems: 0`, `spellTokens: 0`.
+- `/Garage/Cars` containing `car_h4ayzwf31g` at upgrade level `0`.
+- `/Loadouts/Active` pointing at `car_h4ayzwf31g`, deck `1`, all cosmetic slots `null`.
+- `/SpellDecks/Decks` pre-populated with five decks (`1` contains the starter spells, `2-5` empty placeholders) and `active: 1`.
+- `/Spells/Levels` unlocking the starter spells at level `1`.
+- Inventory seeded by granting the starter crate/key SKUs (per-SKU documents created with quantity `1`) and recomputing `_summary`.
+- Idempotent grant of the starter crate & key via `Receipts/initializeUser.starterRewards`.
+
+**Starter Spells:** taken from `loadStarterSpellIds()` (currently: Ice Lock, Storm Aura, Phantom Veil, Void Blades, Crimson Crush).
+
+**Input:**
+
+```json
+{
+  "opId": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "ok": true }`
+
+## Player Profile & Settings
+
+### `checkUsernameAvailable`
+
+**Purpose:** Checks if a username is available.
+
+**Input:**
+
+```json
+{
+  "username": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "available": boolean }`
+
+**Errors:** `INVALID_ARGUMENT`
+
+---
+
+### `setUsername`
+
+**Purpose:** Sets a unique, case-insensitive display name for the player. This function writes to `/Players/{uid}/Profile/Profile` and creates a reservation document in `/Usernames/{usernameLower}` to enforce uniqueness. It also enforces validation rules (length, characters, etc.).
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "username": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok" }`
+
+**Errors:** `UNAUTHENTICATED`, `ALREADY_EXISTS`, `INVALID_ARGUMENT`
+
+---
+
+### `setAvatar`
+
+**Purpose:** Sets the player's selected avatar. This function updates the `avatarId` field in `/Players/{uid}/Profile/Profile`.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "avatarId": "number"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`
+
+---
+
+### `setAgeYears`
+
+**Purpose:** Sets the player's age, which calculates and stores `birthYear` and `isOver13` on `Players/{uid}`.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "ageYears": "number"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok", "birthYear": "number", "isOver13": "boolean" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`
+
+---
+
+### `getPlayerAge`
+
+**Purpose:** Retrieves the player's derived age and over-13 status.
+
+**Input:**
+
+```json
+{
+  "uid": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "age": "number", "isOver13": "boolean" }`
+
+**Errors:** `NOT_FOUND`, `FAILED_PRECONDITION`
+
+---
+
+### `setSubscriptionFlag`
+
+**Purpose:** Sets the player's social media subscription preferences in `/Players/{uid}/Social/Subscriptions`.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "key": "youtube|instagram|discord|tiktok",
+  "value": "boolean"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`
+
+## Garage, Loadouts & Spells
+
+### `upgradeCar`
+
+**Purpose:** Upgrades a player-owned car to the next level.
+
+**Input:**
+```json
+{
+  "carId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "newLevel": "number" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `INTERNAL`, `FAILED_PRECONDITION`, `RESOURCE_EXHAUSTED`
+
+---
+
+### `purchaseCar`
+
+**Purpose:** Allows a player to purchase a new car.
+
+**Input:**
+```json
+{
+  "carId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "carId": "string" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `ALREADY_EXISTS`, `NOT_FOUND`, `INTERNAL`, `RESOURCE_EXHAUSTED`
+
+---
+
+### `setLoadout`
+
+**Purpose:** Sets the selected car for a given loadout. This function updates the `carId` field in `/Players/{uid}/Loadouts/Active`.
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "loadoutId": "string",
+  "carId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
+
+---
+
+### `equipCosmetic`
+
+**Purpose:** Equips a single cosmetic variant on a loadout slot. The callable verifies ownership via the per-SKU inventory document (`/Players/{uid}/Inventory/{skuId}`), updates `/Players/{uid}/Loadouts/{loadoutId}` with both the SKU and backing `itemId`, and records an idempotency receipt.
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "loadoutId": "string",
+  "slot": "wheels|decals|spoilers|underglow|boost",
+  "skuId": "string"
+}
+```
+
+**Output:**
+```json
+{ "success": true, "opId": "string" }
+```
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `INTERNAL`
+
+---
+
+### `grantItem`
+
+**Purpose:** Convenience/test helper that grants an arbitrary SKU directly to the player. Honors stackability rules, updates the per-SKU inventory document and `_summary`, and records the operation under `/Players/{uid}/Receipts/{opId}`. Because it bypasses catalog pricing it should only be exposed to trusted callers (QA tooling, scripts).
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "skuId": "string",
+  "quantity": 1,
+  "reason": "string"
+}
+```
+
+**Output:**
+```json
+{ "success": true, "opId": "string" }
+```
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `INTERNAL`
+
+---
+
+### `setSpellDeck`
+
+**Purpose:** Updates the array of spell IDs for a specific spell deck. This function writes to the `spells` field in `/Players/{uid}/SpellDecks/Decks`.
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "deckNo": "number",
+  "spells": ["string", "string", "string", "string", "string"]
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
+
+---
+
+### `selectActiveSpellDeck`
+
+**Purpose:** Sets the active spell deck for a specific loadout. This function updates the `activeSpellDeck` field in the `/Players/{uid}/Loadouts/Active` document with a number (1-5) to indicate which spell deck is currently active.
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "loadoutId": "string",
+  "deckNo": "number"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
+
+---
+
+### `upgradeSpell`
+
+**Purpose:** Unlocks (level 0 → 1) or upgrades (level 1-4 → next) a spell. Reads the cost from `/GameData/v1/catalogs/SpellsCatalog`, validates player level/prerequisite spells, deducts `spellTokens` from `/Players/{uid}/Economy/Stats`, and updates `/Players/{uid}/Spells/Levels` in a single transaction.
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "spellId": "string"
+}
+```
+
+**Output:**
+```json
+{
+  "success": true,
+  "newLevel": 2,
+  "spentTokens": 5
+}
+```
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION` (max level reached, player level too low, prerequisite spell locked, missing catalog levels), `RESOURCE_EXHAUSTED` (insufficient spell tokens)
+
+**Receipts & Idempotency:**
+* Writes `/Players/{uid}/Receipts/{opId}` with `{ kind: "spell-upgrade", inputsHash }` and the final result payload.
+* Replays with the same `opId` return the cached result with no additional token spend.
+
+## Race
+
+### `prepareRace`
+
+Creates a single server-authored payload to start a race with minimal reads.
+
+Trigger: HTTPS Callable v2 (region `us-central1`)
+
+Input:
+```json
+{ "opId": "string", "laps": 3, "botCount": 7, "seed": "optional", "trophyHint": 0, "trackId": "optional" }
+```
+
+Reads (cold): CarsCatalog, SpellsCatalog, ItemSkusCatalog, RanksCatalog, BotConfig; Player: Profile/Profile, Loadouts/Active, Spells/Levels, Garage/Cars, SpellDecks/Decks.
+
+Output: `{ raceId, issuedAt, seed, laps, trackId, player: { uid, trophies, carId, carStats: { display, real }, cosmetics, spells, deckIndex }, bots: [...], proof: { hmac } }`. Cosmetic payloads include both `*SkuId` and `*ItemId` so the client can render legacy assets while operating on SKU inventory.
+
+Notes:
+- Resolves car stats via `CarsCatalog.cars[carId].levels[level]` using value-vs-real model. Players use `CarTuningConfig.player`; bots use `CarTuningConfig.bot`.
+- Deterministic when `seed` is supplied; idempotent via `opId` receipt.
+
+### `startRace`
+
+**Purpose:** To initialize a race and apply a pre-deduction penalty.
+
+**Input:**
+```json
+{
+  "lobbyRatings": ["number"],
+  "playerIndex": "number"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "raceId": "string", "preDeductedTrophies": "number" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`
+
+---
+
+### `generateBotLoadout`
+
+**Purpose:** To generate a complete loadout for an AI opponent.
+
+**Input:**
+```json
+{
+  "trophyCount": "number"
+}
+```
+
+**Output:**
+*   **Success:** `{ "carId": "string", "cosmetics": {}, "spellDeck": [], "difficulty": {} }`
+
+**Errors:** `INVALID_ARGUMENT`
+
+---
+
+### `recordRaceResult`
+
+**Purpose:** Settles a race and applies rewards. Recalculates XP using the shared progression helpers, writes `exp`, `level`, `expProgress`, and `expToNextLevel` to `Profile/Profile`, and increments `spellTokens` on level-up. Also updates `Profile/Profile` (trophies, highestTrophies, careerCoins, totalWins, totalRaces) and `Economy/Stats` (coins).
+
+**Input:**
+```json
+{
+  "raceId": "string",
+  "finishOrder": ["string"]
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "rewards": { "trophies": "number", "coins": "number", "xp": "number" }, "xpProgress": { "xpBefore": "number", "xpAfter": "number", "levelBefore": "number", "levelAfter": "number", "expInLevelBefore": "number", "expInLevelAfter": "number", "expToNextLevel": "number" } }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`, `NOT_FOUND`
+
+## Clans
+
+### `createClan`
+
+**Purpose:** Creates a new clan.
+
+**Input:**
+```json
+{
+  "clanName": "string",
+  "clanTag": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "clanId": "string" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
+
+---
+
+### `joinClan`
+
+**Purpose:** Joins an "open" clan.
+
+**Input:**
+```json
+{
+  "clanId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "clanId": "string" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`, `NOT_FOUND`
+
+---
+
+### `leaveClan`
+
+**Purpose:** Leaves the current clan, handling leader succession.
+
+**Input:** `{}`
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `FAILED_PRECONDITION`
+
+---
+
+### `inviteToClan`
+
+**Purpose:** Invites a player to a clan.
+
+**Input:**
+```json
+{
+  "inviteeId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`, `PERMISSION_DENIED`
+
+---
+
+### `requestToJoinClan`
+
+**Purpose:** Requests to join a closed/invite-only clan.
+
+**Input:**
+```json
+{
+  "clanId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
+
+---
+
+### `acceptJoinRequest`
+
+**Purpose:** Manages join requests.
+
+**Input:**
+```json
+{
+  "clanId": "string",
+  "requesteeId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `PERMISSION_DENIED`, `NOT_FOUND`
+
+---
+
+### `declineJoinRequest`
+
+**Purpose:** Manages join requests.
+
+**Input:**
+```json
+{
+  "clanId": "string",
+  "requesteeId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `PERMISSION_DENIED`
+
+---
+
+### `promoteClanMember`
+
+**Purpose:** Manages member roles.
+
+**Input:**
+```json
+{
+  "clanId": "string",
+  "memberId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `PERMISSION_DENIED`
+
+---
+
+### `demoteClanMember`
+
+**Purpose:** Manages member roles.
+
+**Input:**
+```json
+{
+  "clanId": "string",
+  "memberId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `PERMISSION_DENIED`, `FAILED_PRECONDITION`
+
+---
+
+### `kickClanMember`
+
+**Purpose:** Removes a member from the clan.
+
+**Input:**
+```json
+{
+  "clanId": "string",
+  "memberId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `PERMISSION_DENIED`
+
+---
+
+### `updateClanSettings`
+
+**Purpose:** Updates a clan's public information.
+
+**Input:**
+```json
+{
+  "clanId": "string",
+  "newSettings": {}
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `PERMISSION_DENIED`
+
+## Economy & Offers
+
+### `grantXP`
+
+**Purpose:** Grants XP to a player using the runtime XP progression formula (no Firestore lookups). The helper computes the active level, current progress, and XP required for the next level. On level-up the player earns spell tokens. The function writes the derived values to `/Players/{uid}/Profile/Profile` (`exp`, `level`, `expProgress`, `expToNextLevel`) and, when applicable, increments `spellTokens` in `/Players/{uid}/Economy/Stats`.
+
+**Input:**
+```json
+{
+  "amount": "number",
+  "opId": "string",
+  "reason": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "opId": "string", "xpBefore": "number", "xpAfter": "number", "levelBefore": "number", "levelAfter": "number", "leveledUp": "boolean", "expProgress": { "before": { "expInLevel": "number", "expToNextLevel": "number" }, "after": { "expInLevel": "number", "expToNextLevel": "number" } } }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `INTERNAL`
+
+---
+
+### `exchangeGemsForCoins`
+
+**Purpose:** To convert gems to coins based on a trophy-scaled rate.
+
+**Input:**
+```json
+{
+  "gemAmount": "number"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "coinsGained": "number", "gemsSpent": "number" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `RESOURCE_EXHAUSTED`
+
+---
+
+### `purchaseShopSku`
+
+**Purpose:** Unified shop purchase callable. Buys any SKU whose `purchasable` block is defined in `/GameData/v1/catalogs/ItemSkusCatalog` (crates, keys, boosters, cosmetics, etc.), multiplies the configured amount by the requested quantity, enforces stackability rules, deducts the specified currency, updates the per-SKU inventory documents, refreshes `_summary`, and writes an idempotency receipt under `/Players/{uid}/Receipts/{opId}`. Catalog reads are cached for 60 seconds to minimize round-trips.
+
+**Input:**
+```jsonc
+{
+  "opId": "string",
+  "skuId": "string",
+  "quantity": 1 // optional, defaults to 1
+}
+```
+
+**Output (gems example):**
+```json
+{
+  "success": true,
+  "opId": "op-shop-123",
+  "skuId": "sku_shop_booster_coin",
+  "quantity": 2,
+  "currency": "gems",
+  "unitCost": 60,
+  "totalCost": 120,
+  "gemsBefore": 520,
+  "gemsAfter": 400,
+  "coinsBefore": 0,
+  "coinsAfter": 0,
+  "totalCostGems": 120
+}
+```
+When the SKU is coin-priced the response mirrors this shape with `currency: "coins"` and a `totalCostCoins` field instead of `totalCostGems`.
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `RESOURCE_EXHAUSTED`, `INTERNAL`
+
+---
+
+### `activateBooster`
+
+**Purpose:** Consumes a booster (referenced by `skuId`, legacy `itemId` is still accepted for backwards compatibility) from the player’s inventory and extends the corresponding timer in `/Players/{uid}/Profile/Profile.boosters`. Coin and XP boosters are tracked independently; re-activating while an effect is active stacks duration and increments `stackedCount`. The function decrements the per-SKU document, updates `_summary`, and records the receipt under `/Players/{uid}/Receipts/{opId}`.
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "boosterId": "string" // accepts a skuId (preferred) or legacy itemId for compat
+}
+```
+
+**Output:**
+```json
+{
+  "success": true,
+  "opId": "op-booster-123",
+  "boosterSkuId": "sku_booster_coin_daily",
+  "boosterItemId": "item_booster_coin_daily",
+  "subType": "coin",
+  "activeUntil": 1740002400000,
+  "stackedCount": 2,
+  "remaining": 0
+}
+```
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `INTERNAL`
+
+---
+
+### `claimRankUpReward`
+
+**Purpose:** To claim the one-time reward for achieving a new rank.
+
+**Input:**
+```json
+{
+  "rankId": "string"
+}
+```
+
+**Output:**
+*   **Success:** `{ "success": true, "rewards": {} }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `ALREADY_EXISTS`, `NOT_FOUND`, `INTERNAL`, `FAILED_PRECONDITION`
+
+---
+
+### `claimStarterOffer`
+
+**Purpose:** Claims the one-time welcome offer, resolving the starter crate and key SKUs from `/GameData/v1/catalogs/ItemSkusCatalog.defaults` (falling back to the crate record if needed). Grants `+1` to both SKUs under `/Players/{uid}/Inventory/{skuId}` (per-SKU documents), updates the optional `_summary` rollup, and upserts `/Players/{uid}/Progress/Flags` with `starterOfferClaimed: true`. The function is idempotent and records its outcome under `/Players/{uid}/Receipts/{opId}`.
+
+**Input:**
+
+```json
+{
+  "opId": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "status": "ok" }`
+
+**Errors:** `UNAUTHENTICATED`, `ALREADY_EXISTS`, `INTERNAL`
+
+---
+
+### `purchaseOffer`
+
+**Purpose:** Processes a catalog offer. The callable loads `/GameData/v1/catalogs/OffersCatalog`, resolves each entitlement to a concrete SKU (legacy `itemId` entitlements expand to the item’s primary variant), enforces stackability rules, deducts the configured currency, grants the SKUs, updates the per-SKU docs and `_summary`, and persists an idempotent receipt.
+
+**Input:**
+```json
+{
+  "opId": "string",
+  "offerId": "string"
+}
+```
+
+**Output:**
+```json
+{
+  "success": true,
+  "opId": "op-offer-123",
+  "offerId": "offer_welcome_bundle",
+  "currency": "gems",
+  "amount": 500,
+  "grants": [
+    { "type": "sku", "skuId": "sku_crate_epic", "itemId": "item_crate_epic", "quantity": 1, "total": 1 },
+    { "type": "sku", "skuId": "sku_key_epic", "itemId": "item_key_epic", "quantity": 1, "total": 1 },
+    { "type": "gems", "quantity": 200 }
+  ],
+  "balances": { "gems": 750, "coins": 1000 }
+}
+```
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `RESOURCE_EXHAUSTED`, `INTERNAL`
+
+---
+
+### `openCrate`
+
+**Purpose:** Consumes a crate the player owns, decrements the associated key, rolls a reward SKU from the crate’s weighted loot table, and grants the result. The crate metadata (crate SKU, key SKU) is resolved from `/GameData/v1/catalogs/CratesCatalog`. The function mutates the affected per-SKU documents, refreshes `_summary`, returns post-operation counts for the affected SKUs, and records an idempotency receipt.
+
+**Input:**
+```json
+{
+  "crateId": "string",
+  "opId": "string"
+}
+```
+
+**Output:**
+```json
+{
+  "success": true,
+  "opId": "op-crate-123",
+  "crateId": "crt_common",
+  "crateSkuId": "sku_crate_common",
+  "awarded": {
+    "skuId": "sku_cosmetic_wheel_blue",
+    "itemId": "item_cosmetic_wheel",
+    "type": "cosmetic",
+    "rarity": "rare",
+    "quantity": 1,
+    "alreadyOwned": false
+  },
+  "counts": {
+    "sku_crate_common": 0,
+    "sku_key_common": 0,
+    "sku_cosmetic_wheel_blue": 1
+  }
+}
+```
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `INTERNAL`
+
+---
+
+### `purchaseCrateItem`
+
+**Purpose:** Convenience wrapper around `purchaseShopSku` that resolves the crate/key SKUs from `/GameData/v1/catalogs/CratesCatalog` and forwards the purchase. Returns a crate/key specific payload (`opId`, `crateId`, `kind`, `skuId`, gem deltas) expected by the legacy garage UI. New flows may call `purchaseShopSku` directly when they already know the target `skuId`.
+
+**Input:**
+```json
+{
+  "crateId": "string",
+  "kind": "crate | key",
+  "quantity": 1,
+  "opId": "string"
+}
+```
+
+**Output:**
+* **Success:** 
+  ```json
+  {
+    "success": true,
+    "opId": "string",
+    "crateId": "string",
+    "kind": "crate",
+    "skuId": "sku_crate_common",
+    "quantity": 2,
+    "totalCostGems": 100,
+    "gemsBefore": 400,
+    "gemsAfter": 300
+  }
+  ```
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `RESOURCE_EXHAUSTED`, `INTERNAL`
+
+
+## Social & Leaderboards
+---
+
+### `getGlobalLeaderboard`
+
+**Purpose:** Retrieves the global leaderboard for trophies, career coins, or total wins.
+
+**Input:**
+```json
+{
+  "type": 1,      // 1 = trophies, 2 = careerCoins, 3 = totalWins
+  "limit": 50     // Number of top players to return (1-200)
+}
+```
+
+**Output:**
+* **Success:** 
+```json
+{
+  "success": true,
+  "leaderboardType": 1,
+  "totalPlayers": 50,
+  "players": [
+    {
+      "uid": "player_uid",
+      "displayName": "ALEXA455",
+      "avatarId": 1,
+      "level": 77,
+      "rank": 1,
+      "stat": 8000
+    }
+    // ...more players
+  ],
+  "callerRank": 86 // The rank of the calling user in the full leaderboard
+}
+```
+
+**Errors:** `INVALID_ARGUMENT`
+
+---
+
+### `searchPlayer`
+
+**Purpose:** Searches for players by display name or prefix.
+
+**Input:**
+```json
+{
+  "name": "CHRIS" // Full name for exact search, or 1-2 characters for prefix search
+}
+```
+
+**Output:**
+* **Success (exact match):**
+```json
+{
+  "success": true,
+  "player": {
+    "uid": "player_uid",
+    "displayName": "CHRIS",
+    "avatarId": 2,
+    "level": 10,
+    "trophies": 1200
+  }
+}
+```
+* **Success (prefix search):**
+```json
+{
+  "success": true,
+  "results": [
+    {
+      "uid": "player_uid",
+      "displayName": "CHARLIE",
+      "avatarId": 3,
+      "level": 5,
+      "trophies": 800
+    }
+    // ...up to 10 results
+  ]
+}
+```
+* **No user found:**
+```json
+{
+  "success": false,
+  "message": "user not found"
+}
+```
+
+**Errors:** `INVALID_ARGUMENT`
+
+---
+
+## Referrals
+
+### `referralGetMyReferralCode`
+
+**Purpose:** Returns the caller’s immutable referral code, lazily creating one if it does not already exist.
+
+**Input:** none
+
+**Output:** `{ "referralCode": "AB12CD34" }`
+
+**Errors:** `UNAUTHENTICATED`
+
+**Notes:** Generates and reserves a code inside a Firestore transaction (`/ReferralCodes/{code}` + profile patch) if the profile is missing one. Also normalises `referralStats` to the canonical shape.
+
+---
+
+### `referralClaimReferralCode`
+
+**Purpose:** Allows an invitee to redeem an inviter’s code, awarding both sides and recording the event idempotently.
+
+**Input:**
+
+```json
+{
+  "opId": "string",
+  "referralCode": "string"
+}
+```
+
+**Output:**
+
+```json
+{
+  "status": "ok",
+  "referredBy": "AB12CD34",
+  "inviteeRewards": [{ "skuId": "sku_rjwe5tdtc4", "qty": 1 }],
+  "inviter": {
+    "uid": "otherUid",
+    "newSentTotal": 3,
+    "thresholdsReached": [1]
+  }
+}
+```
+
+**Errors:**
+* `UNAUTHENTICATED`
+* `INVALID_ARGUMENT`
+* `NOT_FOUND`
+* `FAILED_PRECONDITION` (already referred, self-referral, circular referral, exhausted invitee claim)
+
+**Side-effects:**
+* Sets `/Players/{uid}/Profile/Profile.referredBy` once, updates both players’ `referralStats`.
+* Grants invitee reward SKUs and updates inventory summary.
+* Increments inviter progress in `/Players/{inviterUid}/Referrals/Progress`, awarding threshold rewards when crossed.
+* Appends audit events for both players under `/Players/{uid}/Referrals/Events`.
+* Writes receipts: invitee (`kind: "referral-claim"`, `inputsHash`) and inviter (`kind: "referral-reward"`, document ID `referralReward.{opId}`).
+* Emits a best-effort Pub/Sub `referral-claimed` message when `REFERRAL_METRICS_TOPIC` is configured.
+
+**Idempotency:** Replays with the same `opId` return the cached success payload. Different `opId`s after a successful claim are rejected with `FAILED_PRECONDITION`.
+
+---
+
+### `referralDebugLookup`
+
+**Purpose:** Admin-only helper to inspect the global referral registry.
+
+**Input:** `{ "referralCode": "AB12CD34" }`
+
+**Output:** `{ "referralCode": "AB12CD34", "uid": "someUid", "createdAt": 1739942400000, "checksum": "deadbeef" }`
+
+**Errors:** `UNAUTHENTICATED`, `PERMISSION_DENIED`, `INVALID_ARGUMENT`, `NOT_FOUND`
+
+**Notes:** Requires either a custom auth claim (e.g., `admin=true`) or the `X-Admin` header when called through privileged infrastructure. Intended for BI/debug tooling; not exposed to the retail client.
+
+---
+
+## Game Systems & Health
+
+### `getMaintenanceStatus`
+
+**Purpose:** Retrieves the current maintenance status of the game.
+
+**Input:** `{}`
+
+**Output:**
+
+*   **Success:** `{ "maintenance": "boolean" }`
+
+**Errors:** None
+
+---
+
+### `claimMaintenanceReward`
+
+**Purpose:** Allows a player to claim a reward after a maintenance period.
+
+**Input:**
+
+```json
+{
+  "opId": "string"
+}
+```
+
+**Output:**
+
+*   **Success:** `{ "success": true, "opId": "string" }`
+
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `NOT_FOUND`, `FAILED_PRECONDITION`, `INTERNAL`
+
+---
+
+### `healthcheck`
+
+**Purpose:** A simple health check endpoint to verify that the functions are running.
+
+**Trigger:** HTTPS Request
+
+**Input:** None
+
+**Output:**
+
+*   **Success:** `{ "ok": true, "ts": "number" }`
+
+**Errors:** None
+
+---
+
+## Triggers
+
+### `onAuthCreate` (disabled)
+
+- Status: Not exported/deployed. User initialization is handled by the HTTPS callables (`ensureGuestSession`, `signupEmailPassword`, `signupGoogle`) which call `initializeUserIfNeeded`, and by the safety‑net callable `initUser`.
+ - If accounts are created outside these callables, call `initUser` once after sign-in to initialize player documents.
+
+

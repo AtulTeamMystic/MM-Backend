@@ -44,4 +44,4 @@ export {
   referralClaimReferralCode,
   referralDebugLookup,
 } from "./referral";
-export { getGlobalLeaderboard } from "./Socials";
+export { getGlobalLeaderboard, searchPlayer } from "./Socials";
