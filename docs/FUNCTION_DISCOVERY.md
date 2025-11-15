@@ -73,7 +73,7 @@ Functions for creating, joining, and managing clans (all HTTPS `onCall`, region 
 | `createClan` | Creates a clan and adds the caller as leader. |
 | `updateClanSettings` | Updates clan presentation, type, badge, and requirements. |
 | `deleteClan` | Deletes an empty clan (leader-only). |
-| `joinClan` | Joins an open clan instantly. |
+| `joinClan` | Joins an “anyone can join” clan instantly. |
 | `requestToJoinClan` | Creates a join request for invite-only clans. |
 | `cancelJoinRequest` | Removes the callerâ€™s pending request. |
 | `leaveClan` | Leaves the current clan, handling leadership succession. |

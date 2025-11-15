@@ -372,6 +372,8 @@ interface ClanMemberView {
   joinedAt?: number;
 }
 
+type ClanMemberInternal = ClanMemberView & { rolePriority: number };
+
 interface ClanRequestView {
   uid: string;
   displayName: string;
@@ -403,15 +405,15 @@ const loadClanDetails = async (clanId: string, uid: string): Promise<GetClanDeta
 
   const membersSnap = await clanMembersCollection(clanId)
     .orderBy("rolePriority", "desc")
-    .orderBy("trophies", "desc")
-    .limit(100)
+    .limit(150)
     .get();
 
-  const members: ClanMemberView[] = membersSnap.docs.map((doc) => {
+  const rawMembers: ClanMemberInternal[] = membersSnap.docs.map((doc) => {
     const data = doc.data() ?? {};
     return {
       uid: doc.id,
       role: data.role ?? "member",
+      rolePriority: Number(data.rolePriority ?? 0),
       trophies: Number(data.trophies ?? 0),
       displayName: data.displayName ?? "Racer",
       avatarId: typeof data.avatarId === "number" ? data.avatarId : Number(data.avatarId) || null,
@@ -419,6 +421,16 @@ const loadClanDetails = async (clanId: string, uid: string): Promise<GetClanDeta
       joinedAt: data.joinedAt?.toMillis?.(),
     };
   });
+
+  const members: ClanMemberView[] = rawMembers
+    .sort((a, b) => {
+      if (a.rolePriority === b.rolePriority) {
+        return b.trophies - a.trophies;
+      }
+      return b.rolePriority - a.rolePriority;
+    })
+    .slice(0, 100)
+    .map(({ rolePriority: _ignore, ...rest }) => rest);
 
   const membershipDoc = await clanMembersCollection(clanId).doc(uid).get();
   const membership = membershipDoc.exists

@@ -122,7 +122,7 @@ const clampFetchLimit = (value?: unknown): number => {
 
 const fetchClanSummaryLite = async (
   clanId?: string | null,
-): Promise<{ clanId: string; name: string | null; badge: unknown } | null> => {
+): Promise<{ clanId: string; name: string | null; badge: string | null } | null> => {
   if (!clanId) {
     return null;
   }
@@ -135,7 +135,7 @@ const fetchClanSummaryLite = async (
     return {
       clanId,
       name: typeof data.name === "string" ? data.name : null,
-      badge: data.badge ?? null,
+      badge: typeof data.badge === "string" ? data.badge : null,
     };
   } catch (error) {
     console.warn("[clan.social] failed to fetch clan summary", clanId, error);

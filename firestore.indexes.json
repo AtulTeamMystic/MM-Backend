@@ -31,7 +31,106 @@
         { "fieldPath": "uid", "order": "ASCENDING" },
         { "fieldPath": "submittedAt", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionId": "Clans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "Clans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "search.location", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "Clans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "search.language", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "Clans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "Clans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "stats.members", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "Clans", 
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "search.location", "order": "ASCENDING" },
+        { "fieldPath": "search.language", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "Clans",
+      "queryScope": "COLLECTION", 
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "search.location", "order": "ASCENDING" },
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "Clans",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "search.language", "order": "ASCENDING" },
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "stats.trophies", "order": "DESCENDING" }
+      ]
     }
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "Members",
+      "fieldPath": "rolePriority",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION" },
+        { "order": "DESCENDING", "queryScope": "COLLECTION" }
+      ]
+    },
+    {
+      "collectionGroup": "Requests", 
+      "fieldPath": "requestedAt",
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION" },
+        { "order": "DESCENDING", "queryScope": "COLLECTION" }
+      ]
+    },
+    {
+      "collectionGroup": "Chat",
+      "fieldPath": "createdAt", 
+      "indexes": [
+        { "order": "ASCENDING", "queryScope": "COLLECTION" },
+        { "order": "DESCENDING", "queryScope": "COLLECTION" }
+      ]
+    }
+  ]
 }

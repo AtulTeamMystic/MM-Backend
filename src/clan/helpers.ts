@@ -3,14 +3,10 @@ import type { CallableRequest } from "firebase-functions/v2/https";
 import { HttpsError } from "firebase-functions/v2/https";
 import { db } from "../shared/firestore.js";
 
-export type ClanType = "open" | "invite" | "closed";
-export type ClanRole = "leader" | "coLeader" | "elder" | "member";
+export type ClanType = "anyone can join" | "invite only" | "closed";
+export type ClanRole = "leader" | "coLeader" | "member";
 
-export interface ClanBadge {
-  frameId: string;
-  backgroundId: string;
-  emblemId: string;
-}
+export type ClanBadge = string;
 
 export interface PlayerProfileData {
   uid: string;
@@ -54,21 +50,15 @@ export const MAX_CLAN_DESCRIPTION_LENGTH = 140;
 export const MIN_TROPHY_REQUIREMENT = 0;
 export const MAX_TROPHY_REQUIREMENT = 100000;
 
-const EMPTY_CLAN_BADGE: ClanBadge = {
-  frameId: "frame_default",
-  backgroundId: "bg_default",
-  emblemId: "emblem_default",
-};
+const DEFAULT_CLAN_BADGE: ClanBadge = "badge_default";
 
 export const CLAN_ROLE_ORDER: Record<ClanRole, number> = {
-  leader: 4,
-  coLeader: 3,
-  elder: 2,
+  leader: 3,
+  coLeader: 2,
   member: 1,
 };
 
-export const canInviteMembers = (role: ClanRole): boolean =>
-  role === "leader" || role === "coLeader" || role === "elder";
+export const canInviteMembers = (role: ClanRole): boolean => role === "leader" || role === "coLeader";
 
 export const canManageMembers = (role: ClanRole): boolean => role === "leader" || role === "coLeader";
 
@@ -124,31 +114,24 @@ export const sanitizeDescription = (value?: unknown): string => {
 };
 
 export const resolveClanType = (value?: unknown): ClanType => {
-  if (value === "open" || value === "invite" || value === "closed") {
+  if (value === "anyone can join" || value === "invite only" || value === "closed") {
     return value;
   }
-  if (value === "invite-only") {
-    return "invite";
+  if (value === "open" || value === "anyone_can_join" || value === "open_join") {
+    return "anyone can join";
   }
-  return "open";
+  if (value === "invite" || value === "invite-only" || value === "invite_only") {
+    return "invite only";
+  }
+  return "anyone can join";
 };
 
 export const resolveClanBadge = (value?: unknown): ClanBadge => {
-  if (!value || typeof value !== "object") {
-    return EMPTY_CLAN_BADGE;
+  if (typeof value !== "string") {
+    return DEFAULT_CLAN_BADGE;
   }
-  const bag = value as Partial<ClanBadge>;
-  return {
-    frameId: typeof bag.frameId === "string" && bag.frameId.trim().length > 0 ? bag.frameId : EMPTY_CLAN_BADGE.frameId,
-    backgroundId:
-      typeof bag.backgroundId === "string" && bag.backgroundId.trim().length > 0
-        ? bag.backgroundId
-        : EMPTY_CLAN_BADGE.backgroundId,
-    emblemId:
-      typeof bag.emblemId === "string" && bag.emblemId.trim().length > 0
-        ? bag.emblemId
-        : EMPTY_CLAN_BADGE.emblemId,
-  };
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : DEFAULT_CLAN_BADGE;
 };
 
 export const resolveMinimumTrophies = (value?: unknown): number => {
@@ -316,7 +299,7 @@ export const clanSummaryProjection = (data: FirebaseFirestore.DocumentData) => (
   type: data.type,
   location: data.location,
   language: data.language,
-  badge: data.badge ?? EMPTY_CLAN_BADGE,
+  badge: typeof data.badge === "string" ? data.badge : DEFAULT_CLAN_BADGE,
   minimumTrophies: data.minimumTrophies,
   stats: data.stats ?? { members: 0, trophies: 0 },
 });

@@ -17,6 +17,7 @@ import {
   getPlayerProfile,
   playerClanInvitesRef,
   playerClanStateRef,
+  resolveClanType,
   rolePriority,
   setPlayerClanState,
   updatePlayerClanProfile,
@@ -85,7 +86,7 @@ const requireTargetUid = (value?: unknown): string => {
   return value.trim();
 };
 
-const ROLE_SEQUENCE: ClanRole[] = ["member", "elder", "coLeader", "leader"];
+const ROLE_SEQUENCE: ClanRole[] = ["member", "coLeader", "leader"];
 
 const nextRole = (role: ClanRole): ClanRole | null => {
   const idx = ROLE_SEQUENCE.indexOf(role);
@@ -223,7 +224,8 @@ export const joinClan = onCall(callableOptions(), async (request) => {
         throw new HttpsError("failed-precondition", "Player already belongs to a clan.");
       }
       const clanData = clanSnap.data() ?? {};
-      if (clanData.type !== "open") {
+      const clanType = resolveClanType(clanData.type);
+      if (clanType !== "anyone can join") {
         throw new HttpsError("failed-precondition", "Clan does not allow instant joins.");
       }
       const minTrophies = Number(clanData.minimumTrophies ?? 0);
@@ -701,10 +703,11 @@ export const requestToJoinClan = onCall(callableOptions(), async (request) => {
         throw new HttpsError("failed-precondition", "Player already belongs to a clan.");
       }
       const clanData = clanSnap.data() ?? {};
-      if (clanData.type === "closed") {
+      const clanType = resolveClanType(clanData.type);
+      if (clanType === "closed") {
         throw new HttpsError("failed-precondition", "Clan is closed to new members.");
       }
-      if (clanData.type === "open") {
+      if (clanType === "anyone can join") {
         throw new HttpsError("failed-precondition", "Clan is open. Use joinClan instead.");
       }
       const minTrophies = Number(clanData.minimumTrophies ?? 0);

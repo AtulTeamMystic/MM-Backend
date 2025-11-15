@@ -1294,10 +1294,10 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
   "opId": "string",
   "name": "string",
   "description": "string (optional)",
-  "type": "open|invite|closed (optional)",
+  "type": "anyone can join|invite only|closed (optional)",
   "location": "string (optional)",
   "language": "string (optional)",
-  "badge": "object (optional)",
+  "badge": "string (optional)",
   "minimumTrophies": "number (optional)"
 }
 ```
@@ -1315,10 +1315,10 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
   "clanId": "string",
   "name": "string (optional)",
   "description": "string (optional)",
-  "type": "open|invite|closed (optional)",
+  "type": "anyone can join|invite only|closed (optional)",
   "location": "string (optional)",
   "language": "string (optional)",
-  "badge": "object (optional)",
+  "badge": "string (optional)",
   "minimumTrophies": "number (optional)"
 }
 ```
@@ -1342,7 +1342,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 ---
 
 ### `joinClan`
-**Purpose:** Join open clan; checks trophies, capacity, clears requests/invites.
+**Purpose:** Join an “anyone can join” clan; checks trophies, capacity, clears requests/invites.
 **Input:**
 ```json
 {
@@ -1356,7 +1356,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 ---
 
 ### `requestToJoinClan`
-**Purpose:** Request to join invite-only clan; prevents duplicates, enforces capacity/trophies.
+**Purpose:** Request to join an invite-only clan; prevents duplicates, enforces capacity/trophies.
 **Input:**
 ```json
 {
@@ -1599,10 +1599,10 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
     "clanId": "clan_SUN",
     "name": "Solar Syndicate",
     "description": "Top-speed freaks who love night drives.",
-    "type": "invite",
+    "type": "invite only",
     "location": "AUSTRALIA",
     "language": "en",
-    "badge": { "frameId": "frame_gold", "backgroundId": "bg_ember", "emblemId": "emblem_sun" },
+    "badge": "badge_solar",
     "minimumTrophies": 2500,
     "stats": { "members": 5, "trophies": 17850, "totalWins": 120 }
   },
@@ -1610,7 +1610,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
     { "uid": "uid_leader", "displayName": "RAVEN", "avatarId": 8, "level": 42, "role": "leader", "trophies": 4200, "joinedAt": 1731650000000 },
     { "uid": "uid_co1", "displayName": "LYNX", "avatarId": 11, "level": 37, "role": "coLeader", "trophies": 3650, "joinedAt": 1731300000000 },
     { "uid": "uid_co2", "displayName": "MIRA", "avatarId": 3, "level": 33, "role": "coLeader", "trophies": 3525, "joinedAt": 1731210000000 },
-    { "uid": "uid_elder", "displayName": "ZED", "avatarId": 19, "level": 28, "role": "elder", "trophies": 3400, "joinedAt": 1731000000000 },
+    { "uid": "uid_memberB", "displayName": "ZED", "avatarId": 19, "level": 28, "role": "member", "trophies": 3400, "joinedAt": 1731000000000 },
     { "uid": "uid_member", "displayName": "ATUL22", "avatarId": 5, "level": 24, "role": "member", "trophies": 3075, "joinedAt": 1730900000000 }
   ],
   "membership": { "role": "coLeader", "joinedAt": 1731300000000 },
@@ -1635,10 +1635,10 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
     "clanId": "clan_NOVA",
     "name": "Neon Novas",
     "description": "We race at dawn.",
-    "type": "open",
+    "type": "anyone can join",
     "location": "USA-WEST",
     "language": "en",
-    "badge": { "frameId": "frame_neon", "backgroundId": "bg_night", "emblemId": "emblem_star" },
+    "badge": "badge_neon",
     "minimumTrophies": 1200,
     "stats": { "members": 5, "trophies": 14320, "totalWins": 64 }
   },
@@ -1646,7 +1646,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
     { "uid": "uid_lead2", "displayName": "EMBER", "avatarId": 2, "level": 39, "role": "leader", "trophies": 3600, "joinedAt": 1731100000000 },
     { "uid": "uid_co3", "displayName": "GLITCH", "avatarId": 15, "level": 34, "role": "coLeader", "trophies": 3300, "joinedAt": 1731050000000 },
     { "uid": "uid_co4", "displayName": "JAY", "avatarId": 1, "level": 32, "role": "coLeader", "trophies": 2890, "joinedAt": 1730990000000 },
-    { "uid": "uid_elder2", "displayName": "PIXEL", "avatarId": 9, "level": 27, "role": "elder", "trophies": 2580, "joinedAt": 1730960000000 },
+    { "uid": "uid_memberC", "displayName": "PIXEL", "avatarId": 9, "level": 27, "role": "member", "trophies": 2580, "joinedAt": 1730960000000 },
     { "uid": "myUid", "displayName": "PLAYER_ME", "avatarId": 7, "level": 25, "role": "member", "trophies": 2450, "joinedAt": 1730950000000 }
   ],
   "membership": { "role": "member", "joinedAt": 1730950000000 }

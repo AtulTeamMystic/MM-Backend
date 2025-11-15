@@ -7,8 +7,8 @@ This document is the canonical reference for the Mystic Motors clan + chat backe
 ## Feature Overview
 
 - Clash-of-Clans style clans without wars: create, search, join, leave, manage members, and update clan presentation.
-- Rich role hierarchy: `leader`, `coLeader`, `elder`, `member`, with clear promotion/demotion semantics.
-- Join flows for every clan type: open joins, invite-only requests, manual invitations, and bookmark lists.
+- Role hierarchy: `leader`, `coLeader`, `member`, with clear promotion/demotion semantics.
+- Join flows for every clan type: `anyone can join`, `invite only`, manual invitations, and bookmark lists.
 - Server-authoritative chats: multilingual global rooms + per-clan chat with slow mode and history trimming.
 - Cost-friendly reads: singleton player social docs and precomputed clan search fields to keep Firestore queries efficient.
 
@@ -23,10 +23,10 @@ This document is the canonical reference for the Mystic Motors clan + chat backe
 | `clanId` | string | Document ID mirror. |
 | `name` | string | Display name (3-24 characters). |
 | `description` | string | Optional 0-140 char message. |
-| `type` | `"open" \| "invite" \| "closed"` | Controls how players join. |
+| `type` | `"anyone can join" \| "invite only" \| "closed"` | Controls how players join. |
 | `location` | string | Free-form string (UI filter). |
 | `language` | string | Lowercase ISO language (e.g. `en`). |
-| `badge` | object | `{ frameId, backgroundId, emblemId }`. |
+| `badge` | string | Cosmetic/badge identifier provided by the client. |
 | `minimumTrophies` | number | Entry requirement. |
 | `leaderUid` | string | UID of current leader. |
 | `stats` | object | `{ members, trophies, totalWins? }` and is updated transactionally. |
@@ -89,7 +89,7 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 
 | Function | Request | Response | Validation Highlights |
 | --- | --- | --- | --- |
-| `joinClan` | `{ opId, clanId }` | `{ clanId }` | Open clans only; checks trophies, capacity, and clears join requests/invites. |
+| `joinClan` | `{ opId, clanId }` | `{ clanId }` | “Anyone can join” clans only; checks trophies, capacity, and clears join requests/invites. |
 | `requestToJoinClan` | `{ opId, clanId, message? }` | `{ clanId }` | Invite-only clans; prevents duplicates and enforces capacity/trophies. |
 | `cancelJoinRequest` | `{ opId, clanId }` | `{ clanId }` | Deletes pending request atomically. |
 | `leaveClan` | `{ opId }` | `{ clanId }` | Removes membership, decrements stats, handles leader succession (promotes highest priority member). |
@@ -139,7 +139,7 @@ Moderation helpers (`moderateChatMessage`) are optional future work but should f
 
 - **Auth**: Every callable throws `unauthenticated` if no Firebase Auth context.
 - **Idempotency**: All mutation endpoints with `opId` cache receipts; repeated `opId` returns previous result immediately.
-- **Role checks**: `leader` > `coLeader` > `elder` > `member`. Promotions/demotions require strictly higher-ranking caller.
+- **Role checks**: `leader` > `coLeader` > `member`. Promotions/demotions require strictly higher-ranking caller.
 - **Eligibility**: `minimumTrophies` is checked against cached player trophies; there is no hard member cap, so availability is driven only by clan status.
 - **Slow mode**: Chat endpoints compare `Date.now()` to stored `lastSentAt`. Violations throw `resource-exhausted`.
 - **Error Codes**: Use `invalid-argument`, `failed-precondition`, `permission-denied`, `already-exists`, and `not-found` per scenario so the Unity client can localize copy.
