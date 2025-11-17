@@ -335,6 +335,7 @@ export const acceptClanInvite = onCall(callableOptions(), async (request) => {
         trophies: profile.trophies ?? 0,
         joinedAt: now,
         displayName: profile.displayName,
+        lastPromotedAt: now,
         avatarId: profile.avatarId,
         level: profile.level ?? 1,
       });

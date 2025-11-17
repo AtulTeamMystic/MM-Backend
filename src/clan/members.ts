@@ -110,6 +110,10 @@ const ensureActorOutranksTarget = (actorRole: ClanRole, targetRole: ClanRole) =>
   }
 };
 
+const deleteClanTree = async (clanId: string) => {
+  await admin.firestore().recursiveDelete(clanRef(clanId));
+};
+
 const promoteNextLeader = async (
   transaction: FirebaseFirestore.Transaction,
   clanId: string,
@@ -119,6 +123,7 @@ const promoteNextLeader = async (
   const snapshot = await transaction.get(
     clanMembersCollection(clanId)
       .orderBy("rolePriority", "desc")
+      .orderBy("lastPromotedAt", "asc")
       .orderBy("joinedAt", "asc")
       .limit(5),
   );
@@ -178,6 +183,7 @@ const resolveDemotionRole = (currentRole: ClanRole, requested?: ClanRole): ClanR
 
 interface ClanMutationResponse {
   clanId: string;
+  deleted?: boolean;
 }
 
 interface JoinClanRequest {
@@ -242,6 +248,7 @@ export const joinClan = onCall(callableOptions(), async (request) => {
         displayName: profile.displayName,
         avatarId: profile.avatarId,
         level: profile.level ?? 1,
+        lastPromotedAt: now,
       });
       transaction.update(clanDocRef, {
         "stats.members": FieldValue.increment(1),
@@ -798,21 +805,23 @@ export const leaveClan = onCall(callableOptions(), async (request) => {
       const memberData = memberSnap.data() ?? {};
       const memberTrophies = Number(memberData.trophies ?? 0);
       const remainingMembers = Number(clanData?.stats?.members ?? 1) - 1;
+      let deletedClan = false;
       if (memberData.role === "leader") {
         if (remainingMembers <= 0) {
-          throw new HttpsError("failed-precondition", "Leader must delete the clan instead of leaving.");
+          deletedClan = true;
+        } else {
+          const promoted = await promoteNextLeader(transaction, clanId, uid, now);
+          if (!promoted) {
+            throw new HttpsError("failed-precondition", "No eligible member to take leadership.");
+          }
+          queueSystemMessage(
+            transaction,
+            clanId,
+            `${promoted.displayName} is now the clan leader`,
+            { kind: "leadership_transfer", to: promoted.uid, from: uid },
+            now,
+          );
         }
-        const promoted = await promoteNextLeader(transaction, clanId, uid, now);
-        if (!promoted) {
-          throw new HttpsError("failed-precondition", "No eligible member to take leadership.");
-        }
-        queueSystemMessage(
-          transaction,
-          clanId,
-          `${promoted.displayName} is now the clan leader`,
-          { kind: "leadership_transfer", to: promoted.uid, from: uid },
-          now,
-        );
       }
 
       transaction.delete(memberRef);
@@ -832,11 +841,15 @@ export const leaveClan = onCall(callableOptions(), async (request) => {
         now,
       );
 
-      return { clanId };
+      return { clanId, deleted: deletedClan };
     },
   );
 
-  return result;
+  if (result.deleted) {
+    await deleteClanTree(result.clanId);
+  }
+
+  return { clanId: result.clanId };
 });
 
 interface AcceptJoinRequestRequest {
@@ -908,6 +921,7 @@ export const acceptJoinRequest = onCall(callableOptions(), async (request) => {
         trophies,
         joinedAt: now,
         displayName: targetProfile.displayName,
+        lastPromotedAt: now,
         avatarId: targetProfile.avatarId,
         level: targetProfile.level ?? 1,
       });

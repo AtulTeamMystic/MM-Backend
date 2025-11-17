@@ -92,7 +92,7 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 | `joinClan` | `{ opId, clanId }` | `{ clanId }` | “Anyone can join” clans only; checks trophies, capacity, and clears join requests/invites. |
 | `requestToJoinClan` | `{ opId, clanId, message? }` | `{ clanId }` | Invite-only clans; prevents duplicates and enforces capacity/trophies. |
 | `cancelJoinRequest` | `{ opId, clanId }` | `{ clanId }` | Deletes pending request atomically. |
-| `leaveClan` | `{ opId }` | `{ clanId }` | Removes membership, decrements stats, handles leader succession (promotes highest priority member). |
+| `leaveClan` | `{ opId }` | `{ clanId }` | Removes membership, decrements stats, and handles leader succession. If the caller is the last remaining member (leader), the clan is disbanded automatically. Otherwise leadership transfers to the highest-ranked member (prefers co-leaders, oldest promotion). |
 | `acceptJoinRequest` | `{ opId, clanId, targetUid }` | `{ clanId }` | Officer+, moves request into membership, updates player social docs, posts system message. |
 | `declineJoinRequest` | `{ opId, clanId, targetUid }` | `{ clanId }` | Officer+, simply deletes request. |
 | `promoteClanMember` | `{ opId, clanId, targetUid, role? }` | `{ clanId }` | Officer+ with higher priority than target; optional explicit role, otherwise +1 rank (never to leader). |
