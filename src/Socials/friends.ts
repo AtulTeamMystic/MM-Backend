@@ -1,3 +1,4 @@
+import * as admin from "firebase-admin";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { callableOptions } from "../shared/callableOptions.js";
 import { checkIdempotency } from "../core/idempotency.js";
@@ -13,6 +14,8 @@ import {
 } from "./socialStore.js";
 import { buildPlayerSummary, fetchClanSummary } from "./summary.js";
 import type { FriendEntry, PlayerSummary } from "./types.js";
+
+const db = admin.firestore();
 
 const FRIENDS_SOFT_LIMIT = 400;
 const REQUESTS_SOFT_LIMIT = 100;
@@ -160,6 +163,73 @@ const resolveSummary = async (
   return buildPlayerSummary(uid, profileData, clanSummary) ?? fallbackSummary(uid);
 };
 
+interface SendFriendRequestResult {
+  requestId: string;
+  targetSummary: PlayerSummary;
+}
+
+const performSendFriendRequest = async (
+  transaction: FirebaseFirestore.Transaction,
+  callerUid: string,
+  targetUid: string,
+  message?: string,
+): Promise<SendFriendRequestResult> => {
+  const [callerProfileSnap, targetProfileSnap] = await Promise.all([
+    transaction.get(playerProfileRef(callerUid)),
+    transaction.get(playerProfileRef(targetUid)),
+  ]);
+  if (!targetProfileSnap.exists) {
+    throw new HttpsError("not-found", "Target player not found.");
+  }
+  if (!callerProfileSnap.exists) {
+    throw new HttpsError("failed-precondition", "Caller profile missing.");
+  }
+
+  const callerProfile = callerProfileSnap.data() ?? {};
+  const targetProfile = targetProfileSnap.data() ?? {};
+  const callerSummary = await resolveSummary(callerUid, callerProfile, transaction);
+  const targetSummary = await resolveSummary(targetUid, targetProfile, transaction);
+
+  const callerSocial = await readSocialSnapshot(callerUid, transaction);
+  const targetSocial = await readSocialSnapshot(targetUid, transaction);
+
+  ensureNotBlocked(callerSocial.blocks, targetSocial.blocks, callerUid, targetUid);
+  ensureNotFriends(callerSocial.friends, targetSocial.friends, targetUid, callerUid);
+  ensureNoPending(
+    callerSocial.requests.outgoing,
+    callerSocial.requests.incoming,
+    targetUid,
+  );
+
+  const requestId = generateRequestId();
+  const now = Date.now();
+  const outgoing = clampRequests([
+    {
+      requestId,
+      toUid: targetUid,
+      sentAt: now,
+      message,
+    },
+    ...callerSocial.requests.outgoing,
+  ]);
+  const incoming = clampRequests([
+    {
+      requestId,
+      fromUid: callerUid,
+      sentAt: now,
+      message,
+      player: callerSummary,
+    },
+    ...targetSocial.requests.incoming,
+  ]);
+
+  writeRequestsDoc(transaction, callerUid, callerSocial.requests.incoming, outgoing);
+  writeRequestsDoc(transaction, targetUid, incoming, targetSocial.requests.outgoing);
+  updateSocialProfile(transaction, targetUid, { hasFriendRequests: true });
+
+  return { requestId, targetSummary };
+};
+
 export const sendFriendRequest = onCall(
   callableOptions(),
   async (request) => {
@@ -185,59 +255,12 @@ export const sendFriendRequest = onCall(
       opId,
       "send-friend-request",
       async (tx) => {
-        const [callerProfileSnap, targetProfileSnap] = await Promise.all([
-          tx.get(playerProfileRef(uid)),
-          tx.get(playerProfileRef(targetUid)),
-        ]);
-        if (!targetProfileSnap.exists) {
-          throw new HttpsError("not-found", "Target player not found.");
-        }
-        if (!callerProfileSnap.exists) {
-          throw new HttpsError("failed-precondition", "Caller profile missing.");
-        }
-
-        const callerProfile = callerProfileSnap.data() ?? {};
-        const targetProfile = targetProfileSnap.data() ?? {};
-        const callerSummary = await resolveSummary(uid, callerProfile, tx);
-        const targetSummary = await resolveSummary(targetUid, targetProfile, tx);
-
-        const callerSocial = await readSocialSnapshot(uid, tx);
-        const targetSocial = await readSocialSnapshot(targetUid, tx);
-
-        ensureNotBlocked(callerSocial.blocks, targetSocial.blocks, uid, targetUid);
-        ensureNotFriends(callerSocial.friends, targetSocial.friends, targetUid, uid);
-        ensureNoPending(
-          callerSocial.requests.outgoing,
-          callerSocial.requests.incoming,
+        const { requestId, targetSummary } = await performSendFriendRequest(
+          tx,
+          uid,
           targetUid,
+          message,
         );
-
-        const requestId = generateRequestId();
-        const now = Date.now();
-        const outgoing = clampRequests([
-          {
-            requestId,
-            toUid: targetUid,
-            sentAt: now,
-            message,
-          },
-          ...callerSocial.requests.outgoing,
-        ]);
-        const incoming = clampRequests([
-          {
-            requestId,
-            fromUid: uid,
-            sentAt: now,
-            message,
-            player: callerSummary,
-          },
-          ...targetSocial.requests.incoming,
-        ]);
-
-        writeRequestsDoc(tx, uid, callerSocial.requests.incoming, outgoing);
-        writeRequestsDoc(tx, targetUid, incoming, targetSocial.requests.outgoing);
-        updateSocialProfile(tx, targetUid, { hasFriendRequests: true });
-
         return {
           ok: true,
           data: { requestId, status: "pending", player: targetSummary },
@@ -247,6 +270,37 @@ export const sendFriendRequest = onCall(
     );
 
     return result;
+  },
+);
+
+export const sendFriendRequestByUid = onCall(
+  callableOptions(),
+  async (request) => {
+    if (!request.auth?.uid) {
+      throw new HttpsError("unauthenticated", "Authentication required.");
+    }
+
+    const fromUid = sanitizeUid(request.data?.fromUid ?? request.data?.from ?? request.data?.sourceUid);
+    const toUid = sanitizeUid(request.data?.toUid ?? request.data?.targetUid ?? request.data?.friendUid);
+    if (fromUid === toUid) {
+      throw new HttpsError("invalid-argument", "fromUid and toUid must be different players.");
+    }
+    const message = sanitizeMessage(request.data?.message);
+
+    const { requestId, targetSummary } = await db.runTransaction(async (tx) =>
+      performSendFriendRequest(tx, fromUid, toUid, message),
+    );
+
+    return {
+      ok: true,
+      data: {
+        requestId,
+        status: "pending",
+        player: targetSummary,
+        fromUid,
+        toUid,
+      },
+    };
   },
 );
 

@@ -4,6 +4,7 @@ export { getGlobalLeaderboard } from "./leaderboards";
 export { searchPlayer } from "./searchPlayer";
 export {
   sendFriendRequest,
+  sendFriendRequestByUid,
   acceptFriendRequest,
   rejectFriendRequest,
   cancelFriendRequest,
