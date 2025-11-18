@@ -13,6 +13,9 @@ const fallbackSummary = (uid: string): PlayerSummary => ({
   clan: null,
 });
 
+const needsSummaryRefresh = (summary?: PlayerSummary | null): boolean =>
+  !!summary?.clan && summary.clan.badge === undefined;
+
 const mergeFriendEntry = (
   uid: string,
   entry: FriendEntry | undefined,
@@ -48,7 +51,7 @@ export const getFriends = onCall(
       : {};
     const entries = Object.entries(friendsData);
     const missingSummaries = entries
-      .filter(([, entry]) => !entry?.player)
+      .filter(([, entry]) => !entry?.player || needsSummaryRefresh(entry.player))
       .map(([friendUid]) => friendUid);
     const liveSummaries =
       missingSummaries.length > 0
@@ -86,10 +89,10 @@ export const getFriendRequests = onCall(
     const incoming = Array.isArray(data.incoming) ? data.incoming : [];
     const outgoing = Array.isArray(data.outgoing) ? data.outgoing : [];
     const missingIncoming = incoming
-      .filter((entry) => !entry.player)
+      .filter((entry) => !entry.player || needsSummaryRefresh(entry.player))
       .map((entry) => entry.fromUid);
     const missingOutgoing = outgoing
-      .filter((entry) => !entry.player)
+      .filter((entry) => !entry.player || needsSummaryRefresh(entry.player))
       .map((entry) => entry.toUid);
     const lookupUids = Array.from(new Set([...missingIncoming, ...missingOutgoing]));
     const summaries =
@@ -101,7 +104,7 @@ export const getFriendRequests = onCall(
         incoming: incoming.map((entry) =>
           mergeRequestEntry(
             entry,
-            entry.player ?? summaries.get(entry.fromUid),
+            summaries.get(entry.fromUid) ?? entry.player,
             entry.fromUid,
           ),
         ),

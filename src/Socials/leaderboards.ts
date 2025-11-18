@@ -24,6 +24,7 @@ interface LeaderboardPlayer {
   clan?: {
     clanId: string;
     clanName: string;
+    clanBadge: string | null;
   } | null;
 }
 
@@ -243,6 +244,7 @@ export const getGlobalLeaderboard = onCall(
         ? {
             clanId: entry.player.clan.clanId,
             clanName: entry.player.clan.name,
+            clanBadge: entry.player.clan.badge ?? null,
           }
         : null,
     }));

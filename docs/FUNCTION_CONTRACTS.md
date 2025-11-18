@@ -904,7 +904,8 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
       "uid": "gAWy13PNRtRMrWEL06nSnqvYPS3w1",
       "clan": {
         "clanId": "clan_abc123",
-        "clanName": "Mystic Racers"
+        "clanName": "Mystic Racers",
+        "clanBadge": "badge_cobra"
       }
     },
     {
@@ -922,7 +923,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 **Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION` (leaderboard still warming up)
 
-**Notes:** The response now follows a simplified format with `callerRank` (the authenticated user's position), `leaderboardType` (legacy metric type), and `players[]` array. Each player entry includes their stats, rank, and clan information. Clan information includes `clanId` and `clanName` when the player belongs to a clan, or `null` if they don't. This callable currently reads every `/Players/{uid}/Profile/Profile` document on demand, sorts all players by the requested metric, and slices the result in memory before returning it. That means each request scales with your player count—great for development/debugging, but expensive at scale. When you're ready for production you should reintroduce a scheduled snapshot (or another caching strategy) to avoid scanning millions of documents per call.
+**Notes:** The response now follows a simplified format with `callerRank` (the authenticated user's position), `leaderboardType` (legacy metric type), and `players[]` array. Each player entry includes their stats, rank, and clan information. Clan information includes `clanId`, `clanName`, and `clanBadge` when the player belongs to a clan, or `null` if they don't. This callable currently reads every `/Players/{uid}/Profile/Profile` document on demand, sorts all players by the requested metric, and slices the result in memory before returning it. That means each request scales with your player count—great for development/debugging, but expensive at scale. When you're ready for production you should reintroduce a scheduled snapshot (or another caching strategy) to avoid scanning millions of documents per call.
 
 ---
 
@@ -1080,7 +1081,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 ### `getFriendRequests`
 
-**Purpose:** Returns the caller's *incoming* pending requests. Each entry now includes the cached `player` snapshot stored in `/Social/Requests`, which the backend refreshes whenever profiles change. Outgoing requests remain stored in `/Social/Requests` but are not returned by this API.
+**Purpose:** Returns the caller's *incoming* pending requests. Each entry now includes the cached `player` snapshot stored in `/Social/Requests`, which the backend refreshes whenever profiles change, including the requester's clan badge (when applicable). Outgoing requests remain stored in `/Social/Requests` but are not returned by this API.
 
 **Input:** `{}`
 
@@ -1101,7 +1102,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
           "avatarId": 5,
           "level": 20,
           "trophies": 3100,
-          "clan": { "clanId": "clan_123", "name": "Night Riders" }
+          "clan": { "clanId": "clan_123", "name": "Night Riders", "badge": "badge_cobra" }
         }
       }
     ]
@@ -1111,13 +1112,13 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 **Errors:** `UNAUTHENTICATED`
 
-**Notes:** The callable now trusts the snapshot stored in `/Social/Requests`; it only rehydrates a player if the cached `player` block is missing. This keeps the read cost at ~1 document per call.
+**Notes:** The callable now trusts the snapshot stored in `/Social/Requests`; it only rehydrates a player if the cached `player` block is missing (or lacks the clan badge). This keeps the read cost at ~1 document per call in the steady state.
 
 ---
 
 ### `getFriends`
 
-**Purpose:** Returns all confirmed friends with timestamps and cached `player` summaries (displayName, avatarId, level, trophies, clan). Snapshots are refreshed whenever a friend updates their profile, so the callable usually performs a single read.
+**Purpose:** Returns all confirmed friends with timestamps and cached `player` summaries (displayName, avatarId, level, trophies, clan). Clan snapshots now always include the badge so social screens can render the correct emblem without additional lookups. Snapshots are refreshed whenever a friend updates their profile, so the callable usually performs a single read.
 
 **Input:** `{}`
 
@@ -1136,7 +1137,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
           "avatarId": 4,
           "level": 18,
           "trophies": 4200,
-          "clan": { "clanId": "clan_123", "name": "Night Riders" }
+          "clan": { "clanId": "clan_123", "name": "Night Riders", "badge": "badge_cobra" }
         }
       }
     ]
@@ -1146,7 +1147,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 **Errors:** `UNAUTHENTICATED`
 
-**Notes:** Falls back to live hydration only if a cached `player` snapshot is missing, keeping the default cost at one document read.
+**Notes:** Falls back to live hydration only if a cached `player` snapshot is missing or stale (e.g., clan badge absent), keeping the default cost at one document read.
 
 ---
 

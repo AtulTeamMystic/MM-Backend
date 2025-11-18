@@ -11,7 +11,7 @@ import {
   writeRequestsDoc,
   updateSocialProfile,
 } from "./socialStore.js";
-import { buildPlayerSummary } from "./summary.js";
+import { buildPlayerSummary, fetchClanSummary } from "./summary.js";
 import type { FriendEntry, PlayerSummary } from "./types.js";
 
 const FRIENDS_SOFT_LIMIT = 400;
@@ -142,10 +142,23 @@ const fallbackSummary = (uid: string): PlayerSummary => ({
   clan: null,
 });
 
-const resolveSummary = (
+const extractClanId = (value: unknown): string | null => {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+};
+
+const resolveSummary = async (
   uid: string,
   profileData: FirebaseFirestore.DocumentData | undefined,
-): PlayerSummary => buildPlayerSummary(uid, profileData, null) ?? fallbackSummary(uid);
+  transaction?: FirebaseFirestore.Transaction,
+): Promise<PlayerSummary> => {
+  const clanId = extractClanId(profileData?.clanId);
+  const clanSummary = clanId ? await fetchClanSummary(clanId, transaction) : null;
+  return buildPlayerSummary(uid, profileData, clanSummary) ?? fallbackSummary(uid);
+};
 
 export const sendFriendRequest = onCall(
   callableOptions(),
@@ -185,8 +198,8 @@ export const sendFriendRequest = onCall(
 
         const callerProfile = callerProfileSnap.data() ?? {};
         const targetProfile = targetProfileSnap.data() ?? {};
-        const callerSummary = resolveSummary(uid, callerProfile);
-        const targetSummary = resolveSummary(targetUid, targetProfile);
+        const callerSummary = await resolveSummary(uid, callerProfile, tx);
+        const targetSummary = await resolveSummary(targetUid, targetProfile, tx);
 
         const callerSocial = await readSocialSnapshot(uid, tx);
         const targetSocial = await readSocialSnapshot(targetUid, tx);
@@ -283,8 +296,12 @@ export const acceptFriendRequest = onCall(
         ensureFriendCapacity(requesterSocial.friends);
 
         const now = Date.now();
-        const requesterSummary = resolveSummary(requesterUid, requesterProfileSnap.data() ?? {});
-        const callerSummary = resolveSummary(uid, callerProfileSnap.data() ?? {});
+        const requesterSummary = await resolveSummary(
+          requesterUid,
+          requesterProfileSnap.data() ?? {},
+          tx,
+        );
+        const callerSummary = await resolveSummary(uid, callerProfileSnap.data() ?? {}, tx);
         const callerFriends = {
           ...callerSocial.friends,
           [requesterUid]: { since: now, player: requesterSummary },

@@ -7,8 +7,8 @@ This note explains every document we create under `/Players/{uid}/Social` so eng
 | Path | Purpose | Created When |
 | --- | --- | --- |
 | `/Players/{uid}/Social/Profile` | HUD counters (`friendsCount`, `lastActiveAt`, etc.). | Account bootstrap. |
-| `/Players/{uid}/Social/Friends` | Map keyed by friend `uid` with cached `player` summaries and `since` timestamps. Backend refreshes each entry when profiles change so `getFriends` is a single read. | First successful friend acceptance. |
-| `/Players/{uid}/Social/Requests` | `{ incoming: [], outgoing: [] }` arrays for friend requests (each embeds a `player` snapshot kept in sync server-side). | First request sent/received. |
+| `/Players/{uid}/Social/Friends` | Map keyed by friend `uid` with cached `player` summaries (now includes `player.clan.badge`) and `since` timestamps. Backend refreshes each entry when profiles change so `getFriends` is a single read. | First successful friend acceptance. |
+| `/Players/{uid}/Social/Requests` | `{ incoming: [], outgoing: [] }` arrays for friend requests (each embeds a `player` snapshot kept in sync server-side, including clan badge data). | First request sent/received. |
 | `/Players/{uid}/Social/Blocks` | Map of blocked `uid`s. | First block action. |
 | `/Players/{uid}/Social/Clan` | Canonical clan membership (`clanId`, `role`, `joinedAt`, chat timestamps, bookmarkedClanIds?). | First clan join. |
 | `/Players/{uid}/Social/ClanInvites` | `{ invites: { [clanId]: {...} }, updatedAt }` payload for inbound clan invites. | First invite received. |

@@ -754,7 +754,7 @@ Extends the player's public card with social metadata that powers the Friends/Re
 
 #### `/Players/{uid}/Social/Friends` (Singleton Map)
 
-Compact map keyed by friend `uid`. Each entry carries the `since` timestamp, optional `lastInteractedAt`, and a cached `player` summary (displayName, avatarId, level, trophies, clan). Backend functions refresh the `player` snapshot whenever a profile changes, so `getFriends` can render the list with a single read (it only rehydrates missing entries). If the map approaches the 128 KB soft limit, shard deterministically (e.g., `/Social/FriendsA-M`, `/Social/FriendsN-Z`).
+Compact map keyed by friend `uid`. Each entry carries the `since` timestamp, optional `lastInteractedAt`, and a cached `player` summary (displayName, avatarId, level, trophies, clan). Clan snapshots now always include the clan `badge` so the UI can render the correct emblem without extra reads. Backend functions refresh the `player` snapshot whenever a profile changes, so `getFriends` can render the list with a single read (it only rehydrates missing entries). If the map approaches the 128 KB soft limit, shard deterministically (e.g., `/Social/FriendsA-M`, `/Social/FriendsN-Z`).
 
 ```json
 {
@@ -768,7 +768,7 @@ Compact map keyed by friend `uid`. Each entry carries the `since` timestamp, opt
         "avatarId": 4,
         "level": 19,
         "trophies": 3120,
-        "clan": { "clanId": "clan_123", "name": "Night Riders" }
+        "clan": { "clanId": "clan_123", "name": "Night Riders", "badge": "badge_cobra" }
       }
     }
   },
@@ -778,7 +778,7 @@ Compact map keyed by friend `uid`. Each entry carries the `since` timestamp, opt
 
 #### `/Players/{uid}/Social/Requests` (Singleton)
 
-Holds outstanding friend requests in two bounded arrays. Incoming entries embed a `player` summary so the target can render the sender immediately; outgoing entries include the caller’s summary for parity. Mutations occur alongside `/Social/Profile` updates, and the backend refreshes these snapshots whenever a profile changes, so `getFriendRequests` usually reads a single document (rehydrates only if a snapshot is missing). Arrays remain bounded (≈100 entries) to avoid oversized docs.
+Holds outstanding friend requests in two bounded arrays. Incoming entries embed a `player` summary so the target can render the sender immediately; outgoing entries include the caller’s summary for parity. Mutations occur alongside `/Social/Profile` updates, and the backend refreshes these snapshots whenever a profile changes, so `getFriendRequests` usually reads a single document (rehydrates only if a snapshot is missing). Player summaries carry the full clan chip, including `badge`, to keep UI displays consistent. Arrays remain bounded (≈100 entries) to avoid oversized docs.
 
 ```json
 {
@@ -788,7 +788,14 @@ Holds outstanding friend requests in two bounded arrays. Incoming entries embed 
       "fromUid": "friendUid",
       "sentAt": 1731529200000,
       "message": "GG",
-      "player": { "uid": "friendUid", "displayName": "NIGHTFOX", "avatarId": 4, "level": 19, "trophies": 3120 }
+      "player": {
+        "uid": "friendUid",
+        "displayName": "NIGHTFOX",
+        "avatarId": 4,
+        "level": 19,
+        "trophies": 3120,
+        "clan": { "clanId": "clan_123", "name": "Night Riders", "badge": "badge_cobra" }
+      }
     }
   ],
   "outgoing": [
