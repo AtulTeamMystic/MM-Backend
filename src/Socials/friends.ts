@@ -432,6 +432,11 @@ export const cancelFriendRequest = onCall(
   },
 );
 
+interface RemoveFriendsResponse {
+  success: boolean;
+  message: string;
+}
+
 export const removeFriends = onCall(
   callableOptions(),
   async (request) => {
@@ -455,7 +460,7 @@ export const removeFriends = onCall(
       return cached;
     }
 
-    const result = await runTransactionWithReceipt(
+    const result = await runTransactionWithReceipt<RemoveFriendsResponse>(
       uid,
       opId,
       "remove-friends",
@@ -495,11 +500,8 @@ export const removeFriends = onCall(
         });
 
         return {
-          ok: true,
-          data: {
-            removed: targetUids,
-            friendsCount: callerFriendsCount,
-          },
+          success: true,
+          message: "Friend removed",
         };
       },
       { kind: "friend-remove" },

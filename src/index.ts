@@ -41,5 +41,6 @@ export {
   getFriendRequests,
   cancelFriendRequest,
   viewPlayerProfile,
+  removeFriends
   // presenceMirrorLastSeen as socialPresenceMirrorLastSeen,
 } from "./Socials";
