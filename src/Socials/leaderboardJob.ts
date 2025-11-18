@@ -1,4 +1,3 @@
-import * as admin from "firebase-admin";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import { REGION } from "../shared/region.js";
 import { db } from "../shared/firestore.js";
@@ -7,6 +6,7 @@ import {
   LEADERBOARD_METRICS,
   LeaderboardEntry,
   LeaderboardMetric,
+  PlayerSummary,
 } from "./types.js";
 import { buildPlayerSummary } from "./summary.js";
 
@@ -14,6 +14,26 @@ const PLAYER_PROFILE_BATCH = 50;
 const MAX_ENTRIES = 100;
 
 type ProfileData = FirebaseFirestore.DocumentData;
+
+const normalizeString = (value: unknown, fallback = ""): string => {
+  if (typeof value === "string" && value.trim().length > 0) {
+    return value.trim();
+  }
+  return fallback;
+};
+
+const normalizeBadge = (value: unknown): string | null => {
+  const normalized = normalizeString(value, "");
+  return normalized.length > 0 ? normalized : null;
+};
+
+const extractClanId = (value: unknown): string | null => {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+};
 
 const sanitizeMetricValue = (value: unknown): number => {
   if (typeof value === "number" && Number.isFinite(value)) {
@@ -44,16 +64,21 @@ const fetchAllPlayerProfiles = async (): Promise<Map<string, ProfileData>> => {
 
 const loadClanSummaries = async (
   clanIds: Set<string>,
-): Promise<Map<string, FirebaseFirestore.DocumentData>> => {
+): Promise<Map<string, PlayerSummary["clan"]>> => {
   if (clanIds.size === 0) {
     return new Map();
   }
   const refs = Array.from(clanIds).map((clanId) => db.collection("Clans").doc(clanId));
   const snapshots = await db.getAll(...refs);
-  const map = new Map<string, FirebaseFirestore.DocumentData>();
+  const map = new Map<string, PlayerSummary["clan"]>();
   snapshots.forEach((snapshot, idx) => {
     if (snapshot.exists) {
-      map.set(refs[idx].id, snapshot.data() ?? {});
+      const data = snapshot.data() ?? {};
+      map.set(refs[idx].id, {
+        clanId: refs[idx].id,
+        name: normalizeString(data.name ?? data.displayName, "Clan"),
+        badge: normalizeBadge(data.badge ?? data.badgeId),
+      });
     }
   });
   return map;
@@ -76,10 +101,7 @@ const toLeaderboardEntries = async (
 
   const clanIds = new Set<string>();
   candidates.forEach((entry) => {
-    const clanId =
-      typeof entry.profile?.clanId === "string" && entry.profile.clanId.trim().length > 0
-        ? entry.profile.clanId.trim()
-        : null;
+    const clanId = extractClanId(entry.profile?.clanId);
     if (clanId) {
       clanIds.add(clanId);
     }
@@ -89,20 +111,8 @@ const toLeaderboardEntries = async (
   const entries: LeaderboardEntry[] = [];
   let rank = 1;
   for (const candidate of candidates) {
-    const clanId =
-      typeof candidate.profile?.clanId === "string" && candidate.profile.clanId.trim().length > 0
-        ? candidate.profile.clanId.trim()
-        : null;
-    const rawClanSummary = clanId ? clanSnapshots.get(clanId) : null;
-    const playerClanSummary =
-      clanId && rawClanSummary
-        ? {
-            clanId,
-            name: String(rawClanSummary.name ?? rawClanSummary.displayName ?? "Clan"),
-            tag: rawClanSummary.tag ? String(rawClanSummary.tag).toUpperCase() : undefined,
-            badge: rawClanSummary.badge ?? rawClanSummary.badgeId ?? null,
-          }
-        : null;
+    const clanId = extractClanId(candidate.profile?.clanId);
+    const playerClanSummary = clanId ? clanSnapshots.get(clanId) ?? null : null;
     const summary = buildPlayerSummary(candidate.uid, candidate.profile, playerClanSummary);
     if (!summary) {
       continue;
