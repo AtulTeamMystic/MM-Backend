@@ -23,8 +23,8 @@ interface LeaderboardPlayer {
   uid: string;
   clan?: {
     clanId: string;
-    clanName: string;
-    clanBadge: string | null;
+    name: string;
+    badge: string | null;
   } | null;
 }
 
@@ -233,21 +233,21 @@ export const getGlobalLeaderboard = onCall(
       };
     });
 
-    const players: LeaderboardPlayer[] = entries.map((entry) => ({
-      avatarId: entry.player.avatarId,
-      displayName: entry.player.displayName,
-      level: entry.player.level,
-      rank: entry.rank,
-      stat: entry.stat,
-      uid: entry.player.uid,
-      clan: entry.player.clan
-        ? {
-            clanId: entry.player.clan.clanId,
-            clanName: entry.player.clan.name,
-            clanBadge: entry.player.clan.badge ?? null,
-          }
-        : null,
-    }));
+  const players: LeaderboardPlayer[] = entries.map((entry) => ({
+    avatarId: entry.player.avatarId,
+    displayName: entry.player.displayName,
+    level: entry.player.level,
+    rank: entry.rank,
+    stat: entry.stat,
+    uid: entry.player.uid,
+    clan: entry.player.clan
+      ? {
+          clanId: entry.player.clan.clanId,
+          name: entry.player.clan.name,
+          badge: entry.player.clan.badge ?? null,
+        }
+      : null,
+  }));
 
     const youIndex = sorted.findIndex((entry) => entry.uid === uid);
     let myRank: number | null = null;
