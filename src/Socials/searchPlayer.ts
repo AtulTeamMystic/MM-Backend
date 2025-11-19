@@ -2,6 +2,7 @@ import * as admin from "firebase-admin";
 import { HttpsError, onCall } from "firebase-functions/v2/https";
 import { callableOptions } from "../shared/callableOptions.js";
 import { db } from "../shared/firestore.js";
+import { getPlayerSummary, getPlayerSummaries } from "./summary.js";
 
 const normalizeName = (value: string | undefined): string => {
   if (!value || typeof value !== "string") {
@@ -31,13 +32,7 @@ export const searchPlayer = onCall(
         .where(admin.firestore.FieldPath.documentId(), "<", `${nameLower}~`)
         .limit(10);
       const usernamesSnap = await usernamesQuery.get();
-      const results: Array<{
-        uid: string;
-        displayName: string;
-        avatarId: number;
-        level: number;
-        trophies: number;
-      }> = [];
+      const uids: string[] = [];
 
       for (const doc of usernamesSnap.docs) {
         const usernameData = doc.data() ?? {};
@@ -45,19 +40,25 @@ export const searchPlayer = onCall(
         if (!uid) {
           continue;
         }
-        const profileDoc = await db.doc(`Players/${uid}/Profile/Profile`).get();
-        if (!profileDoc.exists) {
-          continue;
-        }
-        const profile = profileDoc.data() ?? {};
-        results.push({
-          uid,
-          displayName: typeof profile.displayName === "string" ? profile.displayName : "",
-          avatarId: typeof profile.avatarId === "number" ? profile.avatarId : 0,
-          level: typeof profile.level === "number" ? profile.level : 0,
-          trophies: typeof profile.trophies === "number" ? profile.trophies : 0,
-        });
+        uids.push(uid);
       }
+
+      if (uids.length === 0) {
+        return { success: true, results: [] };
+      }
+
+      const summaries = await getPlayerSummaries(uids);
+      const results = uids
+        .map((uid) => summaries.get(uid))
+        .filter((summary): summary is NonNullable<typeof summary> => !!summary)
+        .map((summary) => ({
+          uid: summary.uid,
+          displayName: summary.displayName,
+          avatarId: summary.avatarId,
+          level: summary.level,
+          trophies: summary.trophies,
+          clan: summary.clan ?? null,
+        }));
 
       return { success: true, results };
     }
@@ -71,19 +72,20 @@ export const searchPlayer = onCall(
     if (!uid) {
       return { success: false, message: "user not found" };
     }
-    const profileDoc = await db.doc(`Players/${uid}/Profile/Profile`).get();
-    if (!profileDoc.exists) {
+    const summary = await getPlayerSummary(uid);
+    if (!summary) {
       return { success: false, message: "user not found" };
     }
-    const profile = profileDoc.data() ?? {};
+
     return {
       success: true,
       player: {
-        uid,
-        displayName: typeof profile.displayName === "string" ? profile.displayName : "",
-        avatarId: typeof profile.avatarId === "number" ? profile.avatarId : 0,
-        level: typeof profile.level === "number" ? profile.level : 0,
-        trophies: typeof profile.trophies === "number" ? profile.trophies : 0,
+        uid: summary.uid,
+        displayName: summary.displayName,
+        avatarId: summary.avatarId,
+        level: summary.level,
+        trophies: summary.trophies,
+        clan: summary.clan ?? null,
       },
     };
   },

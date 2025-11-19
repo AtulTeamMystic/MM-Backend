@@ -35,6 +35,7 @@ export {
   getGlobalLeaderboard,
   searchPlayer,
   sendFriendRequest,
+  sendFriendRequestByUid,
   acceptFriendRequest,
   rejectFriendRequest,
   getFriends,

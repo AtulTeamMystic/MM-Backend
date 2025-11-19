@@ -941,7 +941,14 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 {
   "success": true,
   "results": [
-    { "uid": "uid_dean", "displayName": "DEAN", "avatarId": 4, "level": 10, "trophies": 2500 }
+    {
+      "uid": "uid_dean",
+      "displayName": "DEAN",
+      "avatarId": 4,
+      "level": 10,
+      "trophies": 2500,
+      "clan": { "clanId": "clan_123", "name": "Night Riders", "badge": "badge_cobra" }
+    }
   ]
 }
 ```
@@ -950,7 +957,14 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 ```json
 {
   "success": true,
-  "player": { "uid": "uid_dew", "displayName": "DEW", "avatarId": 3, "level": 1, "trophies": 566 }
+  "player": {
+    "uid": "uid_dew",
+    "displayName": "DEW",
+    "avatarId": 3,
+    "level": 1,
+    "trophies": 566,
+    "clan": { "clanId": "clan_321", "name": "Dew Crew", "badge": "badge_hydro" }
+  }
 }
 ```
 
@@ -958,7 +972,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 **Errors:** `INVALID_ARGUMENT`
 
-**Notes:** Prefix results are capped at 10 by the range query (`docId >= prefix` and `< prefix + "~"`). Clients do not supply pagination parameters in this dev-mode implementation; results are already small. Consider reintroducing a dedicated search index when you need scalable, paginated search.
+**Notes:** Prefix results are capped at 10 by the range query (`docId >= prefix` and `< prefix + "~"`). Responses reuse the `PlayerSummary` payload so every entry includes the caller-visible clan snippet (`clanId`, name, badge). Clients do not supply pagination parameters in this dev-mode implementation; results are already small. Consider reintroducing a dedicated search index when you need scalable, paginated search.
 
 ---
 
