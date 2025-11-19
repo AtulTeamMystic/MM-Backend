@@ -4,6 +4,7 @@ import {
   getGlobalLeaderboard,
   searchPlayer,
   sendFriendRequest,
+  sendFriendRequestByUid,
   acceptFriendRequest,
   rejectFriendRequest,
   cancelFriendRequest,
@@ -175,6 +176,22 @@ describe("social functions", () => {
   });
 
   describe("friend requests", () => {
+    it("sends friend requests between arbitrary players via sendFriendRequestByUid", async () => {
+      const debugSendWrapped = wrapCallable(sendFriendRequestByUid);
+      const response = await debugSendWrapped({
+        data: { fromUid: alice, toUid: bob, message: "QA debug" },
+        ...authFor(carol),
+      });
+      expect(response.ok).toBe(true);
+      expect(response.data.fromUid).toEqual(alice);
+      expect(response.data.toUid).toEqual(bob);
+      expect(response.data.status).toEqual("pending");
+
+      const bobRequestsDoc = await admin.firestore().doc(`Players/${bob}/Social/Requests`).get();
+      const incoming = (bobRequestsDoc.data()?.incoming ?? []) as Array<{ fromUid: string }>;
+      expect(incoming[0]?.fromUid).toEqual(alice);
+    });
+
     it("sends and accepts friend requests idempotently", async () => {
       const sendWrapped = wrapCallable(sendFriendRequest);
       const acceptWrapped = wrapCallable(acceptFriendRequest);
