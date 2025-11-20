@@ -48,7 +48,7 @@ This document is the canonical reference for the Mystic Motors clan + chat backe
 | --- | --- |
 | `Clan` (doc) | `{ clanId, role, joinedAt, lastVisitedClanChatAt, lastVisitedGlobalChatAt, bookmarkedClanIds? }` |
 | `ClanInvites` (doc) | `{ invites: { [clanId]: { clanId, clanName, fromUid, fromRole, message?, createdAt } }, updatedAt }` |
-| `ClanBookmarks` (doc) | `{ bookmarks: { [clanId]: { clanId, clanName, addedAt } }, bookmarkedClanIds, updatedAt }` |
+| `ClanBookmarks` (doc) | `{ bookmarks: { [clanId]: { clanId, name, badge, type, memberCount, totalTrophies, addedAt, lastRefreshedAt } }, bookmarkedClanIds, updatedAt }` |
 | `ChatRate` (doc) | `{ rooms: { [roomOrClanKey]: { lastSentAt } }, updatedAt }` |
 
 > The `/Players/{uid}/Social/Clan` singleton is the canonical "Am I in a clan?" flag. Read or listen to it at boot to discover the current clanId and role, then pass that clanId into `getClanDetails` (or call `getMyClanDetails` below) to hydrate the roster.
@@ -108,9 +108,13 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 | `inviteToClan` | `{ opId, clanId, targetUid, message? }` | `{ clanId }` | Officer+, writes invite blob under target's `/Social/ClanInvites`. |
 | `acceptClanInvite` | `{ opId, clanId }` | `{ clanId }` | Converts invite to membership after validating capacity/trophies. |
 | `declineClanInvite` | `{ opId, clanId }` | `{ clanId }` | Removes stored invite. |
-| `bookmarkClan` | `{ opId, clanId }` | `{ clanId }` | Stores snapshot in `/Social/ClanBookmarks` + array helper for quick UI rendering. |
+| `bookmarkClan` | `{ opId, clanId }` | `{ clanId }` | Stores a cached snapshot (`name`, `badge`, `type`, `memberCount`, `totalTrophies`, timestamps) under `/Social/ClanBookmarks`. |
 | `unbookmarkClan` | `{ opId, clanId }` | `{ clanId }` | Removes bookmark snapshot + ID. |
-| `getBookmarkedClans` | `{}` | `{ clans: ClanSummary[] }` | Hydrates live data when available, otherwise falls back to cached bookmark metadata. |
+| `getBookmarkedClans` | `{}` | `{ bookmarks: BookmarkSnapshot[] }` | Returns cached bookmark entries sorted by `addedAt`. No live clan reads happen here. |
+| `refreshBookmarkedClans` | `{ clanIds: string[] }` | `{ bookmarks: BookmarkSnapshot[] }` | Batch refresh for stale entries: reads the requested clans, updates cached fields + `lastRefreshedAt`, and returns the updated snapshots. |
+
+`BookmarkSnapshot` objects contain `{ clanId, name, badge, type, memberCount, totalTrophies, addedAt, lastRefreshedAt }`. Clients render the Bookmarks UI directly from these cached fields and only call `refreshBookmarkedClans` for entries whose `lastRefreshedAt` exceeds a freshness window (e.g., older than 30 minutes) or when the user explicitly requests a manual refresh.
+
 | `getClanDetails` | `{ clanId }` | `{ clan, members, membership, requests? }` | Returns roster sorted by `rolePriority` + trophies, includes pending requests when caller is officer+. Member rows mirror the `/Clans/{clanId}/Members/{uid}` docs, which the backend keeps in sync whenever players update their profile. |
 | `getMyClanDetails` | `{}` | `{ clan, members, membership, requests? }` | Convenience wrapper that reads `/Players/{uid}/Social/Clan.clanId` to hydrate the caller's own clan without passing an ID. |
 | `searchClans` | `{ query?, location?, language?, type?, limit?, minMembers?, maxMembers?, minTrophies?, requireOpenSpots? }` | `{ clans: ClanSummary[] }` | Supports case-insensitive name filtering plus location/language/trophy filters. |

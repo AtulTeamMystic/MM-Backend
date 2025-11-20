@@ -25,6 +25,7 @@ const roomsCollection = () => admin.firestore().collection("Rooms");
 const GLOBAL_CHAT_HISTORY_LIMIT = 100;
 const CLAN_CHAT_HISTORY_LIMIT = 100;
 const CHAT_FETCH_LIMIT = 25;
+const MAX_BOOKMARK_REFRESH_BATCH = 20;
 
 const assertAuthenticated = (request: CallableRequest): string => {
   const uid = request.auth?.uid;
@@ -119,6 +120,32 @@ const clampFetchLimit = (value?: unknown): number => {
   }
   return Math.min(parsed, CHAT_FETCH_LIMIT);
 };
+
+interface ClanBookmarkSnapshot {
+  clanId: string;
+  name: string | null;
+  badge: string | null;
+  type: string | null;
+  memberCount: number;
+  totalTrophies: number;
+  addedAt: FirebaseFirestore.Timestamp;
+  lastRefreshedAt: FirebaseFirestore.Timestamp;
+}
+
+const buildBookmarkSnapshot = (
+  summary: ReturnType<typeof clanSummaryProjection>,
+  now: FirebaseFirestore.Timestamp,
+  addedAt?: FirebaseFirestore.Timestamp,
+): ClanBookmarkSnapshot => ({
+  clanId: summary.clanId,
+  name: summary.name ?? null,
+  badge: summary.badge ?? null,
+  type: summary.type ?? null,
+  memberCount: Number(summary.stats?.members ?? 0),
+  totalTrophies: Number(summary.stats?.trophies ?? 0),
+  addedAt: addedAt ?? now,
+  lastRefreshedAt: now,
+});
 
 const fetchClanSummaryLite = async (
   clanId?: string | null,
@@ -430,24 +457,21 @@ export const bookmarkClan = onCall(callableOptions(), async (request) => {
   if (!clanSnap.exists) {
     throw new HttpsError("not-found", "Clan not found.");
   }
-  const clanData = clanSnap.data() ?? {};
-  const now = FieldValue.serverTimestamp();
+  const summary = clanSummaryProjection(clanSnap.data() ?? {});
+  const now = admin.firestore.Timestamp.now();
 
   const result = await runTransactionWithReceipt<ClanActionResponse>(
     uid,
     opId,
     "bookmarkClan",
     async (transaction) => {
+      const snapshot = buildBookmarkSnapshot(summary, now);
       transaction.set(
         playerClanBookmarksRef(uid),
         {
           updatedAt: now,
           bookmarks: {
-            [clanId]: {
-              clanId,
-              clanName: clanData.name ?? "Clan",
-              addedAt: now,
-            },
+            [clanId]: snapshot,
           },
           bookmarkedClanIds: FieldValue.arrayUnion(clanId),
         },
@@ -476,15 +500,11 @@ export const unbookmarkClan = onCall(callableOptions(), async (request) => {
     opId,
     "unbookmarkClan",
     async (transaction) => {
-      transaction.set(
-        playerClanBookmarksRef(uid),
-        {
-          updatedAt: FieldValue.serverTimestamp(),
-          bookmarks: { [clanId]: FieldValue.delete() },
-          bookmarkedClanIds: FieldValue.arrayRemove(clanId),
-        },
-        { merge: true },
-      );
+      transaction.set(playerClanBookmarksRef(uid), {
+        updatedAt: admin.firestore.Timestamp.now(),
+        bookmarks: { [clanId]: FieldValue.delete() },
+        bookmarkedClanIds: FieldValue.arrayRemove(clanId),
+      }, { merge: true });
       return { clanId };
     },
   );
@@ -492,22 +512,119 @@ export const unbookmarkClan = onCall(callableOptions(), async (request) => {
   return result;
 });
 
+const normalizeBookmarkEntry = (
+  raw: FirebaseFirestore.DocumentData,
+): (Omit<ClanBookmarkSnapshot, "addedAt" | "lastRefreshedAt"> & {
+  addedAt: FirebaseFirestore.Timestamp | null;
+  lastRefreshedAt: FirebaseFirestore.Timestamp | null;
+}) | null => {
+  const clanId = typeof raw.clanId === "string" ? raw.clanId : null;
+  if (!clanId) {
+    return null;
+  }
+  const addedAt = raw.addedAt instanceof admin.firestore.Timestamp ? raw.addedAt : null;
+  const lastRefreshedAt = raw.lastRefreshedAt instanceof admin.firestore.Timestamp
+    ? raw.lastRefreshedAt
+    : null;
+  return {
+    clanId,
+    name: typeof raw.name === "string"
+      ? raw.name
+      : typeof raw.clanName === "string"
+        ? raw.clanName
+        : null,
+    badge: typeof raw.badge === "string" ? raw.badge : null,
+    type: typeof raw.type === "string" ? raw.type : null,
+    memberCount: Number.isFinite(raw.memberCount)
+      ? Number(raw.memberCount)
+      : Number(raw.stats?.members ?? 0),
+    totalTrophies: Number.isFinite(raw.totalTrophies)
+      ? Number(raw.totalTrophies)
+      : Number(raw.stats?.trophies ?? 0),
+    addedAt,
+    lastRefreshedAt,
+  };
+};
+
 export const getBookmarkedClans = onCall(callableOptions(), async (request) => {
   const uid = assertAuthenticated(request);
   const doc = await playerClanBookmarksRef(uid).get();
   const bookmarks = doc.data()?.bookmarks ?? {};
-  const clanIds = Object.keys(bookmarks);
+  const entries = Object.values(bookmarks)
+    .map((raw) => normalizeBookmarkEntry(raw as FirebaseFirestore.DocumentData))
+    .filter((entry): entry is NonNullable<ReturnType<typeof normalizeBookmarkEntry>> => Boolean(entry));
+
+  entries.sort((a, b) => {
+    const aTime = a.addedAt?.toMillis() ?? 0;
+    const bTime = b.addedAt?.toMillis() ?? 0;
+    return bTime - aTime;
+  });
+
+  return { bookmarks: entries };
+});
+
+interface RefreshBookmarkedClansRequest {
+  clanIds: string[];
+}
+
+export const refreshBookmarkedClans = onCall(callableOptions(), async (request) => {
+  const uid = assertAuthenticated(request);
+  const payload = (request.data ?? {}) as RefreshBookmarkedClansRequest;
+  const clanIds = Array.isArray(payload.clanIds)
+    ? Array.from(
+        new Set(
+          payload.clanIds
+            .map((value) => (typeof value === "string" ? value.trim() : ""))
+            .filter((value) => value.length > 0),
+        ),
+      ).slice(0, MAX_BOOKMARK_REFRESH_BATCH)
+    : [];
+
   if (clanIds.length === 0) {
-    return { clans: [] };
+    throw new HttpsError("invalid-argument", "clanIds are required.");
   }
-  const refs = clanIds.map((id) => clanRef(id));
-  const snapshots = await admin.firestore().getAll(...refs);
-  const clans = snapshots
-    .map((snap, idx) =>
-      snap.exists ? clanSummaryProjection(snap.data() ?? {}) : bookmarks[clanIds[idx]] ?? null,
-    )
-    .filter((entry): entry is ReturnType<typeof clanSummaryProjection> => Boolean(entry));
-  return { clans };
+
+  const bookmarksRef = playerClanBookmarksRef(uid);
+  const currentSnap = await bookmarksRef.get();
+  const existing = currentSnap.data()?.bookmarks ?? {};
+  const now = admin.firestore.Timestamp.now();
+
+  const clanRefs = clanIds.map((id) => clanRef(id));
+  const clanSnapshots = await admin.firestore().getAll(...clanRefs);
+
+  const updates: Record<string, ClanBookmarkSnapshot> = {};
+  const refreshed: ClanBookmarkSnapshot[] = [];
+
+  clanSnapshots.forEach((clanSnap) => {
+    if (!clanSnap.exists) {
+      return;
+    }
+    const summary = clanSummaryProjection(clanSnap.data() ?? {});
+    const clanId = summary.clanId;
+    if (!clanId) {
+      return;
+    }
+    const existingEntry = existing[clanId];
+    const addedAt =
+      existingEntry?.addedAt instanceof admin.firestore.Timestamp ? existingEntry.addedAt : now;
+    const snapshot = buildBookmarkSnapshot(summary, now, addedAt);
+    updates[clanId] = snapshot;
+    refreshed.push(snapshot);
+  });
+
+  if (Object.keys(updates).length > 0) {
+    const data: FirebaseFirestore.UpdateData<FirebaseFirestore.DocumentData> = {
+      updatedAt: now,
+      bookmarks: updates,
+    };
+    const ids = Object.keys(updates);
+    if (ids.length > 0) {
+      (data as FirebaseFirestore.DocumentData).bookmarkedClanIds = FieldValue.arrayUnion(...ids);
+    }
+    await bookmarksRef.set(data, { merge: true });
+  }
+
+  return { bookmarks: refreshed };
 });
 
 interface SendGlobalChatMessageRequest {

@@ -1593,7 +1593,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 ---
 
 ### `bookmarkClan`
-**Purpose:** Stores snapshot in `/Social/ClanBookmarks` + array helper for quick UI rendering.
+**Purpose:** Stores a cached snapshot under `/Players/{uid}/Social/ClanBookmarks` (name, badge, type, member count, total trophies, timestamps) plus helper arrays for quick UI rendering.
 **Input:**
 ```json
 {
@@ -1621,10 +1621,39 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 ---
 
 ### `getBookmarkedClans`
-**Purpose:** Hydrates live data when available, otherwise falls back to cached bookmark metadata.
+**Purpose:** Returns cached bookmark snapshots without reading `/Clans` (cheap UI render path).
 **Input:** `{}`
-**Output:** `{ "clans": [ClanSummary, ...] }`
+**Output example:**
+```json
+{
+  "bookmarks": [
+    {
+      "clanId": "clan_WAVE",
+      "name": "Wavebreak",
+      "badge": "badge_sea",
+      "type": "invite only",
+      "memberCount": 42,
+      "totalTrophies": 18250,
+      "addedAt": { "_seconds": 1732020202, "_nanoseconds": 0 },
+      "lastRefreshedAt": { "_seconds": 1732020202, "_nanoseconds": 0 }
+    }
+  ]
+}
+```
 **Errors:** `UNAUTHENTICATED`
+
+---
+
+### `refreshBookmarkedClans`
+**Purpose:** Batch-refreshes stale bookmark entries; reads `/Clans/{clanId}` for the provided IDs (max 20), updates cached fields + `lastRefreshedAt`, and returns the fresh snapshots for instant UI hydration.
+**Input:**
+```json
+{
+  "clanIds": ["clan_WAVE", "clan_SOLAR"]
+}
+```
+**Output:** Matches `getBookmarkedClans` (`{ "bookmarks": [ ... ] }`).
+**Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`
 
 ---
 

@@ -17,6 +17,19 @@ const normaliseQuantity = (value: unknown): number => {
   return Math.floor(parsed);
 };
 
+const normaliseSkuType = (value: unknown): string | null => {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+};
+
+const fetchSkuType = async (skuId: string): Promise<string | null> => {
+  const sku = await resolveSkuOrThrow(skuId);
+  return normaliseSkuType(sku?.type);
+};
+
 const ensureSkuId = (skuId: string): string => {
   if (typeof skuId !== "string") {
     throw new Error("skuId must be a string.");
@@ -39,6 +52,7 @@ export interface TxSkuMutationContext {
   quantity?: number;
   exists?: boolean;
   createdAt?: unknown;
+  type?: string | null;
   timestamp?: FirebaseFirestore.FieldValue;
 }
 
@@ -51,6 +65,7 @@ export interface TxSkuDocState {
   quantity: number;
   exists: boolean;
   createdAt?: unknown;
+  type?: string | null;
 }
 
 export interface TxInventorySummaryState {
@@ -72,6 +87,7 @@ export const createTxSkuDocState = (
     quantity: snapshot ? normaliseQuantity(data.quantity ?? data.qty) : 0,
     exists: Boolean(snapshot?.exists),
     createdAt: data.createdAt,
+    type: normaliseSkuType(data.type),
   };
 };
 
@@ -145,6 +161,7 @@ export async function getSkuQtyTx(
       quantity,
       exists: snapshot.exists,
       createdAt: data.createdAt,
+      type: normaliseSkuType(data.type),
     });
   }
   return quantity;
@@ -170,6 +187,7 @@ export async function incSkuQty(
       quantity: current,
       exists: snapshot.exists,
       createdAt: data.createdAt,
+      type: normaliseSkuType(data.type),
       timestamp,
     });
     return { previous: result.before, next: result.after };
@@ -196,6 +214,7 @@ export async function decSkuQtyOrThrow(
       quantity: current,
       exists: snapshot.exists,
       createdAt: data.createdAt,
+      type: normaliseSkuType(data.type),
       timestamp,
     });
     return { previous: result.before, next: result.after };
@@ -218,12 +237,16 @@ export async function incSkuQtyTx(
   let quantity = context?.quantity;
   let exists = context?.exists ?? false;
   let createdAt = context?.createdAt;
+  let itemType = normaliseSkuType(context?.type);
   if (quantity === undefined) {
     const snapshot = await transaction.get(ref);
     const data = snapshot.data() ?? {};
     quantity = normaliseQuantity(data.quantity ?? data.qty);
     exists = snapshot.exists;
     createdAt = data.createdAt;
+    if (!itemType) {
+      itemType = normaliseSkuType(data.type);
+    }
   }
   const timestamp =
     context?.timestamp ?? admin.firestore.FieldValue.serverTimestamp();
@@ -239,6 +262,16 @@ export async function incSkuQtyTx(
     payload.createdAt = createdAt;
   } else {
     payload.createdAt = createdAt ?? timestamp;
+  }
+  if (!itemType) {
+    itemType = await fetchSkuType(resolvedSkuId);
+  }
+  if (itemType) {
+    payload.type = itemType;
+  }
+
+  if (context) {
+    context.type = itemType;
   }
 
   transaction.set(ref, payload, { merge: true });
@@ -261,12 +294,16 @@ export async function decSkuQtyOrThrowTx(
   let quantity = context?.quantity;
   let exists = context?.exists ?? false;
   let createdAt = context?.createdAt;
+  let itemType = normaliseSkuType(context?.type);
   if (quantity === undefined) {
     const snapshot = await transaction.get(ref);
     const data = snapshot.data() ?? {};
     quantity = normaliseQuantity(data.quantity ?? data.qty);
     exists = snapshot.exists;
     createdAt = data.createdAt;
+    if (!itemType) {
+      itemType = normaliseSkuType(data.type);
+    }
   }
   const before = Math.max(0, Number(quantity ?? 0));
   if (before < delta) {
@@ -285,6 +322,16 @@ export async function decSkuQtyOrThrowTx(
     payload.createdAt = createdAt;
   } else {
     payload.createdAt = createdAt ?? timestamp;
+  }
+  if (!itemType) {
+    itemType = await fetchSkuType(resolvedSkuId);
+  }
+  if (itemType) {
+    payload.type = itemType;
+  }
+
+  if (context) {
+    context.type = itemType;
   }
 
   transaction.set(ref, payload, { merge: true });
@@ -339,6 +386,7 @@ export async function updateInventorySummary(
 interface TxIncSkuQtyOptions {
   state: TxSkuDocState;
   timestamp?: FirebaseFirestore.FieldValue;
+  itemType?: string | null;
 }
 
 export async function txIncSkuQty(
@@ -376,7 +424,15 @@ export async function txIncSkuQty(
   if (state.exists && state.createdAt !== undefined) {
     payload.createdAt = state.createdAt;
   } else {
-    payload.createdAt = timestamp;
+    payload.createdAt = state.createdAt ?? timestamp;
+  }
+
+  let itemType = normaliseSkuType(options.itemType ?? state.type);
+  if (!itemType) {
+    itemType = await fetchSkuType(resolvedSkuId);
+  }
+  if (itemType) {
+    payload.type = itemType;
   }
 
   transaction.set(ref, payload, { merge: true });
@@ -386,6 +442,9 @@ export async function txIncSkuQty(
   state.exists = true;
   if (state.createdAt === undefined || state.createdAt === null) {
     state.createdAt = payload.createdAt;
+  }
+  if (itemType) {
+    state.type = itemType;
   }
 
   return { previous, next };

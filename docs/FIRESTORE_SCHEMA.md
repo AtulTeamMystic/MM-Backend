@@ -98,10 +98,12 @@ Under `/Players/{uid}/Social`:
 
 * `Clan` *(doc)* – `{ clanId, role, joinedAt, lastVisitedClanChatAt, lastVisitedGlobalChatAt, bookmarkedClanIds? }`.
 * `ClanInvites` *(doc)* - `{ invites: { [clanId]: { clanId, clanName, fromUid, fromRole, message?, createdAt } }, updatedAt }`.
-* `ClanBookmarks` *(doc)* - `{ bookmarks: { [clanId]: { clanId, clanName, addedAt } }, bookmarkedClanIds, updatedAt }`.
+* `ClanBookmarks` *(doc)* - `{ bookmarks: { [clanId]: { clanId, name, badge, type, memberCount, totalTrophies, addedAt, lastRefreshedAt } }, bookmarkedClanIds, updatedAt }`.
 * `ChatRate` *(doc)* - `{ rooms: { [roomIdOrClanKey]: { lastSentAt } }, updatedAt }` used by slow mode.
 
 > Listen to `/Players/{uid}/Social/Clan` at startup; it is the canonical pointer indicating whether the user currently belongs to a clan and what role they hold.
+
+`ClanBookmarks` deliberately caches the presentation data needed by the UI so `getBookmarkedClans` is always a single read. When entries grow stale (check `lastRefreshedAt` client-side), call `refreshBookmarkedClans` with the relevant `clanIds`; that callable reads `/Clans/{clanId}` in batch, writes updated snapshots back into `bookmarks`, and returns the refreshed payload for immediate UI use.
 
 #### Global Chat
 
