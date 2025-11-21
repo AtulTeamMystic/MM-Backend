@@ -112,9 +112,9 @@ Singleton doc used for the “smart pool” join flow. A scheduled job rebuilds 
 
 * `updatedAt` *(timestamp)* – server timestamp of the last rebuild.
 * `poolSize` *(number)* – number of entries currently stored.
-* `pool` *(array)* – list of `{ id: string, req: number }` where `id` is the clanId and `req` is its `minimumTrophies`.
+* `pool` *(array)* – list of `{ id, minimumTrophies, name, badge, type, members, totalTrophies }` where each entry mirrors the lightweight clan card data (current limit: 10 entries).
 
-Clients call `getRecommendedClansPool`, cache the payload (e.g., 30 minutes), filter the pool locally by the user’s trophies, shuffle it, and only hydrate the handful of selected IDs with batched `IN` queries. The scheduled job requires a composite index on `(status == active, type == anyone can join, stats.members orderBy asc)` to satisfy the range filter.
+Clients call `getRecommendedClansPool`, cache the payload (e.g., 30 minutes), filter the pool locally by the user's trophies, shuffle it, and only hydrate the handful of selected IDs with batched `IN` queries.
 
 #### Global Chat
 

@@ -6,13 +6,19 @@ import { REGION } from "../shared/region.js";
 import { db } from "../shared/firestore.js";
 import { clansCollection, requireAuth } from "./helpers.js";
 
-const RECOMMENDED_POOL_LIMIT = 2000;
-const HEALTHY_MIN_MEMBERS = 15;
+const RECOMMENDED_POOL_LIMIT = 10;
+const HEALTHY_MIN_MEMBERS = 1;
 const HEALTHY_MAX_MEMBERS = 45;
+const CANDIDATE_FETCH_LIMIT = RECOMMENDED_POOL_LIMIT * 2;
 
 export interface RecommendedClanPoolEntry {
   id: string;
-  req: number;
+  minimumTrophies: number;
+  name: string;
+  badge: string | null;
+  type: string;
+  members: number;
+  totalTrophies: number;
 }
 
 const recommendedClansDocRef = () => db.collection("System").doc("RecommendedClans");
@@ -27,21 +33,36 @@ const normalizeRequirement = (value: unknown): number => {
 
 const fetchCandidateClans = async (): Promise<RecommendedClanPoolEntry[]> => {
   const snapshot = await clansCollection()
-    .where("status", "==", "active")
-    .where("type", "==", "anyone can join")
-    .where("stats.members", ">=", HEALTHY_MIN_MEMBERS)
-    .where("stats.members", "<=", HEALTHY_MAX_MEMBERS)
-    .orderBy("stats.members")
-    .limit(RECOMMENDED_POOL_LIMIT)
+    .orderBy("stats.members", "desc")
+    .limit(CANDIDATE_FETCH_LIMIT)
     .get();
 
-  return snapshot.docs.map((doc) => {
+  const candidates: RecommendedClanPoolEntry[] = [];
+  snapshot.docs.some((doc) => {
     const data = doc.data() ?? {};
-    return {
+    const stats = data.stats ?? {};
+    const members = Number(stats.members ?? 0);
+    if (data.status !== "active") {
+      return false;
+    }
+    if (data.type !== "anyone can join") {
+      return false;
+    }
+    if (members < HEALTHY_MIN_MEMBERS || members > HEALTHY_MAX_MEMBERS) {
+      return false;
+    }
+    candidates.push({
       id: data.clanId ?? doc.id,
-      req: normalizeRequirement(data.minimumTrophies ?? 0),
-    };
+      minimumTrophies: normalizeRequirement(data.minimumTrophies ?? 0),
+      name: typeof data.name === "string" && data.name.trim().length > 0 ? data.name : "Clan",
+      badge: typeof data.badge === "string" && data.badge.trim().length > 0 ? data.badge : null,
+      type: typeof data.type === "string" ? data.type : "anyone can join",
+      members,
+      totalTrophies: Number(stats.trophies ?? 0),
+    });
+    return candidates.length >= RECOMMENDED_POOL_LIMIT;
   });
+  return candidates;
 };
 
 const shuffleEntries = (entries: RecommendedClanPoolEntry[]): RecommendedClanPoolEntry[] => {
@@ -90,17 +111,34 @@ const normalizePoolEntries = (input: unknown): RecommendedClanPoolEntry[] => {
     if (!id) {
       return;
     }
-    const req = normalizeRequirement(candidate.req ?? candidate.minimumTrophies);
-    normalized.push({ id, req });
+    const minimumTrophies = normalizeRequirement(candidate.minimumTrophies ?? candidate.req);
+    normalized.push({
+      id,
+      minimumTrophies,
+      name: typeof candidate.name === "string" ? candidate.name : "Clan",
+      badge: typeof candidate.badge === "string" ? candidate.badge : null,
+      type: typeof candidate.type === "string" ? candidate.type : "anyone can join",
+      members: Number(candidate.members ?? 0),
+      totalTrophies: Number(candidate.totalTrophies ?? 0),
+    });
   });
   return normalized;
 };
 
 export const getRecommendedClansPool = onCall(callableOptions(), async (request) => {
   requireAuth(request);
-  const snapshot = await recommendedClansDocRef().get();
+  let snapshot = await recommendedClansDocRef().get();
   if (!snapshot.exists) {
-    throw new HttpsError("failed-precondition", "Recommendation pool not ready.");
+    try {
+      await rebuildRecommendedClansPool();
+    } catch (error) {
+      console.error("Failed to rebuild recommended clans pool:", error);
+      throw new HttpsError("internal", "Recommendation pool rebuild failed.");
+    }
+    snapshot = await recommendedClansDocRef().get();
+    if (!snapshot.exists) {
+      throw new HttpsError("failed-precondition", "Recommendation pool not ready.");
+    }
   }
   const data = snapshot.data() ?? {};
   const updatedAt = data.updatedAt instanceof admin.firestore.Timestamp ? data.updatedAt.toMillis() : null;

@@ -25,7 +25,7 @@ We will use a **Cron Job** to generate a pool of eligible Clan IDs + Requirement
 We will use a **Singleton Document** to store the pool of recommended candidates.
 
 **Document:** `/System/RecommendedClans`
-* **Note:** A Firestore document max size is 1MB. Storing 2,000 items in this format takes approx ~80KB. This is extremely safe.
+* **Note:** A Firestore document max size is 1MB. v1 only caches 10 entries, so the payload is tiny.
 
 ```json
 {
@@ -33,13 +33,13 @@ We will use a **Singleton Document** to store the pool of recommended candidates
   "pool": [
     {
       "id": "clan_h4ayzw",  // Clan Document ID
-      "req": 1200           // Minimum Trophies Requirement
+      "minimumTrophies": 1200 // Minimum Trophies Requirement
     },
     {
       "id": "clan_b2x9aa",
-      "req": 0
+      "minimumTrophies": 0
     },
-    // ... ~1,000 to 2,000 items
+    // ... up to 10 items
   ]
 }
 ````
@@ -56,12 +56,12 @@ We will use a **Singleton Document** to store the pool of recommended candidates
 1.  **Query "Healthy" Clans:**
     Query the `Clans` collection for candidates that are active but have room to grow.
       * `type` == "anyone can join"
-      * `stats.members` \>= 15 (Avoid empty clans)
-      * `stats.members` \<= 45 (Leave room for at least 5 new members)
-      * *Limit:* 1,000 - 2,000 documents.
+      * `stats.members` \\>= 1 (avoid empty query)
+      * `stats.members` \\<= 45 (Leave room for at least 5 new members)
+      * *Limit:* fetch ~50 docs, shuffle, then keep 10.
 2.  **Map Data:**
-    Extract only the `id` and the `minimumTrophies` field.
-      * `pool = docs.map(d => ({ id: d.id, req: d.data().minimumTrophies || 0 }))`
+    Extract the fields the Join UI needs.
+      * `pool = docs.map(d => ({ id: d.id, minimumTrophies, name, badge, type, members, totalTrophies }))`
 3.  **Save:**
     Overwrite `/System/RecommendedClans` with the new array.
 
@@ -83,11 +83,11 @@ On the "Join Clan" tab load:
 Filter the pool based on the user's current stats. This ensures we never recommend a clan that will reject the user.
 
   * `userTrophies` = `Profile.trophies`
-  * `validClans = pool.filter(item => item.req <= userTrophies)`
+  * `validClans = pool.filter(item => item.minimumTrophies <= userTrophies)`
 
 ### Step 3: Local Shuffle (Randomization)
 
-Pick 20 (or 50) random items from the `validClans` array.
+Pick up to 10 random items from the `validClans` array (whatever the server baked into the doc).
 
   * Use a standard array shuffle (Fisher-Yates) or random selection logic.
   * Extract the IDs: `selectedIds = [ "clan_A", "clan_B", ... ]`

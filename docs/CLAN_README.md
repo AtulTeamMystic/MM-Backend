@@ -60,11 +60,10 @@ Singleton document that caches the “healthy clan” pool built by a scheduled 
 | Field | Type | Description |
 | --- | --- | --- |
 | `updatedAt` | timestamp | Last rebuild time (set by the cron job). |
-| `pool` | array | List of `{ id: string, req: number }` entries (clanId + minimum trophies). Size is capped well below 1 MB (≈2,000 entries). |
+| `pool` | array | List of `{ id, minimumTrophies, name, badge, type, members, totalTrophies }` entries (capped at 10 by the current rollout). |
 | `poolSize` | number | Convenience count of array entries. |
 
-> The scheduled function `recommendedClansPoolJob` rebuilds this doc every hour by querying open, active clans that have 15–45 members. Clients never query `Clans` for “random suggestions”; they only read this doc, filter against local trophies, shuffle, and then hydrate the handful of selected IDs via batched `IN` queries.
-> **Index note:** the job requires a composite index on `(status == active, type == anyone can join, stats.members asc)` to support the range filter/orderBy.
+> The scheduled function `recommendedClansPoolJob` rebuilds this doc every hour by scanning the top clans ordered by `stats.members`, filtering server-side for `status === "active"`, `type === "anyone can join"`, and member counts between 1 and 45 so new clans can still surface. Clients never query `Clans` for “random suggestions”; they only read this doc, filter against local trophies, shuffle, and then hydrate the handful of selected IDs via batched `IN` queries. The pool currently stores up to 10 entries per rebuild.
 
 ### Chat Rooms
 
@@ -125,13 +124,13 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 | `unbookmarkClan` | `{ opId, clanId }` | `{ clanId }` | Removes bookmark snapshot + ID. |
 | `getBookmarkedClans` | `{}` | `{ bookmarks: BookmarkSnapshot[] }` | Returns cached bookmark entries sorted by `addedAt`. No live clan reads happen here. |
 | `refreshBookmarkedClans` | `{ clanIds: string[] }` | `{ bookmarks: BookmarkSnapshot[] }` | Batch refresh for stale entries: reads the requested clans, updates cached fields + `lastRefreshedAt`, and returns the updated snapshots. |
-| `getRecommendedClansPool` | `{}` | `{ updatedAt: number\|null, pool: [{ id, req }] }` | Authenticated callable that proxies the `/System/RecommendedClans` singleton so clients can cache the pool and filter/shuffle locally. |
+| `getRecommendedClansPool` | `{}` | `{ updatedAt: number\|null, pool: [{ id, minimumTrophies }] }` | Authenticated callable that proxies the `/System/RecommendedClans` singleton so clients can cache the pool and filter/shuffle locally. |
 
 `BookmarkSnapshot` objects contain `{ clanId, name, badge, type, memberCount, totalTrophies, addedAt, lastRefreshedAt }`. Clients render the Bookmarks UI directly from these cached fields and only call `refreshBookmarkedClans` for entries whose `lastRefreshedAt` exceeds a freshness window (e.g., older than 30 minutes) or when the user explicitly requests a manual refresh.
 
 **Recommended clans flow:**  
-1. Scheduled job `recommendedClansPoolJob` rebuilds `/System/RecommendedClans` every hour by querying active “anyone can join” clans with 15–45 members (room to grow) and writing `{ id, req }` entries.  
-2. Unity calls `getRecommendedClansPool` once per Join tab session (1 read via callable) and caches the payload for ~30 minutes.  
+1. Scheduled job `recommendedClansPoolJob` rebuilds `/System/RecommendedClans` every hour by querying active “anyone can join” clans with 1–45 members and writing `{ id, minimumTrophies, ... }` entries.  
+2. Unity calls `getRecommendedClansPool` once per Join tab session (1 read via callable) and caches the payload for ~30 minutes. On a cold deploy (no pool doc yet) the callable automatically rebuilds the cache before responding, so the first call may take a moment but subsequent calls are cached.  
 3. Locally filter by the player’s trophies (`req <= playerTrophies`), shuffle the filtered list, and pick ~20 IDs.  
 4. Hydrate those IDs with 1–2 `IN` queries against `/Clans` (FireStore’s limit is 30 IDs per query) to display cards.  
 5. If the cache expires, simply re-call the function; the server-side document keeps reads predictable and avoids hammering the live `Clans` collection.

@@ -1665,13 +1665,19 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 {
   "updatedAt": 1740002400000,
   "pool": [
-    { "id": "clan_vortex", "req": 1800 },
-    { "id": "clan_drifters", "req": 0 },
-    { "id": "clan_steel", "req": 3200 }
+    {
+      "id": "clan_vortex",
+      "minimumTrophies": 1800,
+      "name": "Vortex",
+      "badge": "badge_vortex",
+      "type": "anyone can join",
+      "members": 12,
+      "totalTrophies": 4860
+    }
   ]
 }
 ```
-**Notes:** Pool entries contain only the clanId (`id`) and the minimum trophy requirement (`req`). Clients cache this payload (e.g., 30 minutes), filter on `req <= playerTrophies`, shuffle, pick 20–30 IDs, then hydrate those clans with one or two `IN` queries. The callable requires auth to prevent anonymous scraping.
+**Notes:** Pool entries contain clanId plus the data needed for thumbnail cards (`minimumTrophies`, `name`, `badge`, `type`, `members`, `totalTrophies`). The current rollout stores up to 10 entries per rebuild (tweakable via code). Clients cache this payload (e.g., 30 minutes), filter on `minimumTrophies <= playerTrophies`, shuffle, pick the rows they want to show, then hydrate those clans with one or two `IN` queries. The callable requires auth to prevent anonymous scraping.
 **Errors:** `UNAUTHENTICATED`, `FAILED_PRECONDITION`
 
 ---
