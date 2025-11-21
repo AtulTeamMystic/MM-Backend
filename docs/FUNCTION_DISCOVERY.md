@@ -41,7 +41,7 @@ Functions for managing player spells and loadouts.
 
 | Function | Purpose | Trigger |
 | --- | --- | --- |
-| `upgradeSpell` | Unlocks level 0 â†' 1 or levels up an owned spell, deducting spell tokens and writing an idempotent receipt. | HTTPS `onCall` |
+| `upgradeSpell` | Unlocks level 0 ï¿½' 1 or levels up an owned spell, deducting spell tokens and writing an idempotent receipt. | HTTPS `onCall` |
 | `setLoadout` | Writes a custom spell deck configuration by slot. | HTTPS `onCall` |
 | `equipCosmetics` | Applies spell-focused cosmetics onto the active loadout. | HTTPS `onCall` |
 | `setSpellDeck` | Bulk updates a single deck's spell list. | HTTPS `onCall` |
@@ -73,7 +73,7 @@ Functions for creating, joining, and managing clans (all HTTPS `onCall`, region 
 | `createClan` | Creates a clan and adds the caller as leader. |
 | `updateClanSettings` | Updates clan presentation, type, badge, and requirements. |
 | `deleteClan` | Deletes an empty clan (leader-only). |
-| `joinClan` | Joins an “anyone can join” clan instantly. |
+| `joinClan` | Joins an ï¿½anyone can joinï¿½ clan instantly. |
 | `requestToJoinClan` | Creates a join request for invite-only clans. |
 | `cancelJoinRequest` | Removes the callerâ€™s pending request. |
 | `leaveClan` | Leaves the current clan, handling leadership succession. |
@@ -95,6 +95,7 @@ Functions for creating, joining, and managing clans (all HTTPS `onCall`, region 
 | `bookmarkClan` / `unbookmarkClan` | Adds/removes clan bookmarks under `/Players/{uid}/Social`, storing cached snapshots for cheap reads. |
 | `getBookmarkedClans` | Returns the caller's cached bookmark list (no `/Clans` reads). |
 | `refreshBookmarkedClans` | Batch-refreshes stale bookmark snapshots for selected clan IDs. |
+| `getRecommendedClansPool` | Returns the pre-built `/System/RecommendedClans` pool so clients can filter/shuffle locally before hydrating a handful of clan IDs. |
 | `getClanDetails` | Fetches clan summary, roster, and (for officers) pending requests. |
 | `getMyClanDetails` | Same payload as `getClanDetails` but derives the clanId from `/Players/{uid}/Social/Clan`. |
 | `searchClans` | Searches by name with trophy/location/language filters. |

@@ -62,6 +62,7 @@ The schema is designed with the following principles to ensure performance, scal
   /Participants/{uid}
 /Rooms/{roomId}
   /Messages/{messageId}
+/System/RecommendedClans (singleton)
 /presence/online/{uid}        (Realtime Database)
 /presence/lastSeen/{uid}      (Realtime Database mirror source)
 ```
@@ -104,6 +105,16 @@ Under `/Players/{uid}/Social`:
 > Listen to `/Players/{uid}/Social/Clan` at startup; it is the canonical pointer indicating whether the user currently belongs to a clan and what role they hold.
 
 `ClanBookmarks` deliberately caches the presentation data needed by the UI so `getBookmarkedClans` is always a single read. When entries grow stale (check `lastRefreshedAt` client-side), call `refreshBookmarkedClans` with the relevant `clanIds`; that callable reads `/Clans/{clanId}` in batch, writes updated snapshots back into `bookmarks`, and returns the refreshed payload for immediate UI use.
+
+### `/System/RecommendedClans`
+
+Singleton doc used for the “smart pool” join flow. A scheduled job rebuilds it hourly so clients never have to run an expensive “random clan” query.
+
+* `updatedAt` *(timestamp)* – server timestamp of the last rebuild.
+* `poolSize` *(number)* – number of entries currently stored.
+* `pool` *(array)* – list of `{ id: string, req: number }` where `id` is the clanId and `req` is its `minimumTrophies`.
+
+Clients call `getRecommendedClansPool`, cache the payload (e.g., 30 minutes), filter the pool locally by the user’s trophies, shuffle it, and only hydrate the handful of selected IDs with batched `IN` queries. The scheduled job requires a composite index on `(status == active, type == anyone can join, stats.members orderBy asc)` to satisfy the range filter.
 
 #### Global Chat
 

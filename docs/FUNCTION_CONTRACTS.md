@@ -1657,6 +1657,25 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 
 ---
 
+### `getRecommendedClansPool`
+**Purpose:** Returns the hourly-generated pool stored at `/System/RecommendedClans` so clients can filter/shuffle locally before hydrating specific clan IDs.
+**Input:** `{}`
+**Output example:**
+```json
+{
+  "updatedAt": 1740002400000,
+  "pool": [
+    { "id": "clan_vortex", "req": 1800 },
+    { "id": "clan_drifters", "req": 0 },
+    { "id": "clan_steel", "req": 3200 }
+  ]
+}
+```
+**Notes:** Pool entries contain only the clanId (`id`) and the minimum trophy requirement (`req`). Clients cache this payload (e.g., 30 minutes), filter on `req <= playerTrophies`, shuffle, pick 20–30 IDs, then hydrate those clans with one or two `IN` queries. The callable requires auth to prevent anonymous scraping.
+**Errors:** `UNAUTHENTICATED`, `FAILED_PRECONDITION`
+
+---
+
 ### `getClanDetails`
 **Purpose:** Returns clan summary plus roster entries (each member includes `displayName`, `avatarId`, `level`, `role`, `trophies`, `joinedAt`). Pending requests are included when the caller is officer+. Member rows mirror `/Clans/{clanId}/Members/{uid}`, which is kept up to date when players change profile fields.
 **Input:**

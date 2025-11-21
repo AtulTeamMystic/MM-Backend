@@ -53,6 +53,19 @@ This document is the canonical reference for the Mystic Motors clan + chat backe
 
 > The `/Players/{uid}/Social/Clan` singleton is the canonical "Am I in a clan?" flag. Read or listen to it at boot to discover the current clanId and role, then pass that clanId into `getClanDetails` (or call `getMyClanDetails` below) to hydrate the roster.
 
+### `/System/RecommendedClans`
+
+Singleton document that caches the “healthy clan” pool built by a scheduled job. Clients read this once per session, filter locally, and only hydrate the handful of clan IDs they plan to show.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `updatedAt` | timestamp | Last rebuild time (set by the cron job). |
+| `pool` | array | List of `{ id: string, req: number }` entries (clanId + minimum trophies). Size is capped well below 1 MB (≈2,000 entries). |
+| `poolSize` | number | Convenience count of array entries. |
+
+> The scheduled function `recommendedClansPoolJob` rebuilds this doc every hour by querying open, active clans that have 15–45 members. Clients never query `Clans` for “random suggestions”; they only read this doc, filter against local trophies, shuffle, and then hydrate the handful of selected IDs via batched `IN` queries.
+> **Index note:** the job requires a composite index on `(status == active, type == anyone can join, stats.members asc)` to support the range filter/orderBy.
+
 ### Chat Rooms
 
 ```
@@ -112,8 +125,16 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 | `unbookmarkClan` | `{ opId, clanId }` | `{ clanId }` | Removes bookmark snapshot + ID. |
 | `getBookmarkedClans` | `{}` | `{ bookmarks: BookmarkSnapshot[] }` | Returns cached bookmark entries sorted by `addedAt`. No live clan reads happen here. |
 | `refreshBookmarkedClans` | `{ clanIds: string[] }` | `{ bookmarks: BookmarkSnapshot[] }` | Batch refresh for stale entries: reads the requested clans, updates cached fields + `lastRefreshedAt`, and returns the updated snapshots. |
+| `getRecommendedClansPool` | `{}` | `{ updatedAt: number\|null, pool: [{ id, req }] }` | Authenticated callable that proxies the `/System/RecommendedClans` singleton so clients can cache the pool and filter/shuffle locally. |
 
 `BookmarkSnapshot` objects contain `{ clanId, name, badge, type, memberCount, totalTrophies, addedAt, lastRefreshedAt }`. Clients render the Bookmarks UI directly from these cached fields and only call `refreshBookmarkedClans` for entries whose `lastRefreshedAt` exceeds a freshness window (e.g., older than 30 minutes) or when the user explicitly requests a manual refresh.
+
+**Recommended clans flow:**  
+1. Scheduled job `recommendedClansPoolJob` rebuilds `/System/RecommendedClans` every hour by querying active “anyone can join” clans with 15–45 members (room to grow) and writing `{ id, req }` entries.  
+2. Unity calls `getRecommendedClansPool` once per Join tab session (1 read via callable) and caches the payload for ~30 minutes.  
+3. Locally filter by the player’s trophies (`req <= playerTrophies`), shuffle the filtered list, and pick ~20 IDs.  
+4. Hydrate those IDs with 1–2 `IN` queries against `/Clans` (FireStore’s limit is 30 IDs per query) to display cards.  
+5. If the cache expires, simply re-call the function; the server-side document keeps reads predictable and avoids hammering the live `Clans` collection.
 
 | `getClanDetails` | `{ clanId }` | `{ clan, members, membership, requests? }` | Returns roster sorted by `rolePriority` + trophies, includes pending requests when caller is officer+. Member rows mirror the `/Clans/{clanId}/Members/{uid}` docs, which the backend keeps in sync whenever players update their profile. |
 | `getMyClanDetails` | `{}` | `{ clan, members, membership, requests? }` | Convenience wrapper that reads `/Players/{uid}/Social/Clan.clanId` to hydrate the caller's own clan without passing an ID. |
