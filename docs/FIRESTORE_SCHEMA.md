@@ -130,6 +130,7 @@ Singleton doc used for the “smart pool” join flow. A scheduled job rebuilds 
   * `av`: avatar ID
   * `tr`: trophies at send time
   * `cl`: clan name snapshot
+  * `role`: clan role snapshot of the sender (`member`, `coLeader`, `leader`)
   * `op`: `opId` from the callable payload (used by the client to reconcile optimistic messages)
   * `clientCreatedAt`: optional client timestamp
   * `ts`: server timestamp (indexed)

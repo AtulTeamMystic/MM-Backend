@@ -61,6 +61,7 @@ Contains shared clan metadata (Badge, Name) used for header rendering.
   "u": "uid_555",          // User UID
   "n": "RacerX",           // Display Name
   "m": "Welcome everyone!", // Message Text
+  "role": "member",        // Clan role snapshot
   "op": "opId-guid",       // opId to match client optimistic entry
   "c": "badge_solar",      // Clan Badge ID (for UI rendering)
   "ts": 1739950000000      // Server Timestamp (Critical for sorting)

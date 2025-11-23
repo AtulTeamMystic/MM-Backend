@@ -158,7 +158,7 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 
 **Clan chat transport:**  
 - Clients listen to `/chat_messages/{clanId}` in Realtime Database (`orderByChild("ts").limitToLast(200)`).
-- Each message stores `{ u, n, m, c, av, tr, cl, type, payload?, clientCreatedAt?, op (opId), ts }`.
+- Each message stores `{ u, n, m, c, av, tr, cl, type, role, payload?, clientCreatedAt?, op (opId), ts }`.
 - Players must mirror their `clanId` into `/presence/online/{uid}` so RTDB rules can verify that they only read/write their own clan channel.  
 - System events (join/leave/kick/promotion) are published via backend helpers that push `type: "system"` messages after the transaction succeeds.  
 - `cleanupClanChatHistory` (scheduled every 24h) prunes entries older than 30 days to keep storage predictable.

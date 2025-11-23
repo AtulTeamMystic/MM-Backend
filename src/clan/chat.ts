@@ -22,6 +22,7 @@ export interface ClanChatRTDBMessage {
   tr?: number | null;
   cl?: string | null;
   clientCreatedAt?: string | null;
+  role?: string | null;
   op?: string | null;
   ts?: number | object;
 }

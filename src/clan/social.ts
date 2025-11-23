@@ -217,6 +217,7 @@ const mapClanRtdbMessage = (
     authorClanBadge: (data?.c as string) ?? null,
     type: (data?.type as string) ?? "text",
     text: (data?.m as string) ?? "",
+    authorRole: (data?.role as string) ?? null,
     clientCreatedAt: (data?.clientCreatedAt as string) ?? null,
     createdAt,
     opId: (data?.op as string) ?? null,
@@ -766,7 +767,12 @@ export const sendClanChatMessage = onCall(callableOptions(), async (request) => 
   }
 
   const result = await runTransactionWithReceipt<
-    ChatResponse & { clanId: string; clanName: string | null; clanBadge: string | null }
+    ChatResponse & {
+      clanId: string;
+      clanName: string | null;
+      clanBadge: string | null;
+      memberRole: string;
+    }
   >(
     uid,
     opId,
@@ -818,10 +824,14 @@ export const sendClanChatMessage = onCall(callableOptions(), async (request) => 
         { merge: true },
       );
 
+      const memberData = memberSnap.data() ?? {};
+      const memberRole = typeof memberData.role === "string" ? memberData.role : "member";
+
       return {
         clanId,
         clanName: typeof clanData.name === "string" ? clanData.name : profile.clanName ?? null,
         clanBadge: typeof clanData.badge === "string" ? clanData.badge : null,
+        memberRole,
         messageId: "",
       };
     },
@@ -837,6 +847,7 @@ export const sendClanChatMessage = onCall(callableOptions(), async (request) => 
     cl: result.clanName ?? null,
     av: profile.avatarId ?? null,
     tr: profile.trophies ?? 0,
+    role: result.memberRole,
     clientCreatedAt: typeof payload.clientCreatedAt === "string" ? payload.clientCreatedAt : null,
   });
 
