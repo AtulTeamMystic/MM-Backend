@@ -18,6 +18,7 @@ export interface PlayerProfileData {
   clanName?: string | null;
   language?: string | null;
   location?: string | null;
+  assignedChatRoomId?: string | null;
 }
 
 export interface PlayerClanState {
@@ -192,6 +193,7 @@ export const getPlayerProfile = async (
     clanName: typeof data.clanName === "string" ? data.clanName : null,
     language: typeof data.language === "string" ? data.language : null,
     location: typeof data.location === "string" ? data.location : null,
+    assignedChatRoomId: typeof data.assignedChatRoomId === "string" ? data.assignedChatRoomId : null,
   };
 };
 

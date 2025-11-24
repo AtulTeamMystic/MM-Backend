@@ -1804,8 +1804,26 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 
 ---
 
-### `sendGlobalChatMessage`
-**Purpose:** Enforces room slow mode, trims history, stamps profile + clan snapshot on every message.
+### `assignGlobalChatRoom`
+  **Purpose:** Sticky global chat assignment + load balancing. Runs a Firestore transaction that reuses the caller's previous room when possible, increments `Rooms/{roomId}.connectedCount`, updates `/Players/{uid}/Profile/Profile.assignedChatRoomId`, and creates a new room document if every candidate in the region has reached `hardCap`.
+  **Input:**
+  ```json
+  {
+    "region": "string (optional, normalized server-side)"
+  }
+  ```
+  **Output:** `{ "roomId": "string", "region": "string", "connectedCount": 42, "softCap": 80, "hardCap": 100 }`
+  **Errors:** `UNAUTHENTICATED`, `FAILED_PRECONDITION`
+  
+  Notes:
+  * Clients call this once per session (or when opening the Global Chat tab) and cache the result for ~30 minutes.
+  * The callable enforces sticky room ownership (the profile field is the source of truth) and keeps counts consistent with the RTDB offline trigger.
+  * Regions fall back to `"global"` automatically if the requested region has no active rooms.
+  
+  ---
+  
+  ### `sendGlobalChatMessage`
+  **Purpose:** Verifies that the caller is assigned to the provided `roomId`, enforces slow mode, snapshots profile + clan metadata, and pushes the payload to RTDB (`/chat_messages/{roomId}`) together with the supplied `opId`.
 **Input:**
 ```json
 {
@@ -1818,12 +1836,12 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 **Output:** `{ "roomId": "string", "messageId": "string" }`
 **Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `RESOURCE_EXHAUSTED`, `FAILED_PRECONDITION`, `NOT_FOUND`
 
-Each stored message contains `{ roomId, authorUid, authorDisplayName, authorAvatarId, authorTrophies, authorClanName?, authorClanBadge?, type, text, clientCreatedAt?, createdAt, deleted, deletedReason }`.
+  Each stored message contains `{ roomId, authorUid, authorDisplayName, authorAvatarId, authorTrophies, authorClanName?, authorClanBadge?, type, text, clientCreatedAt?, op, createdAt, deleted, deletedReason }`. Clan streams also include `role`.
 
 ---
 
 ### `getGlobalChatMessages`
-**Purpose:** Returns the most recent global messages (server capped at 25).
+  **Purpose:** Reads the RTDB stream (`orderByChild("ts").limitToLast(n)`) so non-streaming clients can hydrate up to 25 of the newest global messages (returned oldest→newest) before attaching a listener. Also stamps `lastVisitedGlobalChatAt` on `/Players/{uid}/Social/Clan`.
 **Input:**
 ```json
 {
@@ -1864,3 +1882,4 @@ Each stored message contains `{ roomId, authorUid, authorDisplayName, authorAvat
 **Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
 
 ---
+

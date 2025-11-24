@@ -14,6 +14,7 @@ import {
   playerClanBookmarksRef,
   playerClanInvitesRef,
   playerClanStateRef,
+  playerProfileRef,
   setPlayerClanState,
   updatePlayerClanProfile,
   getPlayerProfile,
@@ -23,13 +24,117 @@ import {
   clanChatMessagesRef,
   publishClanSystemMessages,
   pushClanChatMessage,
+  pushGlobalChatMessage,
+  globalChatMessagesRef,
+  GLOBAL_CHAT_HISTORY_FETCH,
+  CLAN_CHAT_HISTORY_FETCH,
 } from "./chat.js";
+import { roomsCollection } from "../chat/rooms.js";
 
 const { FieldValue } = admin.firestore;
-const roomsCollection = () => admin.firestore().collection("Rooms");
-const GLOBAL_CHAT_HISTORY_LIMIT = 100;
 const CHAT_FETCH_LIMIT = 25;
 const MAX_BOOKMARK_REFRESH_BATCH = 20;
+const DEFAULT_GLOBAL_ROOM_REGION = "global";
+const GLOBAL_ROOM_WARMUP_TARGET = 20;
+const GLOBAL_ROOM_SOFT_CAP = 80;
+const GLOBAL_ROOM_HARD_CAP = 100;
+const GLOBAL_ROOM_QUERY_LIMIT = 40;
+
+const sanitizeRoomRegion = (value?: unknown): string | null => {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const cleaned = value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "-");
+  if (cleaned.length === 0) {
+    return null;
+  }
+  return cleaned.slice(0, 40);
+};
+
+const generateRoomId = (region: string) => {
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${region}_${suffix}`;
+};
+
+interface RoomCandidate {
+  id: string;
+  ref: FirebaseFirestore.DocumentReference;
+  region: string;
+  connectedCount: number;
+  softCap: number;
+  hardCap: number;
+  isArchived: boolean;
+  type: string;
+}
+
+const toRoomCandidate = (
+  doc: FirebaseFirestore.QueryDocumentSnapshot,
+  defaultRegion: string,
+): RoomCandidate => {
+  const data = doc.data() ?? {};
+  return {
+    id: doc.id,
+    ref: doc.ref,
+    region: typeof data.region === "string" ? data.region : defaultRegion,
+    connectedCount: Number(data.connectedCount ?? 0),
+    softCap: Number.isFinite(data.softCap) ? Number(data.softCap) : GLOBAL_ROOM_SOFT_CAP,
+    hardCap: Number.isFinite(data.hardCap) ? Number(data.hardCap) : GLOBAL_ROOM_HARD_CAP,
+    isArchived: Boolean(data.isArchived),
+    type: typeof data.type === "string" ? data.type : "global",
+  };
+};
+
+const pickAscending = (rooms: RoomCandidate[]): RoomCandidate | null => {
+  if (rooms.length === 0) {
+    return null;
+  }
+  return [...rooms].sort((a, b) => a.connectedCount - b.connectedCount)[0];
+};
+
+const pickDescending = (rooms: RoomCandidate[]): RoomCandidate | null => {
+  if (rooms.length === 0) {
+    return null;
+  }
+  return [...rooms].sort((a, b) => b.connectedCount - a.connectedCount)[0];
+};
+
+const chooseRoomCandidate = (rooms: RoomCandidate[]): RoomCandidate | null => {
+  const available = rooms.filter(
+    (room) => !room.isArchived && room.type === "global" && room.connectedCount < room.hardCap,
+  );
+  if (available.length === 0) {
+    return null;
+  }
+  const warmTargets = available.filter(
+    (room) => room.connectedCount < Math.min(room.softCap, GLOBAL_ROOM_WARMUP_TARGET),
+  );
+  const warm = pickAscending(warmTargets);
+  if (warm) {
+    return warm;
+  }
+  const underSoftCap = available.filter((room) => room.connectedCount < room.softCap);
+  const soft = pickDescending(underSoftCap);
+  if (soft) {
+    return soft;
+  }
+  return pickAscending(available);
+};
+
+const roomsQueryForRegion = (region: string) =>
+  roomsCollection()
+    .where("type", "==", "global")
+    .where("region", "==", region)
+    .orderBy("connectedCount", "desc")
+    .limit(GLOBAL_ROOM_QUERY_LIMIT);
+
+const loadRoomCandidates = async (
+  transaction: FirebaseFirestore.Transaction,
+  region: string,
+): Promise<RoomCandidate[]> => {
+  const snapshot = await transaction.get(roomsQueryForRegion(region));
+  return snapshot.docs.map((doc) => toRoomCandidate(doc, region));
+};
+
 
 const assertAuthenticated = (request: CallableRequest): string => {
   const uid = request.auth?.uid;
@@ -199,16 +304,17 @@ const serializeChatMessage = (
   };
 };
 
-const mapClanRtdbMessage = (
-  clanId: string,
+const mapRtdbMessage = (
+  streamId: string,
   key: string,
   data: Record<string, unknown> | null,
+  kind: "clan" | "room",
 ) => {
   const createdAt = typeof data?.ts === "number" ? data?.ts : null;
   return {
     messageId: key,
-    roomId: null,
-    clanId,
+    roomId: kind === "room" ? streamId : null,
+    clanId: kind === "clan" ? streamId : null,
     authorUid: (data?.u as string) ?? null,
     authorDisplayName: (data?.n as string) ?? ((data?.type as string) === "system" ? "System" : "Racer"),
     authorAvatarId: (data?.av as number) ?? null,
@@ -653,6 +759,152 @@ export const refreshBookmarkedClans = onCall(callableOptions(), async (request) 
   return { bookmarks: refreshed };
 });
 
+interface AssignGlobalChatRoomRequest {
+  region?: string;
+}
+
+interface AssignGlobalChatRoomResponse {
+  roomId: string;
+  region: string;
+  connectedCount: number;
+  softCap: number;
+  hardCap: number;
+}
+
+export const assignGlobalChatRoom = onCall(callableOptions(), async (request) => {
+  const uid = assertAuthenticated(request);
+  const payload = (request.data ?? {}) as AssignGlobalChatRoomRequest;
+  const requestedRegion = sanitizeRoomRegion(payload.region);
+  const profileRef = playerProfileRef(uid);
+
+  const result = await admin.firestore().runTransaction<AssignGlobalChatRoomResponse>(async (transaction) => {
+    const profileSnap = await transaction.get(profileRef);
+    if (!profileSnap.exists) {
+      throw new HttpsError("failed-precondition", "Player profile not initialised.");
+    }
+    const profileData = profileSnap.data() ?? {};
+    const storedRoomId =
+      typeof profileData.assignedChatRoomId === "string" ? profileData.assignedChatRoomId : null;
+    const locationRegion = sanitizeRoomRegion(profileData.location);
+    const region = requestedRegion ?? locationRegion ?? DEFAULT_GLOBAL_ROOM_REGION;
+
+    const attachToExisting = async (roomId: string | null): Promise<AssignGlobalChatRoomResponse | null> => {
+      if (!roomId) {
+        return null;
+      }
+      const existingRef = roomsCollection().doc(roomId);
+      const existingSnap = await transaction.get(existingRef);
+      if (!existingSnap.exists) {
+        return null;
+      }
+      const data = existingSnap.data() ?? {};
+      if (data.type !== "global" || Boolean(data.isArchived)) {
+        return null;
+      }
+      const hardCap = Number.isFinite(data.hardCap) ? Number(data.hardCap) : GLOBAL_ROOM_HARD_CAP;
+      const connectedCount = Number(data.connectedCount ?? 0);
+      if (connectedCount >= hardCap) {
+        return null;
+      }
+      const softCap = Number.isFinite(data.softCap) ? Number(data.softCap) : GLOBAL_ROOM_SOFT_CAP;
+      transaction.update(existingRef, {
+        connectedCount: connectedCount + 1,
+        updatedAt: FieldValue.serverTimestamp(),
+        lastActivityAt: FieldValue.serverTimestamp(),
+      });
+      transaction.set(
+        profileRef,
+        {
+          assignedChatRoomId: roomId,
+          updatedAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true },
+      );
+      return {
+        roomId,
+        region: typeof data.region === "string" ? data.region : region,
+        connectedCount: connectedCount + 1,
+        softCap,
+        hardCap,
+      };
+    };
+
+    const reuseRoom = await attachToExisting(storedRoomId);
+    if (reuseRoom) {
+      return reuseRoom;
+    }
+
+    let regionUsed = region;
+    let candidate = chooseRoomCandidate(await loadRoomCandidates(transaction, region));
+    if (!candidate && region !== DEFAULT_GLOBAL_ROOM_REGION) {
+      const fallback = await loadRoomCandidates(transaction, DEFAULT_GLOBAL_ROOM_REGION);
+      candidate = chooseRoomCandidate(fallback);
+      if (candidate) {
+        regionUsed = candidate.region;
+      }
+    }
+
+    if (candidate) {
+      const newCount = candidate.connectedCount + 1;
+      transaction.update(candidate.ref, {
+        connectedCount: newCount,
+        updatedAt: FieldValue.serverTimestamp(),
+        lastActivityAt: FieldValue.serverTimestamp(),
+      });
+      transaction.set(
+        profileRef,
+        {
+          assignedChatRoomId: candidate.id,
+          updatedAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true },
+      );
+      return {
+        roomId: candidate.id,
+        region: candidate.region,
+        connectedCount: newCount,
+        softCap: candidate.softCap,
+        hardCap: candidate.hardCap,
+      };
+    }
+
+    const newRoomRegion = regionUsed ?? region;
+    const newRoomId = generateRoomId(newRoomRegion);
+    const newRoomRef = roomsCollection().doc(newRoomId);
+    transaction.set(newRoomRef, {
+      roomId: newRoomId,
+      region: newRoomRegion,
+      type: "global",
+      connectedCount: 1,
+      softCap: GLOBAL_ROOM_SOFT_CAP,
+      hardCap: GLOBAL_ROOM_HARD_CAP,
+      slowModeSeconds: 3,
+      maxMessages: 200,
+      isArchived: false,
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+      lastActivityAt: FieldValue.serverTimestamp(),
+    });
+    transaction.set(
+      profileRef,
+      {
+        assignedChatRoomId: newRoomId,
+        updatedAt: FieldValue.serverTimestamp(),
+      },
+      { merge: true },
+    );
+    return {
+      roomId: newRoomId,
+      region: newRoomRegion,
+      connectedCount: 1,
+      softCap: GLOBAL_ROOM_SOFT_CAP,
+      hardCap: GLOBAL_ROOM_HARD_CAP,
+    };
+  });
+
+  return result;
+});
+
 interface SendGlobalChatMessageRequest {
   opId: string;
   roomId: string;
@@ -682,11 +934,13 @@ export const sendGlobalChatMessage = onCall(callableOptions(), async (request) =
     throw new HttpsError("failed-precondition", "Player profile not initialised.");
   }
   const clanSummary = await fetchClanSummaryLite(profile.clanId);
+  if (profile.assignedChatRoomId && profile.assignedChatRoomId !== roomId) {
+    throw new HttpsError("failed-precondition", "Room mismatch. Call assignGlobalChatRoom first.");
+  }
   await createInProgressReceipt(uid, opId, "sendGlobalChatMessage");
   const now = FieldValue.serverTimestamp();
   const roomRef = roomsCollection().doc(roomId);
   const rateRef = playerChatRateRef(uid);
-  const messageRef = roomRef.collection("Messages").doc();
 
   const result = await runTransactionWithReceipt<ChatResponse>(
     uid,
@@ -706,21 +960,6 @@ export const sendGlobalChatMessage = onCall(callableOptions(), async (request) =
         throw new HttpsError("resource-exhausted", "Slow mode in effect. Please wait.");
       }
 
-      transaction.set(messageRef, {
-        roomId,
-        authorUid: uid,
-        authorDisplayName: profile.displayName,
-        authorAvatarId: profile.avatarId,
-        authorTrophies: profile.trophies ?? 0,
-        authorClanName: clanSummary?.name ?? profile.clanName ?? null,
-        authorClanBadge: clanSummary?.badge ?? null,
-        type: "text",
-        text,
-        clientCreatedAt: typeof payload.clientCreatedAt === "string" ? payload.clientCreatedAt : null,
-        createdAt: now,
-        deleted: false,
-        deletedReason: null,
-      });
       transaction.set(
         rateRef,
         {
@@ -730,12 +969,24 @@ export const sendGlobalChatMessage = onCall(callableOptions(), async (request) =
         { merge: true },
       );
 
-      return { messageId: messageRef.id, roomId };
+      return { messageId: "", roomId };
     },
   );
 
-  await trimMessages(roomRef.collection("Messages"), GLOBAL_CHAT_HISTORY_LIMIT);
-  return { roomId, messageId: result.messageId };
+  const messageId = await pushGlobalChatMessage(roomId, {
+    u: uid,
+    n: profile.displayName,
+    type: "text",
+    m: text,
+    c: clanSummary?.badge ?? null,
+    cl: clanSummary?.name ?? profile.clanName ?? null,
+    av: profile.avatarId ?? null,
+    tr: profile.trophies ?? 0,
+    op: opId,
+    clientCreatedAt: typeof payload.clientCreatedAt === "string" ? payload.clientCreatedAt : null,
+  });
+
+  return { roomId, messageId: messageId ?? "" };
 });
 
 interface SendClanChatMessageRequest {
@@ -863,29 +1114,30 @@ export const getGlobalChatMessages = onCall(callableOptions(), async (request) =
   const uid = assertAuthenticated(request);
   const payload = (request.data ?? {}) as GetGlobalChatMessagesRequest;
   const roomId = requireRoomId(payload.roomId);
-  const limit = clampFetchLimit(payload.limit);
+  const limit = Math.min(clampFetchLimit(payload.limit), GLOBAL_CHAT_HISTORY_FETCH);
 
-  const roomRef = roomsCollection().doc(roomId);
-  const roomSnap = await roomRef.get();
+  const roomSnap = await roomsCollection().doc(roomId).get();
   if (!roomSnap.exists) {
     throw new HttpsError("not-found", "Room not found.");
   }
 
-  const messagesSnap = await roomRef
-    .collection("Messages")
-    .orderBy("createdAt", "desc")
-    .limit(limit)
-    .get();
+  const chatSnap = await globalChatMessagesRef(roomId).orderByChild("ts").limitToLast(limit).get();
+  const messages: ReturnType<typeof mapRtdbMessage>[] = [];
+  if (chatSnap.exists()) {
+    chatSnap.forEach((child) => {
+      messages.push(
+        mapRtdbMessage(roomId, child.key ?? "", (child.val() as Record<string, unknown>) ?? {}, "room"),
+      );
+    });
+    messages.sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
+  }
 
   await playerClanStateRef(uid).set(
     { lastVisitedGlobalChatAt: FieldValue.serverTimestamp() },
     { merge: true },
   );
 
-  return {
-    roomId,
-    messages: messagesSnap.docs.map(serializeChatMessage).reverse(),
-  };
+  return { roomId, messages };
 });
 
 interface GetClanChatMessagesRequest {
@@ -895,7 +1147,7 @@ interface GetClanChatMessagesRequest {
 export const getClanChatMessages = onCall(callableOptions(), async (request) => {
   const uid = assertAuthenticated(request);
   const payload = (request.data ?? {}) as GetClanChatMessagesRequest;
-  const limit = clampFetchLimit(payload.limit);
+  const limit = Math.min(clampFetchLimit(payload.limit), CLAN_CHAT_HISTORY_FETCH);
 
   const stateSnap = await playerClanStateRef(uid).get();
   const clanId = stateSnap.data()?.clanId;
@@ -913,10 +1165,12 @@ export const getClanChatMessages = onCall(callableOptions(), async (request) => 
     { merge: true },
   );
 
-  const messages: ReturnType<typeof mapClanRtdbMessage>[] = [];
+  const messages: ReturnType<typeof mapRtdbMessage>[] = [];
   if (chatSnap.exists()) {
     chatSnap.forEach((child) => {
-      messages.push(mapClanRtdbMessage(clanId, child.key ?? "", (child.val() as Record<string, unknown>) ?? {}));
+      messages.push(
+        mapRtdbMessage(clanId, child.key ?? "", (child.val() as Record<string, unknown>) ?? {}, "clan"),
+      );
     });
     messages.sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0));
   }

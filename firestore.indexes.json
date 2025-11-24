@@ -105,6 +105,15 @@
         { "fieldPath": "type", "order": "ASCENDING" },
         { "fieldPath": "stats.trophies", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionId": "Rooms",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "region", "order": "ASCENDING" },
+        { "fieldPath": "connectedCount", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": [

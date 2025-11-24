@@ -61,16 +61,32 @@ The schema is designed with the following principles to ensure performance, scal
 /Races/{raceId}
   /Participants/{uid}
 /Rooms/{roomId}
-  /Messages/{messageId}
 /System/RecommendedClans (singleton)
 
 Realtime Database (RTDB):
 ```
-/chat_messages/{clanId}/{messageId}
+/chat_messages/{streamId}/{messageId}
 /presence/online/{uid}
+/presence/lastSeen/{uid}
 ```
-/presence/lastSeen/{uid}      (Realtime Database mirror source)
-```
+`streamId` is either a clanId or a global roomId. `/presence/lastSeen` is a maintenance feed mirrored into Firestore (`Players/{uid}/Social/Profile.lastActiveAt`) by the scheduled job in `src/Socials/presence.ts`.
+
+### `/Rooms/{roomId}`
+
+Firestore doc that tracks global chat rooms and their load-balancing metadata. Fields:
+
+* `roomId` *(string)* ? mirror of the doc ID (`{region}_{random}`).
+* `region` *(string)* ? normalized lowercase string (e.g. `global`, `us-east`).
+* `type` *(string)* ? `"global"` today, reserved for `"system"` rooms later.
+* `connectedCount` *(number)* ? incremented by `assignGlobalChatRoom`, decremented by the RTDB trigger when `/presence/online/{uid}` is removed.
+* `softCap` *(number)* ? preferred occupancy (default 80). Assignment prioritizes rooms below this threshold.
+* `hardCap` *(number)* ? absolute maximum (default 100). Rooms at this limit are skipped.
+* `slowModeSeconds` *(number)* ? per-user delay enforced by `sendGlobalChatMessage`.
+* `maxMessages` *(number)* ? used by the scheduled cleanup job when trimming RTDB history.
+* `isArchived` *(boolean)* ? prevents new assignments when moderators retire a room.
+* `createdAt`, `updatedAt`, `lastActivityAt` *(timestamp)* ? set by Cloud Functions.
+
+Messages for both global and clan chat live exclusively in RTDB (`/chat_messages/{streamId}/{messageId}`); there is no `Messages` subcollection under `/Rooms`.
 
 ### `/Clans` domain
 
@@ -95,8 +111,8 @@ Main clan document keyed by a generated `clan_*` ID. Fields:
 ##### Subcollections
 
 * `/Members/{uid}` - `{ uid, role, rolePriority, trophies, joinedAt, displayName, avatarId, level, lastPromotedAt }`.
-* `/Requests/{uid}` – `{ uid, displayName, trophies, message?, requestedAt }`.
-* `/Chat/{messageId}` - `{ clanId, authorUid?, authorDisplayName, authorAvatarId?, authorTrophies?, authorClanName?, authorClanBadge?, type ("text" or system), text?, payload?, clientCreatedAt?, createdAt, deleted?, deletedReason? }`.
+* `/Requests/{uid}` - `{ uid, displayName, trophies, message?, requestedAt }`.
+* Clan chat history now lives exclusively in Realtime Database (`/chat_messages/{clanId}/{messageId}`) so the Firestore tree stays compact.
 
 #### Player-side clan metadata
 
@@ -119,29 +135,26 @@ Singleton doc used for the “smart pool” join flow. A scheduled job rebuilds 
 * `poolSize` *(number)* – number of entries currently stored.
 * `pool` *(array)* – list of `{ id, minimumTrophies, name, badge, type, members, totalTrophies }` where each entry mirrors the lightweight clan card data (current limit: 10 entries).
 
-### Realtime Database – Clan Chat
+### Realtime Database - Chat Streams
 
-* `/chat_messages/{clanId}/{messageId}` holds the live clan chat feed. Each node stores:
-  * `u`: author UID (or `null` for system messages)
-  * `n`: display name snapshot
-  * `m`: message text (optional for system)
-  * `type`: `"text"` or `"system"`
-  * `c`: clan badge snapshot
-  * `av`: avatar ID
-  * `tr`: trophies at send time
-  * `cl`: clan name snapshot
-  * `role`: clan role snapshot of the sender (`member`, `coLeader`, `leader`)
-  * `op`: `opId` from the callable payload (used by the client to reconcile optimistic messages)
-  * `clientCreatedAt`: optional client timestamp
-  * `ts`: server timestamp (indexed)
-* `/presence/online/{uid}` mirrors `{ clanId, lastSeen }` while the client is connected. RTDB security rules ensure users can only read/write the channel that matches their presence entry.
+* `/chat_messages/{streamId}/{messageId}` captures both clan and global chat. Each node contains:
+  * `u` - author UID (or `null` for system events)
+  * `n` - display name snapshot
+  * `m` - text (optional when `type === "system"`)
+  * `type` - `"text"` or `"system"`
+  * `c` - clan badge snapshot
+  * `cl` - clan name snapshot
+  * `av` - avatar ID snapshot
+  * `tr` - trophies snapshot
+  * `role` - clan role snapshot (present only when `streamId` is a clanId)
+  * `payload` - optional JSON blob for system events
+  * `clientCreatedAt` - optional ISO8601 from the client
+  * `op` - `opId` from the callable payload (used to reconcile optimistic placeholders)
+  * `ts` - RTDB server timestamp (indexed so clients can `startAt()` for zero-history listeners)
+* `/presence/online/{uid}` stores `{ roomId, clanId, lastSeen }`. Clients must set it before attaching listeners and register `onDisconnect().remove()` so the entry disappears on crash/app close. RTDB rules only allow `/chat_messages/{streamId}` reads when this node matches the requested `roomId` or `clanId`.
+* `/presence/lastSeen/{uid}` can be touched periodically by the client; the scheduled `presence.mirrorLastSeen` function copies the freshest values into `/Players/{uid}/Social/Profile.lastActiveAt` for HUD surfaces.
 
-Clients call `getRecommendedClansPool`, cache the payload (e.g., 30 minutes), filter the pool locally by the user's trophies, shuffle it, and only hydrate the handful of selected IDs with batched `IN` queries.
-
-#### Global Chat
-
-* `/Rooms/{roomId}` – `roomId`, `type` (`"global"` or `"system"`), `language`, `location?`, `slowModeSeconds`, `maxMessages`, timestamps.
-* `/Rooms/{roomId}/Messages/{messageId}` - `roomId`, `authorUid`, `authorDisplayName`, `authorAvatarId`, `authorTrophies`, `authorClanName?`, `authorClanBadge?`, `type`, `text`, `clientCreatedAt`, `createdAt`, `deleted`, `deletedReason`.
+Global chat rooms themselves live in Firestore `/Rooms/{roomId}` (see earlier section). Clients never listen to those documents directly; they call `assignGlobalChatRoom`, cache the returned room id, and hydrate messages from RTDB.
 ---
 
 ## Core Collections
@@ -543,6 +556,8 @@ A consolidated document containing all UI-facing fields for the player's profile
 ```
 
 Booster timers are surfaced through this document via the `boosters` map. Each entry is keyed by booster `subType` (for example `coin` or `exp`) and includes `activeUntil` (epoch milliseconds) and `stackedCount`, allowing the HUD to reflect stacked activations without additional reads.
+
+`assignedChatRoomId` *(string, optional)* now lives in this document as well. It is written exclusively by the backend (`assignGlobalChatRoom` + the RTDB offline trigger) so the server can reopen the same global bucket on reconnect. Clients read it for diagnostics only; the callable is the canonical way to fetch the current room.
 
 Referral metadata lives alongside other HUD fields:
 

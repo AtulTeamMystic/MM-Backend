@@ -1,12 +1,18 @@
 {
   "rules": {
     "chat_messages": {
-      "$clanId": {
-        ".indexOn": ["ts"],
-        ".read": "auth != null && root.child('presence/online').child(auth.uid).child('clanId').val() === $clanId",
-        "$msgId": {
-          ".write": "auth != null",
-          ".validate": "newData.hasChildren(['u','n','type','ts']) && (!newData.child('m').exists() || (newData.child('m').isString() && newData.child('m').val().length <= 512))"
+      "clans": {
+        "$clanId": {
+          ".indexOn": ["ts"],
+          ".read": "auth != null && root.child('presence/online').child(auth.uid).child('clanId').val() === $clanId",
+          ".write": false
+        }
+      },
+      "global": {
+        "$roomId": {
+          ".indexOn": ["ts"],
+          ".read": "auth != null && root.child('presence/online').child(auth.uid).child('roomId').val() === $roomId",
+          ".write": false
         }
       }
     },

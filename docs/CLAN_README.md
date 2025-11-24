@@ -38,7 +38,7 @@ This document is the canonical reference for the Mystic Motors clan + chat backe
 
 - `/Members/{uid}` ? `{ uid, role, rolePriority, trophies, joinedAt, displayName, avatarId, level, lastPromotedAt }`
 - `/Requests/{uid}` ? `{ uid, displayName, trophies, message?, requestedAt }`
-- **Clan chat history now lives in Realtime Database** under `/chat_messages/{clanId}/{messageId}`. See the chat section below for the RTDB schema.
+- **Clan chat history now lives in Realtime Database** under `/chat_messages/clans/{clanId}/{messageId}` (global rooms live alongside them under `/chat_messages/global`). See the chat section below for the RTDB schema.
 
 > **Realtime tip:** Attach a Firestore listener to `Clans/{clanId}/Members` (optionally with ordering) to stream roster changes into Unity. Each member lives in its own document, so updates remain fine-grained and cheap.
 
@@ -65,23 +65,17 @@ Singleton document that caches the “healthy clan” pool built by a scheduled 
 
 > The scheduled function `recommendedClansPoolJob` rebuilds this doc every hour by scanning the top clans ordered by `stats.members`, filtering server-side for `status === "active"`, `type === "anyone can join"`, and member counts between 1 and 45 so new clans can still surface. Clients never query `Clans` for “random suggestions”; they only read this doc, filter against local trophies, shuffle, and then hydrate the handful of selected IDs via batched `IN` queries. The pool currently stores up to 10 entries per rebuild.
 
-### Chat Rooms
+### Chat Rooms (Firestore + Realtime Database)
 
-```
-/Rooms/{roomId}
-  /Messages/{messageId}
-```
-
-| Field | Description |
+| Path | Description |
 | --- | --- |
-| `roomId` | e.g. `global_en`, `global_hi`. |
-| `type` | `"global"` or `"system"`. |
-| `language` / `location?` | Used for UI filtering. |
-| `slowModeSeconds` | Minimum delay between messages per user. |
-| `maxMessages` | Soft cap for history trimming. |
-| `Messages` docs | `{ roomId, authorUid, authorDisplayName, authorAvatarId, authorTrophies, authorClanName?, authorClanBadge?, type, text, clientCreatedAt?, createdAt, deleted, deletedReason }`. |
+| `/Rooms/{roomId}` | Firestore doc that tracks metadata for each global room: `{ roomId, region, type, connectedCount, softCap, hardCap, slowModeSeconds, maxMessages, isArchived, createdAt, updatedAt, lastActivityAt }`. Cloud Functions mutate these fields; clients read them only via the callables. |
+| `/Players/{uid}/Profile/Profile.assignedChatRoomId` | Sticky pointer set by `assignGlobalChatRoom`. Used by the callable to reuse a preferred room and by ops/debug tooling. |
+| `/chat_messages/clans/{clanId}/{messageId}` (Realtime Database) | Dedicated subtree for clan chat streams so they’re easy to inspect. Messages store `{ u, n, m, type, c, cl, av, tr, role, op, ts, clientCreatedAt? }`. |
+| `/chat_messages/global/{roomId}/{messageId}` (Realtime Database) | Global chat rooms keyed by `roomId` using the same message payload (without `role`). |
+| `/presence/online/{uid}` (Realtime Database) | Presence node set by the client that includes `{ roomId, clanId, lastSeen }`. RTDB security rules check this node to decide whether a user may read `/chat_messages/clans/*` or `/chat_messages/global/*`. |
 
-The backend trims both global and clan chat history to a server-configured threshold (currently 100 messages) so collections stay bounded.
+Messages never live in Firestore now; the callable pushes them straight to RTDB and scheduled jobs (`cleanupChatHistory`) prune old entries (30 days for clans, 24h for global). Presence removal fires an RTDB trigger that decrements `Rooms/{roomId}.connectedCount`, keeping load-balancing accurate without extra Firestore reads.
 
 ---
 
@@ -150,18 +144,18 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 | --- | --- | --- | --- |
 | `sendGlobalChatMessage` | `{ opId, roomId, text, clientCreatedAt? }` | `{ roomId, messageId }` | Enforces slow mode, trims to backend-configured history, stamps display name, avatarId, trophies, and clan snapshot for every message. |
 | `getGlobalChatMessages` | `{ roomId, limit? }` | `{ roomId, messages: Message[] }` | Returns up to 25 most recent global messages, newest-last, reflecting the stored metadata. |
-| `sendClanChatMessage` | `{ opId, clanId?, text, clientCreatedAt? }` | `{ clanId, messageId }` | Requires current membership, enforces clan slow mode, writes directly to RTDB (`/chat_messages/{clanId}`) with the author’s display name, avatar, trophies, and clan badge snapshot. |
+| `sendClanChatMessage` | `{ opId, clanId?, text, clientCreatedAt? }` | `{ clanId, messageId }` | Requires current membership, enforces clan slow mode, writes directly to RTDB (`/chat_messages/clans/{clanId}`) with the author’s display name, avatar, trophies, badge, and role snapshot. |
 | `getClanChatMessages` | `{ limit? }` | `{ clanId, messages: Message[] }` | Reads the latest RTDB messages (default 25) for callers that can’t maintain a listener. |
 | `cleanupClanChatHistory` | `schedule` | n/a | Scheduled job (every 24h) that prunes RTDB messages older than 30 days. |
 
 `Message` objects contain `{ messageId, roomId?, clanId?, authorUid, authorDisplayName, authorAvatarId, authorTrophies, authorClanName?, authorClanBadge?, type, text, clientCreatedAt?, createdAt, deleted, deletedReason }`.
 
-**Clan chat transport:**  
-- Clients listen to `/chat_messages/{clanId}` in Realtime Database (`orderByChild("ts").limitToLast(200)`).
-- Each message stores `{ u, n, m, c, av, tr, cl, type, role, payload?, clientCreatedAt?, op (opId), ts }`.
-- Players must mirror their `clanId` into `/presence/online/{uid}` so RTDB rules can verify that they only read/write their own clan channel.  
-- System events (join/leave/kick/promotion) are published via backend helpers that push `type: "system"` messages after the transaction succeeds.  
-- `cleanupClanChatHistory` (scheduled every 24h) prunes entries older than 30 days to keep storage predictable.
+**Chat transport:**
+- Call ssignGlobalChatRoom when opening the global tab and cache the { roomId, updatedAt } pair for ~30 minutes to avoid redundant assignments.
+- Write /presence/online/{uid} with { roomId, clanId, lastSeen } and register onDisconnect().remove() before attaching listeners. RTDB rules only allow reads when this node matches the requested stream.
+- Listen to /chat_messages/global/{roomId} or /chat_messages/clans/{clanId} with orderByChild(\"ts\").startAt(Date.now()) for zero-history streaming.
+- Post messages exclusively through the Cloud Functions (never client push) so slow mode, opId idempotency, and profile snapshots remain authoritative.
+- System events (join/leave/kick/promote) appear as 	ype: \"system\" rows in the clan stream immediately after their Firestore transactions succeed.
 
 ---
 
@@ -175,6 +169,9 @@ All functions are HTTPS `onCall`, `us-central1`, AppCheck optional. Every reques
 - **Error Codes**: Use `invalid-argument`, `failed-precondition`, `permission-denied`, `already-exists`, and `not-found` per scenario so the Unity client can localize copy.
 
 Keep this document synced whenever schema or callable contracts evolve. It is the source-of-truth for gameplay, QA, and LiveOps.
+
+
+
 
 
 
