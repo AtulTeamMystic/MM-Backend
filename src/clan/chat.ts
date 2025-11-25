@@ -27,6 +27,7 @@ export interface ChatRTDBMessage {
   m?: string;
   payload?: Record<string, unknown> | null;
   c?: string | null;
+  cid?: string | null;
   av?: number | null;
   tr?: number | null;
   cl?: string | null;

@@ -63,13 +63,14 @@ Tracks the last assigned room so the server can reopen the same bucket and unity
 
 ### Realtime Database
 
-```
-/chat_messages/{streamId}/{messageId}
+/chat_messages/clans/{clanId}/{messageId}
+/chat_messages/global/{roomId}/{messageId}
   u   => author uid
   n   => display name snapshot
   m   => text (<= 256 chars)
   type => "text" | "system"
   c   => clan badge snapshot (nullable)
+  cid => clanId snapshot (nullable; filled for global when sender has a clan)
   cl  => clan name snapshot (nullable)
   av  => avatar id snapshot
   tr  => trophy snapshot
@@ -79,7 +80,7 @@ Tracks the last assigned room so the server can reopen the same bucket and unity
   clientCreatedAt => optional ISO8601 string from client
 ```
 
-`streamId` can be a clanId or a global roomId. Security rules look at `/presence/online/{uid}` to decide if the client is allowed to read the node.
+Global chats live under `/chat_messages/global`, clan chats under `/chat_messages/clans`. Security rules look at `/presence/online/{uid}` to decide if the client is allowed to read a particular branch.
 
 ```
 /presence/online/{uid}
@@ -97,7 +98,7 @@ Clients must keep this presence node up to date (with `onDisconnect().remove()`)
 | Name | Type | Purpose |
 | --- | --- | --- |
 | `assignGlobalChatRoom` | Callable | Sticky room assignment + load balancing (see Section 2). |
-| `sendGlobalChatMessage` | Callable | Requires `opId` + `roomId`, validates slow mode, reads player profile/clan snapshot, and pushes to `/chat_messages/{roomId}` with that metadata. |
+| `sendGlobalChatMessage` | Callable | Requires `opId` + `roomId`, validates slow mode, reads player profile/clan snapshot, and pushes to `/chat_messages/global/{roomId}` with that metadata (including the clanId snapshot). |
 | `getGlobalChatMessages` | Callable | Fetches the last N RTDB entries (`min(request.limit, 25)`), sorts them oldest?newest, and records `lastVisitedGlobalChatAt`. Primarily for clients that can??Tt stream. |
 | `cleanupChatHistory` | Scheduled | Runs every 24h, trimming clan channels to 30 days and global rooms to 24h. |
 | `onPresenceOffline` | RTDB Trigger | Fires when `/presence/online/{uid}` is deleted (disconnect). Reads `assignedChatRoomId` and decrements `Rooms/{roomId}.connectedCount` in a transaction (clamped >= 0). |

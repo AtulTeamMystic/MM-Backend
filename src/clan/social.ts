@@ -314,7 +314,7 @@ const mapRtdbMessage = (
   return {
     messageId: key,
     roomId: kind === "room" ? streamId : null,
-    clanId: kind === "clan" ? streamId : null,
+    clanId: kind === "clan" ? streamId : ((data?.cid as string) ?? null),
     authorUid: (data?.u as string) ?? null,
     authorDisplayName: (data?.n as string) ?? ((data?.type as string) === "system" ? "System" : "Racer"),
     authorAvatarId: (data?.av as number) ?? null,
@@ -979,6 +979,7 @@ export const sendGlobalChatMessage = onCall(callableOptions(), async (request) =
     type: "text",
     m: text,
     c: clanSummary?.badge ?? null,
+    cid: clanSummary?.clanId ?? profile.clanId ?? null,
     cl: clanSummary?.name ?? profile.clanName ?? null,
     av: profile.avatarId ?? null,
     tr: profile.trophies ?? 0,

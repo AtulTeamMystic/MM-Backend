@@ -71,8 +71,8 @@ Singleton document that caches the “healthy clan” pool built by a scheduled 
 | --- | --- |
 | `/Rooms/{roomId}` | Firestore doc that tracks metadata for each global room: `{ roomId, region, type, connectedCount, softCap, hardCap, slowModeSeconds, maxMessages, isArchived, createdAt, updatedAt, lastActivityAt }`. Cloud Functions mutate these fields; clients read them only via the callables. |
 | `/Players/{uid}/Profile/Profile.assignedChatRoomId` | Sticky pointer set by `assignGlobalChatRoom`. Used by the callable to reuse a preferred room and by ops/debug tooling. |
-| `/chat_messages/clans/{clanId}/{messageId}` (Realtime Database) | Dedicated subtree for clan chat streams so they’re easy to inspect. Messages store `{ u, n, m, type, c, cl, av, tr, role, op, ts, clientCreatedAt? }`. |
-| `/chat_messages/global/{roomId}/{messageId}` (Realtime Database) | Global chat rooms keyed by `roomId` using the same message payload (without `role`). |
+| `/chat_messages/clans/{clanId}/{messageId}` (Realtime Database) | Dedicated subtree for clan chat streams so they’re easy to inspect. Messages store `{ u, n, m, type, c, cid, cl, av, tr, role, op, ts, clientCreatedAt? }`. |
+| `/chat_messages/global/{roomId}/{messageId}` (Realtime Database) | Global chat rooms keyed by `roomId` using the same message payload. `cid` is populated when the sender belongs to a clan so the client can link to their clan card. |
 | `/presence/online/{uid}` (Realtime Database) | Presence node set by the client that includes `{ roomId, clanId, lastSeen }`. RTDB security rules check this node to decide whether a user may read `/chat_messages/clans/*` or `/chat_messages/global/*`. |
 
 Messages never live in Firestore now; the callable pushes them straight to RTDB and scheduled jobs (`cleanupChatHistory`) prune old entries (30 days for clans, 24h for global). Presence removal fires an RTDB trigger that decrements `Rooms/{roomId}.connectedCount`, keeping load-balancing accurate without extra Firestore reads.

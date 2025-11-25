@@ -137,21 +137,23 @@ Singleton doc used for the “smart pool” join flow. A scheduled job rebuilds 
 
 ### Realtime Database - Chat Streams
 
-* `/chat_messages/{streamId}/{messageId}` captures both clan and global chat. Each node contains:
+* `/chat_messages/clans/{clanId}/{messageId}` captures every clan chat feed. Each node contains:
   * `u` - author UID (or `null` for system events)
   * `n` - display name snapshot
   * `m` - text (optional when `type === "system"`)
   * `type` - `"text"` or `"system"`
   * `c` - clan badge snapshot
+  * `cid` - clanId snapshot (helps link to rosters when surfaced elsewhere)
   * `cl` - clan name snapshot
   * `av` - avatar ID snapshot
   * `tr` - trophies snapshot
-  * `role` - clan role snapshot (present only when `streamId` is a clanId)
+  * `role` - clan role snapshot
   * `payload` - optional JSON blob for system events
   * `clientCreatedAt` - optional ISO8601 from the client
   * `op` - `opId` from the callable payload (used to reconcile optimistic placeholders)
   * `ts` - RTDB server timestamp (indexed so clients can `startAt()` for zero-history listeners)
-* `/presence/online/{uid}` stores `{ roomId, clanId, lastSeen }`. Clients must set it before attaching listeners and register `onDisconnect().remove()` so the entry disappears on crash/app close. RTDB rules only allow `/chat_messages/{streamId}` reads when this node matches the requested `roomId` or `clanId`.
+* `/chat_messages/global/{roomId}/{messageId}` mirrors the same payload for global rooms; `cid` is populated when the sender currently belongs to a clan so the client can jump to clan cards.
+* `/presence/online/{uid}` stores `{ roomId, clanId, lastSeen }`. Clients must set it before attaching listeners and register `onDisconnect().remove()` so the entry disappears on crash/app close. RTDB rules only allow `/chat_messages/clans/*` or `/chat_messages/global/*` reads when this node matches the requested stream.
 * `/presence/lastSeen/{uid}` can be touched periodically by the client; the scheduled `presence.mirrorLastSeen` function copies the freshest values into `/Players/{uid}/Social/Profile.lastActiveAt` for HUD surfaces.
 
 Global chat rooms themselves live in Firestore `/Rooms/{roomId}` (see earlier section). Clients never listen to those documents directly; they call `assignGlobalChatRoom`, cache the returned room id, and hydrate messages from RTDB.

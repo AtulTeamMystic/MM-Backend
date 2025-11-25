@@ -1823,7 +1823,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
   ---
   
   ### `sendGlobalChatMessage`
-  **Purpose:** Verifies that the caller is assigned to the provided `roomId`, enforces slow mode, snapshots profile + clan metadata, and pushes the payload to RTDB (`/chat_messages/{roomId}`) together with the supplied `opId`.
+  **Purpose:** Verifies that the caller is assigned to the provided `roomId`, enforces slow mode, snapshots profile + clan metadata (including the clanId when present), and pushes the payload to RTDB (`/chat_messages/global/{roomId}`) together with the supplied `opId`.
 **Input:**
 ```json
 {
@@ -1855,7 +1855,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 ---
 
 ### `sendClanChatMessage`
-**Purpose:** Requires current membership, enforces clan slow mode, then pushes the message directly to Realtime Database (`/chat_messages/{clanId}`) with the caller’s display name, avatar, badge, and trophy snapshot.
+  **Purpose:** Requires current membership, enforces clan slow mode, then pushes the message directly to Realtime Database (`/chat_messages/clans/{clanId}`) with the caller’s display name, avatar, badge, trophy snapshot, and role.
 **Input:**
 ```json
 {
