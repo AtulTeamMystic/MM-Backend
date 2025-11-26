@@ -57,7 +57,7 @@ export const clanLeaderboardJob = {
   refresh: onSchedule(
     {
       region: REGION,
-      schedule: "every 6 hours",
+      schedule: "every 5 minutes",
       timeZone: "Etc/UTC",
     },
     async () => {

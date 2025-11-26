@@ -877,7 +877,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 ### `getGlobalLeaderboard`
 
-**Purpose:** Returns the cached leaderboard snapshot (trophies, careerCoins, or totalWins) in a single read, including the caller's personal rank/value even if they are outside the top 100.
+**Purpose:** Returns the cached leaderboard snapshot (trophies, careerCoins, or totalWins) from `/Leaderboards_v1/{metric}` in a single read, including the caller's personal rank/value even if they are outside the top 100. The cached document is written by the scheduled job (`leaderboards.refreshAll`) and can also be rebuilt on demand via the QA helper `refreshGlobalLeaderboardNow`, so this callable never scans live player docs.
 
 **Input:**
 ```json
@@ -888,6 +888,8 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
   "pageToken": "base64cursor"     // Optional pagination cursor issued by a previous call
 }
 ```
+
+**Notes:** On a fresh deploy, call `refreshGlobalLeaderboardNow` once (or wait for the next scheduled run, every five minutes) to seed the `/Leaderboards_v1/{metric}` documents before invoking this callable; otherwise it returns `failed-precondition`.
 
 **Output:**
 ```json
@@ -1824,7 +1826,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 ---
 
 ### `getClanLeaderboard`
-**Purpose:** Ordered by `stats.trophies`, supports location filter.
+**Purpose:** Returns the cached clan leaderboard stored at `/Leaderboards/Clans` (populated by the scheduled job and the QA helper `refreshClanLeaderboardNow`). Supports optional location filtering by post-processing the cached array so the callable always stays a single read.
 **Input:**
 ```json
 {
@@ -1832,8 +1834,26 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
   "location": "string (optional)"
 }
 ```
-**Output:** `{ "clans": [ClanSummary, ...] }`
+**Output:** `{ "clans": [ClanSummary, ...], "updatedAt": 1740002400000 }`
 **Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
+
+**Notes:** If the cache doc is missing (fresh deploy), call `refreshClanLeaderboardNow` once or wait for the cron job (every five minutes) to run. The callable does not rebuild the cache automatically.
+
+---
+
+### `refreshGlobalLeaderboardNow`
+**Purpose:** QA-only helper that runs the same routine as the scheduled job and rewrites all `/Leaderboards_v1/{metric}` documents immediately.
+**Input:** `{ }`
+**Output:** `{ "ok": true, "metrics": 3 }`
+**Errors:** `UNAUTHENTICATED`
+
+---
+
+### `refreshClanLeaderboardNow`
+**Purpose:** QA-only helper that rebuilds `/Leaderboards/Clans` on demand so testers do not have to wait for the next cron run.
+**Input:** `{ }`
+**Output:** `{ "ok": true, "processed": 100 }`
+**Errors:** `UNAUTHENTICATED`
 
 ---
 

@@ -42,7 +42,12 @@ export {
   getFriendRequests,
   cancelFriendRequest,
   viewPlayerProfile,
-  removeFriends
+  removeFriends,
+  leaderboards,
   // presenceMirrorLastSeen as socialPresenceMirrorLastSeen,
 } from "./Socials";
 export { getServerTime } from "./time/serverTime";
+export {
+  refreshGlobalLeaderboardNow,
+  refreshClanLeaderboardNow,
+} from "./tools/leaderboardTriggers.js";

@@ -578,33 +578,26 @@ export const getClanLeaderboard = onCall(callableOptions(), async (request) => {
   const payload = (request.data ?? {}) as GetClanLeaderboardRequest;
   const limit = clampLimit(payload.limit, 25, 100);
 
-  let query: FirebaseFirestore.Query = clansCollection()
-    .where("status", "==", "active")
-    .orderBy("stats.trophies", "desc")
-    .limit(limit);
-
+  const doc = await db.collection("Leaderboards").doc("Clans").get();
+  if (!doc.exists) {
+    throw new HttpsError("failed-precondition", "Clan leaderboard not ready.");
+  }
+  const data = doc.data() ?? {};
+  let clans = (data.top ?? []) as Array<{
+    clanId: string;
+    name: string;
+    badge: string | null;
+    type: string;
+    members: number;
+    totalTrophies: number;
+    location?: string;
+  }>;
   if (payload.location) {
     const location = sanitizeWith(() => resolveLocation(payload.location));
-    query = clansCollection()
-      .where("status", "==", "active")
-      .where("search.location", "==", location)
-      .orderBy("stats.trophies", "desc")
-      .limit(limit);
+    clans = clans.filter((entry) => entry.location?.toLowerCase() === location.toLowerCase());
   }
-
-  const snapshot = await query.get();
   return {
-    clans: snapshot.docs.map((doc: FirebaseFirestore.QueryDocumentSnapshot) => {
-      const data = doc.data() ?? {};
-      const stats = data.stats ?? {};
-      return {
-        clanId: data.clanId,
-        name: data.name,
-        badge: data.badge ?? null,
-        type: data.type,
-        members: Number(stats.members ?? 0),
-        totalTrophies: Number(stats.trophies ?? 0),
-      };
-    }),
+    clans: clans.slice(0, limit),
+    updatedAt: data.updatedAt ?? null,
   };
 });
