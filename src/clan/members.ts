@@ -385,13 +385,20 @@ export const promoteClanMember = onCall(callableOptions(), async (request) => {
       });
 
       const targetAuthor = buildAuthorFromMemberDoc(targetUid, targetSnap.data());
+      const actorName = actorSnap.data()?.displayName ?? "Member";
       enqueueSystemMessage(
         systemMessages,
         clanId,
         `${targetSnap.data()?.displayName ?? "Member"} was promoted to ${desiredRole} by ${actorSnap
           .data()
           ?.displayName ?? "Member"}`,
-        { kind: "member_promoted", uid: targetUid, role: desiredRole, by: uid },
+        {
+          kind: "member_promoted",
+          uid: targetUid,
+          role: desiredRole,
+          by: actorName,
+          byUid: uid,
+        },
         targetAuthor,
       );
 
@@ -469,13 +476,20 @@ export const demoteClanMember = onCall(callableOptions(), async (request) => {
       });
 
       const targetAuthor = buildAuthorFromMemberDoc(targetUid, targetSnap.data());
+      const actorName = actorSnap.data()?.displayName ?? "Member";
       enqueueSystemMessage(
         systemMessages,
         clanId,
         `${targetSnap.data()?.displayName ?? "Member"} was demoted to ${desiredRole} by ${actorSnap
           .data()
           ?.displayName ?? "Member"}`,
-        { kind: "member_demoted", uid: targetUid, role: desiredRole, by: uid },
+        {
+          kind: "member_demoted",
+          uid: targetUid,
+          role: desiredRole,
+          by: actorName,
+          byUid: uid,
+        },
         targetAuthor,
       );
 
@@ -642,13 +656,19 @@ export const kickClanMember = onCall(callableOptions(), async (request) => {
       );
 
       const targetAuthor = buildAuthorFromMemberDoc(targetUid, targetSnap.data());
+      const actorName = actorSnap.data()?.displayName ?? "Member";
       enqueueSystemMessage(
         systemMessages,
         clanId,
         `${targetSnap.data()?.displayName ?? "Member"} was removed from the clan by ${actorSnap
           .data()
           ?.displayName ?? "Member"}`,
-        { kind: "member_kicked", uid: targetUid, by: uid },
+        {
+          kind: "member_kicked",
+          uid: targetUid,
+          by: actorName,
+          byUid: uid,
+        },
         targetAuthor,
       );
 
@@ -1037,6 +1057,7 @@ export const acceptJoinRequest = onCall(callableOptions(), async (request) => {
       });
 
       const targetAuthor = buildAuthorFromProfile(targetProfile);
+      const actorName = actorSnap.data()?.displayName ?? "Member";
       enqueueSystemMessage(
         systemMessages,
         clanId,
@@ -1056,7 +1077,8 @@ export const acceptJoinRequest = onCall(callableOptions(), async (request) => {
         {
           kind: "join_request_accepted",
           uid: targetUid,
-          by: uid,
+          by: actorName,
+          byUid: uid,
         },
         targetAuthor,
       );
@@ -1124,11 +1146,17 @@ export const declineJoinRequest = onCall(callableOptions(), async (request) => {
       const authorSnapshot =
         buildAuthorFromProfile(targetProfile) ??
         buildAuthorFromMemberDoc(targetUid, requestSnap.data());
+      const actorName = actorSnap.data()?.displayName ?? "Member";
       enqueueSystemMessage(
         systemMessages,
         clanId,
         `Join request from ${displayName} was declined by ${actorSnap.data()?.displayName ?? "Member"}`,
-        { kind: "join_request_declined", uid: targetUid, by: uid },
+        {
+          kind: "join_request_declined",
+          uid: targetUid,
+          by: actorName,
+          byUid: uid,
+        },
         authorSnapshot,
       );
       return { clanId, systemMessages };

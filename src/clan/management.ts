@@ -157,10 +157,21 @@ export const createClan = onCall(callableOptions(), async (request) => {
     },
   );
 
-  await pushClanSystemMessage(result.clanId, `${profile.displayName} founded ${result.name}`, {
-    kind: "clan_created",
-    by: uid,
-  });
+  await pushClanSystemMessage(
+    result.clanId,
+    `${profile.displayName} founded ${result.name}`,
+    {
+      kind: "clan_created",
+      by: profile.displayName,
+      byUid: uid,
+    },
+    {
+      uid,
+      displayName: profile.displayName,
+      avatarId: profile.avatarId ?? null,
+      trophies: profile.trophies ?? 0,
+    },
+  );
 
   return loadClanDetails(result.clanId, uid);
 });
