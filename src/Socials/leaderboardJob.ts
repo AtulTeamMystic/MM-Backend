@@ -152,7 +152,7 @@ export const leaderboards = {
   refreshAll: onSchedule(
     {
       region: REGION,
-      schedule: "every 5 minutes",
+      schedule: "every 6 hours",
       timeZone: "Etc/UTC",
     },
     async () => {

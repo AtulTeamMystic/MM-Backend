@@ -877,7 +877,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 
 ### `getGlobalLeaderboard`
 
-**Purpose:** Returns the cached leaderboard snapshot (trophies, careerCoins, or totalWins) from `/GlobalLeaderboard/{metric}`. The snapshot is rebuilt every five minutes by `leaderboards.refreshAll` (or on demand via `refreshGlobalLeaderboardNow`), so this callable is always a single Firestore read regardless of player count.
+**Purpose:** Returns the cached leaderboard snapshot (trophies, careerCoins, or totalWins) from `/GlobalLeaderboard/{metric}`. The snapshot is rebuilt every six hours by `leaderboards.refreshAll` (or on demand via `refreshGlobalLeaderboardNow`), so this callable is always a single Firestore read regardless of player count.
 
 **Input:**
 ```json
@@ -887,7 +887,7 @@ When the SKU is coin-priced the response mirrors this shape with `currency: "coi
 }
 ```
 
-**Notes:** On a fresh deploy, call `refreshGlobalLeaderboardNow` once (or wait for the next scheduled run, every five minutes) to seed the `/GlobalLeaderboard/{metric}` documents before invoking this callable; otherwise it returns `failed-precondition`.
+**Notes:** On a fresh deploy, call `refreshGlobalLeaderboardNow` once (or wait for the next scheduled run, every six hours) to seed the `/GlobalLeaderboard/{metric}` documents before invoking this callable; otherwise it returns `failed-precondition`.
 
 **Output:**
 ```json
@@ -1844,7 +1844,7 @@ This section documents all clan and chat-related Cloud Functions, with input, ou
 **Output:** `{ "clans": [ClanSummary, ...], "updatedAt": 1740002400000 }`
 **Errors:** `UNAUTHENTICATED`, `INVALID_ARGUMENT`, `FAILED_PRECONDITION`
 
-**Notes:** If the cache doc is missing (fresh deploy), call `refreshClanLeaderboardNow` once or wait for the cron job (every five minutes) to run. The callable does not rebuild the cache automatically.
+**Notes:** If the cache doc is missing (fresh deploy), call `refreshClanLeaderboardNow` once or wait for the cron job (every six hours) to run. The callable does not rebuild the cache automatically.
 
 ---
 

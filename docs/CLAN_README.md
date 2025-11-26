@@ -146,9 +146,9 @@ Two callables exist purely for testing/QA so you can seed leaderboard caches wit
 | Function | Request | Response | Notes |
 | --- | --- | --- | --- |
 | `refreshGlobalLeaderboardNow` | `{}` | `{ ok: true, metrics: 3 }` | Runs the same routine as `leaderboards.refreshAll` and overwrites every `/GlobalLeaderboard/{metric}` doc. Requires auth but no special claims so testers can call it from Unity or `firebase functions:shell` (e.g., `await refreshGlobalLeaderboardNow({ data: {} })`). |
-| `refreshClanLeaderboardNow` | `{}` | `{ ok: true, processed: 100 }` | Invokes `refreshClanLeaderboard` once and rewrites `/ClanLeaderboard/snapshot`. Keep usage limited to QA�?"the scheduled job still handles production refreshes every five minutes. |
+| `refreshClanLeaderboardNow` | `{}` | `{ ok: true, processed: 100 }` | Invokes `refreshClanLeaderboard` once and rewrites `/ClanLeaderboard/snapshot`. Keep usage limited to QA�?"the scheduled job still handles production refreshes every six hours. |
 
-After calling either function, the cached docs exist immediately and the scheduled jobs continue to update them every five minutes.
+After calling either function, the cached docs exist immediately and the scheduled jobs continue to update them every six hours.
 
 ### Chat
 
