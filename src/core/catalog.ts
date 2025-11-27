@@ -46,6 +46,9 @@ const normaliseString = (value: unknown): string | null => {
   return trimmed.length > 0 ? trimmed : null;
 };
 
+const hasDefaultDisplayName = (value: string | null | undefined): boolean =>
+  typeof value === "string" && value.toLowerCase().includes("default");
+
 const normaliseBoolean = (value: unknown): boolean | undefined =>
   typeof value === "boolean" ? value : undefined;
 
@@ -80,8 +83,12 @@ function normaliseItemVariants(item: Item): ItemVariant[] {
   const variants: ItemVariant[] = [];
 
   const baseDisplayName = normaliseString(item.displayName) ?? item.itemId;
-  const baseRarity = normaliseString(item.rarity) ?? item.rarity;
-  const baseStackable = Boolean(item.stackable);
+  const isCosmetic = item.type === "cosmetic";
+  const isDefaultNamed = hasDefaultDisplayName(baseDisplayName);
+  const baseRarity = isDefaultNamed
+    ? ("Default" as ItemVariant["rarity"])
+    : (normaliseString(item.rarity) ?? item.rarity);
+  const baseStackable = isCosmetic ? !isDefaultNamed : Boolean(item.stackable);
   const basePurchasable = normaliseBoolean(item.purchasable);
   const baseGemPrice = normaliseNumber(item.gemPrice);
   const baseSubType = normaliseString(
@@ -115,13 +122,19 @@ function normaliseItemVariants(item: Item): ItemVariant[] {
     const variantDisplayName =
       normaliseString((entry as { displayName?: unknown }).displayName) ??
       baseDisplayName;
+    const variantHasDefaultName =
+      isDefaultNamed ||
+      hasDefaultDisplayName(variantDisplayName ?? baseDisplayName);
     const variantRarity =
       normaliseString((entry as { rarity?: unknown }).rarity) ??
       baseRarity ??
       item.rarity;
-    const variantStackable =
+    let variantStackable =
       normaliseBoolean((entry as { stackable?: unknown }).stackable) ??
       baseStackable;
+    if (isCosmetic) {
+      variantStackable = variantHasDefaultName ? false : true;
+    }
     const variantPurchasable =
       normaliseBoolean((entry as { purchasable?: unknown }).purchasable) ??
       basePurchasable;
@@ -162,7 +175,9 @@ function normaliseItemVariants(item: Item): ItemVariant[] {
     variants.push({
       skuId,
       displayName: variantDisplayName ?? undefined,
-      rarity: (variantRarity ?? undefined) as ItemVariant["rarity"],
+      rarity: (variantHasDefaultName
+        ? "Default"
+        : (variantRarity ?? undefined)) as ItemVariant["rarity"],
       stackable: variantStackable,
       purchasable: variantPurchasable,
       gemPrice: variantGemPrice,
@@ -175,11 +190,15 @@ function normaliseItemVariants(item: Item): ItemVariant[] {
   }
 
   if (variants.length === 0) {
+    const variantHasDefaultName =
+      isDefaultNamed || hasDefaultDisplayName(baseDisplayName);
     variants.push({
       skuId: item.itemId,
       displayName: baseDisplayName ?? undefined,
-      rarity: (baseRarity ?? item.rarity) as ItemVariant["rarity"],
-      stackable: baseStackable,
+      rarity: (variantHasDefaultName
+        ? "Default"
+        : (baseRarity ?? item.rarity)) as ItemVariant["rarity"],
+      stackable: isCosmetic ? !variantHasDefaultName : baseStackable,
       purchasable: basePurchasable,
       gemPrice: baseGemPrice,
       subType: baseSubType,
@@ -199,10 +218,50 @@ function normaliseItemsCatalogDoc(doc: ItemsCatalogDoc): ItemsCatalogDoc {
     if (typeof itemId !== "string" || itemId.length === 0) {
       continue;
     }
-    const normalisedItem: Item = {
-      ...rawItem,
-      itemId,
-    };
+    const itemDisplayName =
+      normaliseString((rawItem as { displayName?: unknown }).displayName) ??
+      rawItem.displayName ??
+      itemId;
+    const itemIsDefaultNamed = hasDefaultDisplayName(itemDisplayName);
+    let normalisedItem: Item;
+    if (rawItem.type === "cosmetic") {
+      normalisedItem = {
+        ...rawItem,
+        itemId,
+        rarity: (itemIsDefaultNamed ? "Default" : rawItem.rarity) as Item["rarity"],
+        stackable: !itemIsDefaultNamed,
+      };
+    } else if (rawItem.type === "crate") {
+      normalisedItem = {
+        ...rawItem,
+        itemId,
+        rarity: (itemIsDefaultNamed ? "Default" : rawItem.rarity) as Item["rarity"],
+        stackable: rawItem.stackable,
+      };
+    } else if (rawItem.type === "key") {
+      normalisedItem = {
+        ...rawItem,
+        itemId,
+        rarity: (itemIsDefaultNamed ? "Default" : rawItem.rarity) as Item["rarity"],
+        stackable: rawItem.stackable,
+      };
+    } else if (rawItem.type === "booster") {
+      normalisedItem = {
+        ...rawItem,
+        itemId,
+        rarity: (itemIsDefaultNamed ? "Default" : rawItem.rarity) as Item["rarity"],
+        stackable: rawItem.stackable,
+      };
+    } else if (rawItem.type === "currency") {
+      normalisedItem = {
+        ...rawItem,
+        itemId,
+        rarity: (itemIsDefaultNamed ? "Default" : rawItem.rarity) as Item["rarity"],
+        stackable: rawItem.stackable,
+      };
+    } else {
+      continue;
+    }
     const normalisedVariants = normaliseItemVariants(
       normalisedItem,
     ) as ItemVariant[];

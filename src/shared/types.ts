@@ -73,7 +73,13 @@ export interface SpellLevelCost {
   cost?: { spellTokens?: number };
 }
 
-export type ItemRarity = "common" | "rare" | "exotic" | "legendary" | "special";
+export type ItemRarity =
+  | "common"
+  | "rare"
+  | "exotic"
+  | "legendary"
+  | "special"
+  | "Default";
 
 export type CosmeticSubType = "wheels" | "spoiler" | "underglow" | "decal" | "boost";
 
@@ -130,7 +136,7 @@ export interface BaseItem {
 export interface CosmeticItem extends BaseItem {
   type: "cosmetic";
   subType: CosmeticSubType;
-  stackable: false;
+  stackable: boolean;
   assetRef: AssetRef;
 }
 

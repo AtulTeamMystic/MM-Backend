@@ -26,7 +26,7 @@
       "displayName": "DefaultWheel",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "subType": "wheels",
       "purchasable": false,
@@ -35,7 +35,7 @@
           "skuId": "sku_7d5rvqx6",
           "displayName": "DefaultWheel",
           "stackable": false,
-          "rarity": "common",
+          "rarity": "Default",
           "purchasable": false
         }
       ]
@@ -46,14 +46,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_wq4s7jw9",
           "displayName": "Gamma",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Silver"
@@ -63,7 +63,7 @@
         {
           "skuId": "sku_cmdqvy0d",
           "displayName": "Gamma",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Gold"
@@ -73,7 +73,7 @@
         {
           "skuId": "sku_4yzfge73",
           "displayName": "Gamma",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Black"
@@ -83,7 +83,7 @@
         {
           "skuId": "sku_xgwp4mcs",
           "displayName": "Gamma",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Platinum"
@@ -93,7 +93,7 @@
         {
           "skuId": "sku_ybv45rh7",
           "displayName": "Gamma",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Bronze"
@@ -108,14 +108,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_m7edqebe",
           "displayName": "Delta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Gold"
@@ -125,7 +125,7 @@
         {
           "skuId": "sku_a832sx37",
           "displayName": "Delta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Black"
@@ -135,7 +135,7 @@
         {
           "skuId": "sku_qpr8tcbq",
           "displayName": "Delta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Platinum"
@@ -145,7 +145,7 @@
         {
           "skuId": "sku_d4e2p4dc",
           "displayName": "Delta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Silver"
@@ -155,7 +155,7 @@
         {
           "skuId": "sku_dpqse6qb",
           "displayName": "Delta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Bronze"
@@ -170,14 +170,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_cpjw9vn9",
           "displayName": "Alpha",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Black"
@@ -187,7 +187,7 @@
         {
           "skuId": "sku_snceegm6",
           "displayName": "Alpha",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Platinum"
@@ -197,7 +197,7 @@
         {
           "skuId": "sku_sv30h6te",
           "displayName": "Alpha",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Gold"
@@ -207,7 +207,7 @@
         {
           "skuId": "sku_gk08ervc",
           "displayName": "Alpha",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Bronze"
@@ -217,7 +217,7 @@
         {
           "skuId": "sku_ce1s2hr0",
           "displayName": "Alpha",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Silver"
@@ -232,14 +232,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_453cpps5",
           "displayName": "Meta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Platinum"
@@ -249,7 +249,7 @@
         {
           "skuId": "sku_267afz7c",
           "displayName": "Meta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Silver"
@@ -259,7 +259,7 @@
         {
           "skuId": "sku_cd7hvpdy",
           "displayName": "Meta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Bronze"
@@ -269,7 +269,7 @@
         {
           "skuId": "sku_8zajzkqf",
           "displayName": "Meta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Gold"
@@ -279,7 +279,7 @@
         {
           "skuId": "sku_381epphy",
           "displayName": "Meta",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Black"
@@ -294,14 +294,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_n363wjsb",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -311,7 +311,7 @@
         {
           "skuId": "sku_7bm1qgb5",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -321,7 +321,7 @@
         {
           "skuId": "sku_c1jyzpjg",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -331,7 +331,7 @@
         {
           "skuId": "sku_464ca17n",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -341,7 +341,7 @@
         {
           "skuId": "sku_mc61dpwy",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -351,7 +351,7 @@
         {
           "skuId": "sku_brefbv0w",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -361,7 +361,7 @@
         {
           "skuId": "sku_dxscj9c9",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -371,7 +371,7 @@
         {
           "skuId": "sku_0zjdbgfb",
           "displayName": "Holo",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -386,14 +386,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_m9k26654",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -403,7 +403,7 @@
         {
           "skuId": "sku_t56d135r",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -413,7 +413,7 @@
         {
           "skuId": "sku_h4gzsmnn",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -423,7 +423,7 @@
         {
           "skuId": "sku_yqcefear",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -433,7 +433,7 @@
         {
           "skuId": "sku_sn2vre2v",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -443,7 +443,7 @@
         {
           "skuId": "sku_vv8301ap",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -453,7 +453,7 @@
         {
           "skuId": "sku_k0mhjddv",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -463,7 +463,7 @@
         {
           "skuId": "sku_xb2t1zyj",
           "displayName": "Atomic",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -478,14 +478,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_kkypph0w",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -495,7 +495,7 @@
         {
           "skuId": "sku_wszpaeqr",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -505,7 +505,7 @@
         {
           "skuId": "sku_5zxar85q",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -515,7 +515,7 @@
         {
           "skuId": "sku_9g4msqt9",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -525,7 +525,7 @@
         {
           "skuId": "sku_zhc9jg6p",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -535,7 +535,7 @@
         {
           "skuId": "sku_nve83ndr",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -545,7 +545,7 @@
         {
           "skuId": "sku_dcb03x9s",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -555,7 +555,7 @@
         {
           "skuId": "sku_j4tavw59",
           "displayName": "Flux",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -570,14 +570,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_t6ngfst2",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Yellow"
@@ -587,7 +587,7 @@
         {
           "skuId": "sku_763rrbbm",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Orange"
@@ -597,7 +597,7 @@
         {
           "skuId": "sku_ja172gfv",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Green"
@@ -607,7 +607,7 @@
         {
           "skuId": "sku_pxya7gnx",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Pink"
@@ -617,7 +617,7 @@
         {
           "skuId": "sku_qwywkked",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "White"
@@ -627,7 +627,7 @@
         {
           "skuId": "sku_618sbdxa",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Blue"
@@ -637,7 +637,7 @@
         {
           "skuId": "sku_rhw9c2q7",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Red"
@@ -647,7 +647,7 @@
         {
           "skuId": "sku_mff1nxc1",
           "displayName": "Blaze",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Purple"
@@ -662,14 +662,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_xqkr9231",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -679,7 +679,7 @@
         {
           "skuId": "sku_fwzap536",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -689,7 +689,7 @@
         {
           "skuId": "sku_0s49vjyp",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -699,7 +699,7 @@
         {
           "skuId": "sku_a157zv15",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -709,7 +709,7 @@
         {
           "skuId": "sku_z4tsgcps",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -719,7 +719,7 @@
         {
           "skuId": "sku_vy9jng6d",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -729,7 +729,7 @@
         {
           "skuId": "sku_nyxk6t9c",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -739,7 +739,7 @@
         {
           "skuId": "sku_e5g9bxq1",
           "displayName": "RazorEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -754,14 +754,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_8vh3a2tb",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -771,7 +771,7 @@
         {
           "skuId": "sku_hy402d3n",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -781,7 +781,7 @@
         {
           "skuId": "sku_bdcxmp5g",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -791,7 +791,7 @@
         {
           "skuId": "sku_qsn4x250",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -801,7 +801,7 @@
         {
           "skuId": "sku_pztxxqsc",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -811,7 +811,7 @@
         {
           "skuId": "sku_kpkm34hj",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -821,7 +821,7 @@
         {
           "skuId": "sku_zcct3bdq",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -831,7 +831,7 @@
         {
           "skuId": "sku_3gdkx0tp",
           "displayName": "RedlinePulse",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -846,14 +846,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_aaxjp42g",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -863,7 +863,7 @@
         {
           "skuId": "sku_cnbdqh7q",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -873,7 +873,7 @@
         {
           "skuId": "sku_zhwc28g2",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -883,7 +883,7 @@
         {
           "skuId": "sku_txmy5g0m",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -893,7 +893,7 @@
         {
           "skuId": "sku_zg1bwkdd",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -903,7 +903,7 @@
         {
           "skuId": "sku_mfp1a0g9",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -913,7 +913,7 @@
         {
           "skuId": "sku_m2tfx0xy",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -923,7 +923,7 @@
         {
           "skuId": "sku_dksa2696",
           "displayName": "Vulcan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -938,14 +938,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_fs4v5brx",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "White"
@@ -955,7 +955,7 @@
         {
           "skuId": "sku_yffa7e47",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Red"
@@ -965,7 +965,7 @@
         {
           "skuId": "sku_pwpkmjga",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Green"
@@ -975,7 +975,7 @@
         {
           "skuId": "sku_ny0szpr3",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Yellow"
@@ -985,7 +985,7 @@
         {
           "skuId": "sku_4y1wqxw8",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Orange"
@@ -995,7 +995,7 @@
         {
           "skuId": "sku_6m70japy",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Purple"
@@ -1005,7 +1005,7 @@
         {
           "skuId": "sku_63yjj71f",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Blue"
@@ -1015,7 +1015,7 @@
         {
           "skuId": "sku_1p8g9csw",
           "displayName": "AquaDrift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Pink"
@@ -1030,14 +1030,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_82dyr95d",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -1047,7 +1047,7 @@
         {
           "skuId": "sku_nfzkyxs0",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -1057,7 +1057,7 @@
         {
           "skuId": "sku_d696d9wy",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -1067,7 +1067,7 @@
         {
           "skuId": "sku_62d1hsv6",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -1077,7 +1077,7 @@
         {
           "skuId": "sku_thd15sa5",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -1087,7 +1087,7 @@
         {
           "skuId": "sku_p768f5t0",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -1097,7 +1097,7 @@
         {
           "skuId": "sku_gqkckmr0",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -1107,7 +1107,7 @@
         {
           "skuId": "sku_817k3qqp",
           "displayName": "CelestialBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -1122,14 +1122,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_8ep30whp",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -1139,7 +1139,7 @@
         {
           "skuId": "sku_bv3e7s2v",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -1149,7 +1149,7 @@
         {
           "skuId": "sku_mrr23pb1",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -1159,7 +1159,7 @@
         {
           "skuId": "sku_v2ha230h",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -1169,7 +1169,7 @@
         {
           "skuId": "sku_pdbga0q7",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -1179,7 +1179,7 @@
         {
           "skuId": "sku_ea12cfr9",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -1189,7 +1189,7 @@
         {
           "skuId": "sku_xxdascjq",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -1199,7 +1199,7 @@
         {
           "skuId": "sku_v0a0x8m2",
           "displayName": "PlasmaShifter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -1214,14 +1214,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "wheels",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_4chc5hnr",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -1231,7 +1231,7 @@
         {
           "skuId": "sku_jp6keqcg",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -1241,7 +1241,7 @@
         {
           "skuId": "sku_hq8g47py",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -1251,7 +1251,7 @@
         {
           "skuId": "sku_381xwpat",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -1261,7 +1261,7 @@
         {
           "skuId": "sku_ft1gb9tb",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -1271,7 +1271,7 @@
         {
           "skuId": "sku_naj2dpmn",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -1281,7 +1281,7 @@
         {
           "skuId": "sku_4gwytdg1",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -1291,7 +1291,7 @@
         {
           "skuId": "sku_qdd0ha6s",
           "displayName": "Voidspinner",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -1305,7 +1305,7 @@
       "displayName": "DefaultDecal",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "subType": "decal",
       "purchasable": false,
@@ -1314,7 +1314,7 @@
           "skuId": "sku_7ad7grzz",
           "displayName": "DefaultDecal",
           "stackable": false,
-          "rarity": "common",
+          "rarity": "Default",
           "purchasable": false
         }
       ]
@@ -1325,14 +1325,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_scspyx5z",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Purple"
@@ -1342,7 +1342,7 @@
         {
           "skuId": "sku_6dz1sxb7",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Green"
@@ -1352,7 +1352,7 @@
         {
           "skuId": "sku_wv00rssw",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Yellow"
@@ -1362,7 +1362,7 @@
         {
           "skuId": "sku_0ych5eww",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Red"
@@ -1372,7 +1372,7 @@
         {
           "skuId": "sku_p8rh1sch",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Pink"
@@ -1382,7 +1382,7 @@
         {
           "skuId": "sku_mj90nqmj",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Black"
@@ -1392,7 +1392,7 @@
         {
           "skuId": "sku_3f2wfpc3",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Blue"
@@ -1402,7 +1402,7 @@
         {
           "skuId": "sku_571jf6k3",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Grey"
@@ -1412,7 +1412,7 @@
         {
           "skuId": "sku_k47qdsdt",
           "displayName": "Enamel",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Orange"
@@ -1427,14 +1427,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_kvwsqefm",
           "displayName": "Metal",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Bronze"
@@ -1444,7 +1444,7 @@
         {
           "skuId": "sku_bpvtkk69",
           "displayName": "Metal",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Platinum"
@@ -1454,7 +1454,7 @@
         {
           "skuId": "sku_6y2a6q2w",
           "displayName": "Metal",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Silver"
@@ -1464,7 +1464,7 @@
         {
           "skuId": "sku_4tgkbtk6",
           "displayName": "Metal",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Gold"
@@ -1479,14 +1479,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_4ew7qd1a",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -1496,7 +1496,7 @@
         {
           "skuId": "sku_nn3cxtac",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -1506,7 +1506,7 @@
         {
           "skuId": "sku_semgk7fx",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -1516,7 +1516,7 @@
         {
           "skuId": "sku_pxvtcy02",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -1526,7 +1526,7 @@
         {
           "skuId": "sku_fsmktc61",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -1536,7 +1536,7 @@
         {
           "skuId": "sku_bz5vvz47",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -1546,7 +1546,7 @@
         {
           "skuId": "sku_vdg58ezd",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -1556,7 +1556,7 @@
         {
           "skuId": "sku_jmedaw7h",
           "displayName": "Titan",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -1571,14 +1571,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_0mq3fa08",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -1588,7 +1588,7 @@
         {
           "skuId": "sku_dxbmmexh",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -1598,7 +1598,7 @@
         {
           "skuId": "sku_94stmdkq",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -1608,7 +1608,7 @@
         {
           "skuId": "sku_q3t566ft",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -1618,7 +1618,7 @@
         {
           "skuId": "sku_ywf1j1cj",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -1628,7 +1628,7 @@
         {
           "skuId": "sku_s1wqdt8x",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -1638,7 +1638,7 @@
         {
           "skuId": "sku_fnxwe0z8",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -1648,7 +1648,7 @@
         {
           "skuId": "sku_8d3w7yc0",
           "displayName": "Recon",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -1663,14 +1663,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_0fv7y19a",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -1680,7 +1680,7 @@
         {
           "skuId": "sku_1ezaermp",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -1690,7 +1690,7 @@
         {
           "skuId": "sku_75j50vp6",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -1700,7 +1700,7 @@
         {
           "skuId": "sku_eeqbq1f2",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -1710,7 +1710,7 @@
         {
           "skuId": "sku_94q7dgqd",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -1720,7 +1720,7 @@
         {
           "skuId": "sku_wzs8wjzb",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -1730,7 +1730,7 @@
         {
           "skuId": "sku_177ajawx",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -1740,7 +1740,7 @@
         {
           "skuId": "sku_1akazb3y",
           "displayName": "TidalWave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -1755,14 +1755,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_wgg7qj88",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -1772,7 +1772,7 @@
         {
           "skuId": "sku_k35tr6ap",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -1782,7 +1782,7 @@
         {
           "skuId": "sku_txh8pztk",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -1792,7 +1792,7 @@
         {
           "skuId": "sku_t4vbvyfp",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -1802,7 +1802,7 @@
         {
           "skuId": "sku_nccjat7h",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -1812,7 +1812,7 @@
         {
           "skuId": "sku_3e2cf496",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -1822,7 +1822,7 @@
         {
           "skuId": "sku_0bffczz3",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -1832,7 +1832,7 @@
         {
           "skuId": "sku_t5qb2mm8",
           "displayName": "Inferno",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -1847,14 +1847,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_vqnc7jjc",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -1864,7 +1864,7 @@
         {
           "skuId": "sku_jz29ayhx",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -1874,7 +1874,7 @@
         {
           "skuId": "sku_672mg7hx",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -1884,7 +1884,7 @@
         {
           "skuId": "sku_kd9wwfwq",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -1894,7 +1894,7 @@
         {
           "skuId": "sku_wkffz63d",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -1904,7 +1904,7 @@
         {
           "skuId": "sku_qhzvssfa",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -1914,7 +1914,7 @@
         {
           "skuId": "sku_z5zn98k2",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -1924,7 +1924,7 @@
         {
           "skuId": "sku_brnby9x1",
           "displayName": "CosmicRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -1939,14 +1939,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_nncpnkfy",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -1956,7 +1956,7 @@
         {
           "skuId": "sku_r55jqv0n",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -1966,7 +1966,7 @@
         {
           "skuId": "sku_8k41hqbz",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -1976,7 +1976,7 @@
         {
           "skuId": "sku_9m6njrgm",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -1986,7 +1986,7 @@
         {
           "skuId": "sku_nf8nahe3",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -1996,7 +1996,7 @@
         {
           "skuId": "sku_gpn1jh38",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -2006,7 +2006,7 @@
         {
           "skuId": "sku_w8zw4bnt",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -2016,7 +2016,7 @@
         {
           "skuId": "sku_p9y6aew5",
           "displayName": "Venom",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -2031,14 +2031,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_w266evcp",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -2048,7 +2048,7 @@
         {
           "skuId": "sku_4zhtv6gk",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -2058,7 +2058,7 @@
         {
           "skuId": "sku_a3cd20j6",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -2068,7 +2068,7 @@
         {
           "skuId": "sku_2wgcyqzs",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -2078,7 +2078,7 @@
         {
           "skuId": "sku_1grg9qdg",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -2088,7 +2088,7 @@
         {
           "skuId": "sku_wjs82n6x",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -2098,7 +2098,7 @@
         {
           "skuId": "sku_hczqxnb7",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -2108,7 +2108,7 @@
         {
           "skuId": "sku_1fj3cqta",
           "displayName": "Razorwave",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -2123,14 +2123,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_z9tdcdn0",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -2140,7 +2140,7 @@
         {
           "skuId": "sku_fkg4z63g",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -2150,7 +2150,7 @@
         {
           "skuId": "sku_x7qz9ns2",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -2160,7 +2160,7 @@
         {
           "skuId": "sku_e8y40wb8",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -2170,7 +2170,7 @@
         {
           "skuId": "sku_vj3drmjs",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -2180,7 +2180,7 @@
         {
           "skuId": "sku_q3e1yza7",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -2190,7 +2190,7 @@
         {
           "skuId": "sku_gs3c1dqw",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -2200,7 +2200,7 @@
         {
           "skuId": "sku_1yjryy0h",
           "displayName": "Voltage",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -2215,14 +2215,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_x6cy5nbx",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Green"
@@ -2232,7 +2232,7 @@
         {
           "skuId": "sku_3crrjtyc",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Red"
@@ -2242,7 +2242,7 @@
         {
           "skuId": "sku_2nq7we3x",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Purple"
@@ -2252,7 +2252,7 @@
         {
           "skuId": "sku_6hvdc653",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Blue"
@@ -2262,7 +2262,7 @@
         {
           "skuId": "sku_qaw62s0j",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "White"
@@ -2272,7 +2272,7 @@
         {
           "skuId": "sku_q5ab9aq4",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Pink"
@@ -2282,7 +2282,7 @@
         {
           "skuId": "sku_s14v93xp",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Yellow"
@@ -2292,7 +2292,7 @@
         {
           "skuId": "sku_4a1mvg7j",
           "displayName": "Vortex",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Orange"
@@ -2307,14 +2307,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "subType": "decal",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_appj4ebe",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Orange"
@@ -2324,7 +2324,7 @@
         {
           "skuId": "sku_6wn2wdsg",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Yellow"
@@ -2334,7 +2334,7 @@
         {
           "skuId": "sku_51eq8tq9",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Pink"
@@ -2344,7 +2344,7 @@
         {
           "skuId": "sku_jnxr5jfd",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Blue"
@@ -2354,7 +2354,7 @@
         {
           "skuId": "sku_99zhv1jg",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Green"
@@ -2364,7 +2364,7 @@
         {
           "skuId": "sku_wdws78yh",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Red"
@@ -2374,7 +2374,7 @@
         {
           "skuId": "sku_c5s2bxv4",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "White"
@@ -2384,7 +2384,7 @@
         {
           "skuId": "sku_wmhs439m",
           "displayName": "Hellfire",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Purple"
@@ -2398,7 +2398,7 @@
       "displayName": "DefaultSpoiler",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "subType": "spoiler",
       "purchasable": false,
@@ -2407,7 +2407,7 @@
           "skuId": "sku_agyhv8pk",
           "displayName": "DefaultSpoiler",
           "stackable": false,
-          "rarity": "common",
+          "rarity": "Default",
           "purchasable": false
         }
       ]
@@ -2418,14 +2418,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_8hca5ck5",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Blue"
@@ -2435,7 +2435,7 @@
         {
           "skuId": "sku_qmz0686g",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Red"
@@ -2445,7 +2445,7 @@
         {
           "skuId": "sku_8107166w",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Pink"
@@ -2455,7 +2455,7 @@
         {
           "skuId": "sku_xse7v061",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Green"
@@ -2465,7 +2465,7 @@
         {
           "skuId": "sku_7h04xv69",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Yellow"
@@ -2475,7 +2475,7 @@
         {
           "skuId": "sku_fm0v02mb",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Purple"
@@ -2485,7 +2485,7 @@
         {
           "skuId": "sku_ntd0e1dj",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "White"
@@ -2495,7 +2495,7 @@
         {
           "skuId": "sku_0yqtcmwc",
           "displayName": "Jetstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Orange"
@@ -2510,14 +2510,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_tcbqeatr",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "White"
@@ -2527,7 +2527,7 @@
         {
           "skuId": "sku_6dkn5m5z",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Yellow"
@@ -2537,7 +2537,7 @@
         {
           "skuId": "sku_0qm2sx36",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Purple"
@@ -2547,7 +2547,7 @@
         {
           "skuId": "sku_pkj4p2j3",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Pink"
@@ -2557,7 +2557,7 @@
         {
           "skuId": "sku_6n62ec10",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Green"
@@ -2567,7 +2567,7 @@
         {
           "skuId": "sku_s4knz4gq",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Orange"
@@ -2577,7 +2577,7 @@
         {
           "skuId": "sku_f0t242rh",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Blue"
@@ -2587,7 +2587,7 @@
         {
           "skuId": "sku_wetkq7md",
           "displayName": "SonicEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Red"
@@ -2602,14 +2602,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_tdprgwq3",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -2619,7 +2619,7 @@
         {
           "skuId": "sku_fgr2wsye",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -2629,7 +2629,7 @@
         {
           "skuId": "sku_06wm8e79",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -2639,7 +2639,7 @@
         {
           "skuId": "sku_kypat43a",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -2649,7 +2649,7 @@
         {
           "skuId": "sku_mmg0gfnj",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -2659,7 +2659,7 @@
         {
           "skuId": "sku_t3k6b8t8",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -2669,7 +2669,7 @@
         {
           "skuId": "sku_000809gq",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -2679,7 +2679,7 @@
         {
           "skuId": "sku_ykdkfwxp",
           "displayName": "AeroBlade",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -2694,14 +2694,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_99dc0hws",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -2711,7 +2711,7 @@
         {
           "skuId": "sku_0bysr2mb",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -2721,7 +2721,7 @@
         {
           "skuId": "sku_yft2kbrp",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -2731,7 +2731,7 @@
         {
           "skuId": "sku_q4fexrrw",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -2741,7 +2741,7 @@
         {
           "skuId": "sku_67jhmvsp",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -2751,7 +2751,7 @@
         {
           "skuId": "sku_tpk9b4zj",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -2761,7 +2761,7 @@
         {
           "skuId": "sku_7xc475md",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -2771,7 +2771,7 @@
         {
           "skuId": "sku_4a37khh4",
           "displayName": "DragStorm",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -2786,14 +2786,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_c5c6etk8",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -2803,7 +2803,7 @@
         {
           "skuId": "sku_rak5zxdx",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -2813,7 +2813,7 @@
         {
           "skuId": "sku_24hdsgwx",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -2823,7 +2823,7 @@
         {
           "skuId": "sku_0afa8651",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -2833,7 +2833,7 @@
         {
           "skuId": "sku_gjh4nssh",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -2843,7 +2843,7 @@
         {
           "skuId": "sku_92w8bery",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -2853,7 +2853,7 @@
         {
           "skuId": "sku_zgy6s7vw",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -2863,7 +2863,7 @@
         {
           "skuId": "sku_yk8ssvkk",
           "displayName": "ApexEdge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -2878,14 +2878,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_2bdzbkpn",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -2895,7 +2895,7 @@
         {
           "skuId": "sku_7axwd0k8",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -2905,7 +2905,7 @@
         {
           "skuId": "sku_h5atrt5z",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -2915,7 +2915,7 @@
         {
           "skuId": "sku_pda3evwx",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -2925,7 +2925,7 @@
         {
           "skuId": "sku_5jzzx4ga",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -2935,7 +2935,7 @@
         {
           "skuId": "sku_wrv7d227",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -2945,7 +2945,7 @@
         {
           "skuId": "sku_mv3r3gd3",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -2955,7 +2955,7 @@
         {
           "skuId": "sku_p8n3xmag",
           "displayName": "NightFang",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -2970,14 +2970,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_rde8ctqv",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -2987,7 +2987,7 @@
         {
           "skuId": "sku_7gce7kxk",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -2997,7 +2997,7 @@
         {
           "skuId": "sku_ddv78wkh",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -3007,7 +3007,7 @@
         {
           "skuId": "sku_13a7tj89",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -3017,7 +3017,7 @@
         {
           "skuId": "sku_fp4kbw67",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -3027,7 +3027,7 @@
         {
           "skuId": "sku_yjrvk1kj",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -3037,7 +3037,7 @@
         {
           "skuId": "sku_a6xsyd0b",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -3047,7 +3047,7 @@
         {
           "skuId": "sku_pjacmekf",
           "displayName": "HyperFin",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -3062,14 +3062,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_80p9hpy6",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -3079,7 +3079,7 @@
         {
           "skuId": "sku_20134s3z",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -3089,7 +3089,7 @@
         {
           "skuId": "sku_g5baemax",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -3099,7 +3099,7 @@
         {
           "skuId": "sku_yc6sk5kn",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -3109,7 +3109,7 @@
         {
           "skuId": "sku_8e6qgv4r",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -3119,7 +3119,7 @@
         {
           "skuId": "sku_12v20w2p",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -3129,7 +3129,7 @@
         {
           "skuId": "sku_abam570m",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -3139,7 +3139,7 @@
         {
           "skuId": "sku_dgqw9r9t",
           "displayName": "SkySplitter",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -3154,14 +3154,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "subType": "spoiler",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_hxfjr05s",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Blue"
@@ -3171,7 +3171,7 @@
         {
           "skuId": "sku_7ebwtjtq",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Pink"
@@ -3181,7 +3181,7 @@
         {
           "skuId": "sku_9v5qzg49",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Red"
@@ -3191,7 +3191,7 @@
         {
           "skuId": "sku_mysxte4d",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Yellow"
@@ -3201,7 +3201,7 @@
         {
           "skuId": "sku_2wvzv7jv",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Orange"
@@ -3211,7 +3211,7 @@
         {
           "skuId": "sku_bvx5z6x2",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Green"
@@ -3221,7 +3221,7 @@
         {
           "skuId": "sku_yz875z4t",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "White"
@@ -3231,7 +3231,7 @@
         {
           "skuId": "sku_eacax34f",
           "displayName": "StormWing",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Purple"
@@ -3245,7 +3245,7 @@
       "displayName": "DefaultGlow",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "subType": "underglow",
       "purchasable": false,
@@ -3254,7 +3254,7 @@
           "skuId": "sku_z9tnvvdsrn",
           "displayName": "DefaultGlow",
           "stackable": false,
-          "rarity": "common",
+          "rarity": "Default",
           "purchasable": false
         }
       ]
@@ -3265,14 +3265,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "underglow",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_2v6tnwwgz8",
           "displayName": "GenesisGlow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -3282,7 +3282,7 @@
         {
           "skuId": "sku_4srnd7mqpc",
           "displayName": "GenesisGlow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -3292,7 +3292,7 @@
         {
           "skuId": "sku_s0zt9m2nay",
           "displayName": "GenesisGlow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -3302,7 +3302,7 @@
         {
           "skuId": "sku_xkr4mzwakn",
           "displayName": "GenesisGlow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -3316,7 +3316,7 @@
       "displayName": "DefaultBoost",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "subType": "boost",
       "purchasable": false,
@@ -3325,7 +3325,7 @@
           "skuId": "sku_rwt6nbsq",
           "displayName": "DefaultBoost",
           "stackable": false,
-          "rarity": "common",
+          "rarity": "Default",
           "purchasable": false
         }
       ]
@@ -3336,14 +3336,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_6kdqggyj",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "White"
@@ -3353,7 +3353,7 @@
         {
           "skuId": "sku_f2rgw16v",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Green"
@@ -3363,7 +3363,7 @@
         {
           "skuId": "sku_q3c9nbey",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Orange"
@@ -3373,7 +3373,7 @@
         {
           "skuId": "sku_f51jh4gj",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Purple"
@@ -3383,7 +3383,7 @@
         {
           "skuId": "sku_rctd14dn",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Blue"
@@ -3393,7 +3393,7 @@
         {
           "skuId": "sku_bn18yqke",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Yellow"
@@ -3403,7 +3403,7 @@
         {
           "skuId": "sku_sp80w8z5",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Red"
@@ -3413,7 +3413,7 @@
         {
           "skuId": "sku_dv3821tk",
           "displayName": "Slipstream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Pink"
@@ -3428,14 +3428,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_57gftejp",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Red"
@@ -3445,7 +3445,7 @@
         {
           "skuId": "sku_vmee13wk",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Pink"
@@ -3455,7 +3455,7 @@
         {
           "skuId": "sku_7w56r075",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Purple"
@@ -3465,7 +3465,7 @@
         {
           "skuId": "sku_5sevjx43",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Orange"
@@ -3475,7 +3475,7 @@
         {
           "skuId": "sku_4h2fthfk",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Yellow"
@@ -3485,7 +3485,7 @@
         {
           "skuId": "sku_h250tsam",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "White"
@@ -3495,7 +3495,7 @@
         {
           "skuId": "sku_xetj71np",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Blue"
@@ -3505,7 +3505,7 @@
         {
           "skuId": "sku_mta0ydvz",
           "displayName": "HydroBlast",
-          "stackable": false,
+          "stackable": true,
           "rarity": "common",
           "variant": {
             "color": "Green"
@@ -3520,14 +3520,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_appg1ehg",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -3537,7 +3537,7 @@
         {
           "skuId": "sku_qrk04aa3",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -3547,7 +3547,7 @@
         {
           "skuId": "sku_95szjfm7",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -3557,7 +3557,7 @@
         {
           "skuId": "sku_jxcek111",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -3567,7 +3567,7 @@
         {
           "skuId": "sku_wbb0kc9z",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -3577,7 +3577,7 @@
         {
           "skuId": "sku_wpefees2",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -3587,7 +3587,7 @@
         {
           "skuId": "sku_g629y2vh",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -3597,7 +3597,7 @@
         {
           "skuId": "sku_dxb5z6s5",
           "displayName": "ArcticFury",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -3612,14 +3612,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_8k9xxte7",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "White"
@@ -3629,7 +3629,7 @@
         {
           "skuId": "sku_qwa702ky",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Red"
@@ -3639,7 +3639,7 @@
         {
           "skuId": "sku_22gg05rf",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Pink"
@@ -3649,7 +3649,7 @@
         {
           "skuId": "sku_z2v0qrf8",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Purple"
@@ -3659,7 +3659,7 @@
         {
           "skuId": "sku_rwsgvkm4",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Orange"
@@ -3669,7 +3669,7 @@
         {
           "skuId": "sku_g9s4x07n",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Yellow"
@@ -3679,7 +3679,7 @@
         {
           "skuId": "sku_1rms3ck4",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Green"
@@ -3689,7 +3689,7 @@
         {
           "skuId": "sku_krqp6h88",
           "displayName": "RockSlinger",
-          "stackable": false,
+          "stackable": true,
           "rarity": "rare",
           "variant": {
             "color": "Blue"
@@ -3704,14 +3704,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_6v0xy91h",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -3721,7 +3721,7 @@
         {
           "skuId": "sku_ktndbacr",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -3731,7 +3731,7 @@
         {
           "skuId": "sku_nbys4v71",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -3741,7 +3741,7 @@
         {
           "skuId": "sku_f04wn1an",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -3751,7 +3751,7 @@
         {
           "skuId": "sku_f7p964ht",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -3761,7 +3761,7 @@
         {
           "skuId": "sku_xq0drq3k",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -3771,7 +3771,7 @@
         {
           "skuId": "sku_dkczv8w5",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -3781,7 +3781,7 @@
         {
           "skuId": "sku_a2gjytj8",
           "displayName": "HyperCharge",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -3796,14 +3796,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_6y9dvq2b",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Purple"
@@ -3813,7 +3813,7 @@
         {
           "skuId": "sku_3h9shghf",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "White"
@@ -3823,7 +3823,7 @@
         {
           "skuId": "sku_127h9wjp",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Yellow"
@@ -3833,7 +3833,7 @@
         {
           "skuId": "sku_zfb6hv25",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Pink"
@@ -3843,7 +3843,7 @@
         {
           "skuId": "sku_46yhh6zn",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Green"
@@ -3853,7 +3853,7 @@
         {
           "skuId": "sku_trf94q25",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Blue"
@@ -3863,7 +3863,7 @@
         {
           "skuId": "sku_3dcyhc9r",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Orange"
@@ -3873,7 +3873,7 @@
         {
           "skuId": "sku_1kgc3dbn",
           "displayName": "SmokeShow",
-          "stackable": false,
+          "stackable": true,
           "rarity": "exotic",
           "variant": {
             "color": "Red"
@@ -3888,14 +3888,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_d8r2vsmz",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -3905,7 +3905,7 @@
         {
           "skuId": "sku_a453z2mc",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -3915,7 +3915,7 @@
         {
           "skuId": "sku_853j9kdw",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -3925,7 +3925,7 @@
         {
           "skuId": "sku_xjdm2p3j",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -3935,7 +3935,7 @@
         {
           "skuId": "sku_012hq1xk",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -3945,7 +3945,7 @@
         {
           "skuId": "sku_tpavvd3k",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -3955,7 +3955,7 @@
         {
           "skuId": "sku_ydj42h54",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -3965,7 +3965,7 @@
         {
           "skuId": "sku_ytdy45k3",
           "displayName": "IceBreaker",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -3980,14 +3980,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_2k3f67j7",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Blue"
@@ -3997,7 +3997,7 @@
         {
           "skuId": "sku_0j9z395q",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Yellow"
@@ -4007,7 +4007,7 @@
         {
           "skuId": "sku_31wdbntz",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "White"
@@ -4017,7 +4017,7 @@
         {
           "skuId": "sku_myhn4z1r",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Purple"
@@ -4027,7 +4027,7 @@
         {
           "skuId": "sku_genv7cwr",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Green"
@@ -4037,7 +4037,7 @@
         {
           "skuId": "sku_v5ccmksa",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Red"
@@ -4047,7 +4047,7 @@
         {
           "skuId": "sku_8hytjp1z",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Orange"
@@ -4057,7 +4057,7 @@
         {
           "skuId": "sku_k0tx7tzh",
           "displayName": "PlasmaRush",
-          "stackable": false,
+          "stackable": true,
           "rarity": "legendary",
           "variant": {
             "color": "Pink"
@@ -4072,14 +4072,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_v9n5z1yy",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "White"
@@ -4089,7 +4089,7 @@
         {
           "skuId": "sku_1ezhssps",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Yellow"
@@ -4099,7 +4099,7 @@
         {
           "skuId": "sku_9ypz0gph",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Red"
@@ -4109,7 +4109,7 @@
         {
           "skuId": "sku_wf9w0qhe",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Orange"
@@ -4119,7 +4119,7 @@
         {
           "skuId": "sku_79mtxzcr",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Blue"
@@ -4129,7 +4129,7 @@
         {
           "skuId": "sku_pbxyss1h",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Purple"
@@ -4139,7 +4139,7 @@
         {
           "skuId": "sku_cp66dyf1",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Green"
@@ -4149,7 +4149,7 @@
         {
           "skuId": "sku_b3xhsq2v",
           "displayName": "ArcaneRift",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Pink"
@@ -4164,14 +4164,14 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "subType": "boost",
       "purchasable": false,
       "variants": [
         {
           "skuId": "sku_ect6wjf9",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Green"
@@ -4181,7 +4181,7 @@
         {
           "skuId": "sku_0vrp765j",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Blue"
@@ -4191,7 +4191,7 @@
         {
           "skuId": "sku_trtaxj51",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "White"
@@ -4201,7 +4201,7 @@
         {
           "skuId": "sku_4hxh2fm2",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Orange"
@@ -4211,7 +4211,7 @@
         {
           "skuId": "sku_0gzfm1j3",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Yellow"
@@ -4221,7 +4221,7 @@
         {
           "skuId": "sku_j1gbvwvr",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Pink"
@@ -4231,7 +4231,7 @@
         {
           "skuId": "sku_ysvyyj6c",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Purple"
@@ -4241,7 +4241,7 @@
         {
           "skuId": "sku_yj2c9y2n",
           "displayName": "ThunderStream",
-          "stackable": false,
+          "stackable": true,
           "rarity": "mythical",
           "variant": {
             "color": "Red"

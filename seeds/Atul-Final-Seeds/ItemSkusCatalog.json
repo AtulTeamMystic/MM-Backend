@@ -30,7 +30,7 @@
       "displayName": "DefaultWheel",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "variant": "default",
       "subType": "wheels"
@@ -42,7 +42,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Silver",
       "subType": "wheels"
     },
@@ -53,7 +53,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Gold",
       "subType": "wheels"
     },
@@ -64,7 +64,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Black",
       "subType": "wheels"
     },
@@ -75,7 +75,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Platinum",
       "subType": "wheels"
     },
@@ -86,7 +86,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Bronze",
       "subType": "wheels"
     },
@@ -97,7 +97,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Gold",
       "subType": "wheels"
     },
@@ -108,7 +108,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Black",
       "subType": "wheels"
     },
@@ -119,7 +119,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Platinum",
       "subType": "wheels"
     },
@@ -130,7 +130,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Silver",
       "subType": "wheels"
     },
@@ -141,7 +141,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Bronze",
       "subType": "wheels"
     },
@@ -152,7 +152,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Black",
       "subType": "wheels"
     },
@@ -163,7 +163,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Platinum",
       "subType": "wheels"
     },
@@ -174,7 +174,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Gold",
       "subType": "wheels"
     },
@@ -185,7 +185,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Bronze",
       "subType": "wheels"
     },
@@ -196,7 +196,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Silver",
       "subType": "wheels"
     },
@@ -207,7 +207,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Platinum",
       "subType": "wheels"
     },
@@ -218,7 +218,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Silver",
       "subType": "wheels"
     },
@@ -229,7 +229,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Bronze",
       "subType": "wheels"
     },
@@ -240,7 +240,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Gold",
       "subType": "wheels"
     },
@@ -251,7 +251,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Black",
       "subType": "wheels"
     },
@@ -262,7 +262,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -273,7 +273,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -284,7 +284,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -295,7 +295,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -306,7 +306,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -317,7 +317,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -328,7 +328,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -339,7 +339,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -350,7 +350,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -361,7 +361,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -372,7 +372,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -383,7 +383,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -394,7 +394,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -405,7 +405,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -416,7 +416,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -427,7 +427,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -438,7 +438,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -449,7 +449,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -460,7 +460,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -471,7 +471,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -482,7 +482,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -493,7 +493,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -504,7 +504,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -515,7 +515,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -526,7 +526,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -537,7 +537,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -548,7 +548,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -559,7 +559,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -570,7 +570,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -581,7 +581,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -592,7 +592,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -603,7 +603,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -614,7 +614,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -625,7 +625,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -636,7 +636,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -647,7 +647,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -658,7 +658,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -669,7 +669,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -680,7 +680,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -691,7 +691,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -702,7 +702,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -713,7 +713,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -724,7 +724,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -735,7 +735,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -746,7 +746,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -757,7 +757,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -768,7 +768,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -779,7 +779,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -790,7 +790,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -801,7 +801,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -812,7 +812,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -823,7 +823,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -834,7 +834,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -845,7 +845,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -856,7 +856,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -867,7 +867,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -878,7 +878,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -889,7 +889,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -900,7 +900,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -911,7 +911,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -922,7 +922,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -933,7 +933,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -944,7 +944,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -955,7 +955,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -966,7 +966,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -977,7 +977,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -988,7 +988,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -999,7 +999,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -1010,7 +1010,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -1021,7 +1021,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -1032,7 +1032,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -1043,7 +1043,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -1054,7 +1054,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -1065,7 +1065,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -1076,7 +1076,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -1087,7 +1087,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -1098,7 +1098,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -1109,7 +1109,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -1120,7 +1120,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -1131,7 +1131,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -1142,7 +1142,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "wheels"
     },
@@ -1153,7 +1153,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "wheels"
     },
@@ -1164,7 +1164,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "wheels"
     },
@@ -1175,7 +1175,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "wheels"
     },
@@ -1186,7 +1186,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "wheels"
     },
@@ -1197,7 +1197,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "wheels"
     },
@@ -1208,7 +1208,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "wheels"
     },
@@ -1219,7 +1219,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "wheels"
     },
@@ -1229,7 +1229,7 @@
       "displayName": "DefaultDecal",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "variant": "default",
       "subType": "decal"
@@ -1241,7 +1241,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1252,7 +1252,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -1263,7 +1263,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1274,7 +1274,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1285,7 +1285,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1296,7 +1296,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Black",
       "subType": "decal"
     },
@@ -1307,7 +1307,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1318,7 +1318,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Grey",
       "subType": "decal"
     },
@@ -1329,7 +1329,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1340,7 +1340,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Bronze",
       "subType": "decal"
     },
@@ -1351,7 +1351,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Platinum",
       "subType": "decal"
     },
@@ -1362,7 +1362,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Silver",
       "subType": "decal"
     },
@@ -1373,7 +1373,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Gold",
       "subType": "decal"
     },
@@ -1384,7 +1384,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1395,7 +1395,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1406,7 +1406,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1417,7 +1417,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -1428,7 +1428,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1439,7 +1439,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1450,7 +1450,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -1461,7 +1461,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1472,7 +1472,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -1483,7 +1483,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1494,7 +1494,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1505,7 +1505,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1516,7 +1516,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1527,7 +1527,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1538,7 +1538,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -1549,7 +1549,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1560,7 +1560,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -1571,7 +1571,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -1582,7 +1582,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1593,7 +1593,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1604,7 +1604,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1615,7 +1615,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1626,7 +1626,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1637,7 +1637,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1648,7 +1648,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1659,7 +1659,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1670,7 +1670,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1681,7 +1681,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1692,7 +1692,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -1703,7 +1703,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1714,7 +1714,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -1725,7 +1725,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1736,7 +1736,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1747,7 +1747,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -1758,7 +1758,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1769,7 +1769,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1780,7 +1780,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1791,7 +1791,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1802,7 +1802,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -1813,7 +1813,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1824,7 +1824,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -1835,7 +1835,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1846,7 +1846,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -1857,7 +1857,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1868,7 +1868,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1879,7 +1879,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1890,7 +1890,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1901,7 +1901,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1912,7 +1912,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -1923,7 +1923,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -1934,7 +1934,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -1945,7 +1945,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -1956,7 +1956,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -1967,7 +1967,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -1978,7 +1978,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -1989,7 +1989,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -2000,7 +2000,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -2011,7 +2011,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -2022,7 +2022,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -2033,7 +2033,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -2044,7 +2044,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -2055,7 +2055,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -2066,7 +2066,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -2077,7 +2077,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -2088,7 +2088,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -2099,7 +2099,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -2110,7 +2110,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -2121,7 +2121,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -2132,7 +2132,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -2143,7 +2143,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -2154,7 +2154,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -2165,7 +2165,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -2176,7 +2176,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "decal"
     },
@@ -2187,7 +2187,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "decal"
     },
@@ -2198,7 +2198,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "decal"
     },
@@ -2209,7 +2209,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "decal"
     },
@@ -2220,7 +2220,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "decal"
     },
@@ -2231,7 +2231,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "decal"
     },
@@ -2242,7 +2242,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "decal"
     },
@@ -2253,7 +2253,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "decal"
     },
@@ -2263,7 +2263,7 @@
       "displayName": "DefaultSpoiler",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "variant": "default",
       "subType": "spoiler"
@@ -2275,7 +2275,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2286,7 +2286,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2297,7 +2297,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2308,7 +2308,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2319,7 +2319,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2330,7 +2330,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2341,7 +2341,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2352,7 +2352,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2363,7 +2363,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2374,7 +2374,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2385,7 +2385,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2396,7 +2396,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2407,7 +2407,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2418,7 +2418,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2429,7 +2429,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2440,7 +2440,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2451,7 +2451,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2462,7 +2462,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2473,7 +2473,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2484,7 +2484,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2495,7 +2495,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2506,7 +2506,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2517,7 +2517,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2528,7 +2528,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2539,7 +2539,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2550,7 +2550,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2561,7 +2561,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2572,7 +2572,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2583,7 +2583,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2594,7 +2594,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2605,7 +2605,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2616,7 +2616,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2627,7 +2627,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2638,7 +2638,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2649,7 +2649,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2660,7 +2660,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2671,7 +2671,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2682,7 +2682,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2693,7 +2693,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2704,7 +2704,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2715,7 +2715,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2726,7 +2726,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2737,7 +2737,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2748,7 +2748,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2759,7 +2759,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2770,7 +2770,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2781,7 +2781,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2792,7 +2792,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2803,7 +2803,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2814,7 +2814,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2825,7 +2825,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2836,7 +2836,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2847,7 +2847,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2858,7 +2858,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2869,7 +2869,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2880,7 +2880,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2891,7 +2891,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -2902,7 +2902,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -2913,7 +2913,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -2924,7 +2924,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2935,7 +2935,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -2946,7 +2946,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -2957,7 +2957,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -2968,7 +2968,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -2979,7 +2979,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "spoiler"
     },
@@ -2990,7 +2990,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "spoiler"
     },
@@ -3001,7 +3001,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "spoiler"
     },
@@ -3012,7 +3012,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "spoiler"
     },
@@ -3023,7 +3023,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "spoiler"
     },
@@ -3034,7 +3034,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "spoiler"
     },
@@ -3045,7 +3045,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "spoiler"
     },
@@ -3056,7 +3056,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "spoiler"
     },
@@ -3066,7 +3066,7 @@
       "displayName": "DefaultGlow",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "variant": null,
       "subType": "underglow"
@@ -3078,7 +3078,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "underglow"
     },
@@ -3089,7 +3089,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "underglow"
     },
@@ -3100,7 +3100,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "underglow"
     },
@@ -3111,7 +3111,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "underglow"
     },
@@ -3121,7 +3121,7 @@
       "displayName": "DefaultBoost",
       "category": "cosmetic",
       "type": "cosmetic",
-      "rarity": "common",
+      "rarity": "Default",
       "stackable": false,
       "variant": "default",
       "subType": "boost"
@@ -3133,7 +3133,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3144,7 +3144,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3155,7 +3155,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3166,7 +3166,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3177,7 +3177,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3188,7 +3188,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3199,7 +3199,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3210,7 +3210,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3221,7 +3221,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3232,7 +3232,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3243,7 +3243,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3254,7 +3254,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3265,7 +3265,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3276,7 +3276,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3287,7 +3287,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3298,7 +3298,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "common",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3309,7 +3309,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3320,7 +3320,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3331,7 +3331,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3342,7 +3342,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3353,7 +3353,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3364,7 +3364,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3375,7 +3375,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3386,7 +3386,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3397,7 +3397,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3408,7 +3408,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3419,7 +3419,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3430,7 +3430,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3441,7 +3441,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3452,7 +3452,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3463,7 +3463,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3474,7 +3474,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "rare",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3485,7 +3485,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3496,7 +3496,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3507,7 +3507,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3518,7 +3518,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3529,7 +3529,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3540,7 +3540,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3551,7 +3551,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3562,7 +3562,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3573,7 +3573,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3584,7 +3584,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3595,7 +3595,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3606,7 +3606,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3617,7 +3617,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3628,7 +3628,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3639,7 +3639,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3650,7 +3650,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "exotic",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3661,7 +3661,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3672,7 +3672,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3683,7 +3683,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3694,7 +3694,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3705,7 +3705,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3716,7 +3716,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3727,7 +3727,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3738,7 +3738,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3749,7 +3749,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3760,7 +3760,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3771,7 +3771,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3782,7 +3782,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3793,7 +3793,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3804,7 +3804,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3815,7 +3815,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3826,7 +3826,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "legendary",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3837,7 +3837,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3848,7 +3848,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3859,7 +3859,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },
@@ -3870,7 +3870,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3881,7 +3881,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3892,7 +3892,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -3903,7 +3903,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3914,7 +3914,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3925,7 +3925,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Green",
       "subType": "boost"
     },
@@ -3936,7 +3936,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Blue",
       "subType": "boost"
     },
@@ -3947,7 +3947,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "White",
       "subType": "boost"
     },
@@ -3958,7 +3958,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Orange",
       "subType": "boost"
     },
@@ -3969,7 +3969,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Yellow",
       "subType": "boost"
     },
@@ -3980,7 +3980,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Pink",
       "subType": "boost"
     },
@@ -3991,7 +3991,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Purple",
       "subType": "boost"
     },
@@ -4002,7 +4002,7 @@
       "category": "cosmetic",
       "type": "cosmetic",
       "rarity": "mythical",
-      "stackable": false,
+      "stackable": true,
       "variant": "Red",
       "subType": "boost"
     },

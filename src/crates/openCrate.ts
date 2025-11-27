@@ -5,6 +5,7 @@ import { HttpsError, onCall } from "firebase-functions/v2/https";
 
 import {
   getCratesCatalogDoc,
+  getItemSkusCatalog,
   listSkusForItem,
   resolveSkuOrThrow,
 } from "../core/config.js";
@@ -87,6 +88,9 @@ interface RarityPoolEntry {
   weight: number;
   pool: string[];
 }
+
+const isDefaultSku = (sku: ItemSku | undefined): boolean =>
+  Boolean(sku?.displayName && sku.displayName.toLowerCase().includes("default"));
 
 const extractRarityPoolEntries = (crate: CrateDefinition): RarityPoolEntry[] => {
   const weights = crate.rarityWeights ?? {};
@@ -257,13 +261,20 @@ const pickFromCrate = async (
   seed: Buffer,
 ): Promise<PickedReward> => {
   const rarityEntries = extractRarityPoolEntries(crate);
-  if (rarityEntries.length === 0) {
+  const itemSkusCatalog = await getItemSkusCatalog();
+  const filteredEntries = rarityEntries
+    .map((entry) => ({
+      ...entry,
+      pool: entry.pool.filter((skuId) => !isDefaultSku(itemSkusCatalog[skuId])),
+    }))
+    .filter((entry) => entry.pool.length > 0);
+  if (filteredEntries.length === 0) {
     throw new HttpsError(
       "failed-precondition",
       `Crate ${crate.crateId} has no rarity-weighted pools configured.`,
     );
   }
-  return pickFromRarityPools(crate, seed, rarityEntries);
+  return pickFromRarityPools(crate, seed, filteredEntries);
 };
 
 const applyDelta = (
